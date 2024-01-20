@@ -15,7 +15,7 @@ su inventario y mantener un seguimiento preciso de sus transacciones, todo desde
 - **Registro:** Mantén un historial detallado de todas las actividades empresariales.
 - **Análisis:** Obtén informes y análisis empresariales para tomar decisiones informadas.
 - **Punto de Venta:** Facilita las transacciones en el punto de venta con funciones intuitivas.
-- 
+
 ## Estado del Proyecto
 
 Actualmente, el proyecto está en desarrollo activo y se actualiza regularmente.
