@@ -17,3 +17,11 @@ Este proyecto sigue la convención de versionado semántico.
 - Inicio del proyecto.
 
 ## [0.1.0] - 2024-1-19
+
+### Added
+
+- Agregue el Navigation para enrutar, esta en el App.js
+- Agregue una carpeta App, que contiene el Main que va a ser el que nos direccione por las vistas.
+- Agregue la Carpeta Inventario que contiene la vista de inventario, por ahora solo con titulo y fondo.
+
+## [0.2.0] - 2024-1-19
