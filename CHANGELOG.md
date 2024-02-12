@@ -24,4 +24,12 @@ Este proyecto sigue la convención de versionado semántico.
 - Agregue una carpeta App, que contiene el Main que va a ser el que nos direccione por las vistas.
 - Agregue la Carpeta Inventario que contiene la vista de inventario, por ahora solo con titulo y fondo.
 
-## [0.2.0] - 2024-1-19
+## [0.2.0] - 2024-2-11
+
+### Added
+
+- Agregue el componente Product, y en la vista de inventario hice una flatlist para mostrarlos.
+- Agregue un archivo de DataTemporal para extraer los datos de ahi de manera provicional, 
+  luego hay que hacerlo con la Base de Datos
+
+## [0.3.0] - 2024-2-12
