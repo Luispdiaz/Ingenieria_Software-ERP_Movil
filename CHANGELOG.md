@@ -33,3 +33,12 @@ Este proyecto sigue la convención de versionado semántico.
   luego hay que hacerlo con la Base de Datos
 
 ## [0.3.0] - 2024-2-12
+
+### Added
+
+- Agregue el componente de (+) para redireccionar a Agregar Productos
+- Agregue el enrutamiento de los productos. Al tocar en la imagen del producto
+  redirecciona a la vista del producto como tal.
+- Agregue la vista del Producto, pero por ahora es un borrador. No esta trabajada.
+
+## [0.4.0] - 2024-2-12
