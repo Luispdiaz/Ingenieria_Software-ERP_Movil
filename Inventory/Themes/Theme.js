@@ -3,6 +3,7 @@ const theme = {
       primario: "#7227a6",       //Color primario para resaltar
       secundario: "#000000",     //Color secundario
       terciario: "#431b6a",
+      cuartario: "#490bfc",
       textPrimary: "#FFFFFF",   //Color del texto principal
       textSecondary: "#8A2BE2", //Color del texto secundario
       background: "#000000" 

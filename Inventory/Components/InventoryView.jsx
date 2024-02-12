@@ -1,18 +1,23 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { View, Text, StyleSheet, FlatList } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import theme from "../Themes/Theme";
 import Constants from 'expo-constants';
+import Product from "./Product";
+import DataTemporal from "../Data/DataTemporal";
 
 const Styles = StyleSheet.create({
     contenedorPrincipal: {
         flex: 1,
+        justifyContent:"flex-start"
     },
     contenedorTitulo: {
-        flex: 1,
         marginTop: Constants.statusBarHeight + 10,
         alignItems: 'center',
+    },
+    contenedorProductos: {
+        flex: 1,
+        justifyContent: 'flex-start'
     },
     tituloInventario: {
       fontSize: theme.title.fontSize,
@@ -41,8 +46,18 @@ const InventoryView = () =>{
     style={Styles.contenedorPrincipal}
     >
     <View style={Styles.contenedorTitulo}>
-    <Text style={Styles.tituloInventario}>Inventario</Text>
+        <Text style={Styles.tituloInventario}>Inventario</Text>
     </View>
+    <View style={Styles.contenedorProductos}> 
+    
+    <FlatList
+        data={DataTemporal}
+        renderItem={({ item }) => (
+            <Product {...item}/>
+          )}
+          numColumns={2} 
+    /> 
+   </View>
     </LinearGradient>
   )
 }
