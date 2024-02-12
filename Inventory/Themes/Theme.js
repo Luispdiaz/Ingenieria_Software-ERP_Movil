@@ -55,7 +55,7 @@ text: {
   buttonText: {
     color: '#fff',
     fontWeight: 'bold',
-  },
+  }
 };
   
   export default theme;
