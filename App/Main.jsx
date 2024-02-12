@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import InventoryView from "../Inventory/Components/InventoryView";
+import ProductView from "../Inventory/Components/ProductView";
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +17,7 @@ const Main = () => {
       <View style={Styles.contenedorPrincipal}>
       <Stack.Navigator>
         <Stack.Screen name="VistaInventario" component={InventoryView} options={{ headerShown: false }}></Stack.Screen>
+        <Stack.Screen name="VistaProducto" component={ProductView} options={{ headerShown: false }}></Stack.Screen>
       </Stack.Navigator>
       </View>
     );

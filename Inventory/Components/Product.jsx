@@ -1,7 +1,8 @@
 import React from "react";
-import { View, Text, StyleSheet, Image} from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity} from "react-native";
 import theme from "../Themes/Theme";
 import { Dimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native'
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -26,17 +27,23 @@ const styles = StyleSheet.create({
   });
 
 const Product = (props) => {
+    const navigation = useNavigation();
 return(
+    
     <View style={styles.contenedor}>
+        <TouchableOpacity activeOpacity={1} onPress={() => navigation.navigate("VistaProducto")}>
         <View>
         <Image style={styles.EstiloImagen} source={{ uri: props.imagenURL }} />
         </View>
+        </TouchableOpacity>
         <View style={{alignItems:'center',justifyContent:'center',flex:1}}>
         <Text style={styles.NombreProducto}>
             {props.nombre}
         </Text>
         </View>
+        
     </View>
+    
 )
 }
 
