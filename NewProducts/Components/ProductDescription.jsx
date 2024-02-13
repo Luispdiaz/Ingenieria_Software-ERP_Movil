@@ -41,27 +41,27 @@ const NewProduct = () =>{
         />
         <TextInput
         style = {styles.textinput}
-        placeholder='Precio por unidad'
+        placeholder='Precio por unidad ($)'
         placeholderTextColor= "#FFFFFF"
         />
         <TextInput
         style = {styles.textinput}
-        placeholder ='Costo por unidad'
+        placeholder='Precio por unidad (Efectivo)'
+        placeholderTextColor= "#FFFFFF"
+        />
+        <TextInput
+        style = {styles.textinput}
+        placeholder ='Costo por unidad ($)'
+        placeholderTextColor= "#FFFFFF"
+        />
+        <TextInput
+        style = {styles.textinput}
+        placeholder ='Costo por unidad (Efectivo)'
         placeholderTextColor= "#FFFFFF"
         />
         <TextInput
         style = {styles.textinput}
         placeholder ='Tipo de Impuesto'
-        placeholderTextColor= "#FFFFFF"
-        />
-        <TextInput
-        style = {styles.textinput}
-        placeholder ='Precio en Doláres'
-        placeholderTextColor= "#FFFFFF"
-        />
-        <TextInput
-        style = {styles.textinput}
-        placeholder ='Precio efectivo'
         placeholderTextColor= "#FFFFFF"
         />
         <Text style = {styles.text}>

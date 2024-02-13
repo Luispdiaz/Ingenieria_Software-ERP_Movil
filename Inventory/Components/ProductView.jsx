@@ -142,6 +142,8 @@ const ProductView = ({ route }) => {
         conversionUsdEfectivo,
       } = route.params.props;
 
+      const ObjetoProps = route.params.props;
+
       const navigation = useNavigation();
 
   return (
@@ -179,7 +181,7 @@ const ProductView = ({ route }) => {
 
       <View style={styles.BotonModificar}>
       <TouchableOpacity
-        onPress={() => navigation.navigate("ModificarProducto")}
+        onPress={() => navigation.navigate("ModificarProducto",{props: ObjetoProps})}
       >
         <Image
         source={require('../Assets/image (2).png')}

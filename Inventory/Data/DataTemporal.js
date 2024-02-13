@@ -31,7 +31,7 @@ export default [
       codProveedor: "XYZ456",
       categoria: "Ropa",
       subcategoria: "Camisas",
-      descripcion: "Una elegante camisa de vestir",
+      descripcion: "Una elegante camisa de vestir jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjhfjksdhfjshfkjshfjkshkfdpihcdy urncopiyrowinqwertyuioplkjhgfdsazxcvbnm,.fyguhiokpl;,l[p';][pjgyhjbjoytdghvy",
       color: "Blanco",
       marca: "Marca",
       modelo: "ModeloY1",

@@ -2,14 +2,14 @@ import React from 'react';
 import {StyleSheet,Button,View,SafeAreaView,Text,Alert,TouchableOpacity} from 'react-native';
 
 
-const Buttons = () => {
+const ButtonsUpdate = () => {
   return (
   <View style={styles.countContainer}>
     <TouchableOpacity style={styles.button} onPress={()=>Alert.alert("Producto cancelado")}>
       <Text style={styles.buttonText}>Cancelar</Text>
     </TouchableOpacity>
-    <TouchableOpacity style={styles.button} onPress={()=>Alert.alert("Producto Agregado")} >
-      <Text style={styles.buttonText}>Agregar</Text>
+    <TouchableOpacity style={styles.button} onPress={()=>Alert.alert("Producto Modificado")} >
+      <Text style={styles.buttonText}>Modificar</Text>
     </TouchableOpacity>
   </View>
 );
@@ -36,5 +36,5 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Buttons
+export default ButtonsUpdate
 
