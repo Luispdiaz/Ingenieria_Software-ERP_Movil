@@ -42,3 +42,9 @@ Este proyecto sigue la convención de versionado semántico.
 - Agregue la vista del Producto, pero por ahora es un borrador. No esta trabajada.
 
 ## [0.4.0] - 2024-2-12
+
+### Added
+
+- Agregue la vista individual de cada producto
+
+## [0.5.0] - 2024-2-12
