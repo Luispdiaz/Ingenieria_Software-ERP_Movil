@@ -35,6 +35,10 @@ text: {
     fontSize: 16,
     fontWeight: 'normal',
   },
+  smalltext: {
+    fontSize: 13,
+    fontWeight: 'normal',
+  },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
