@@ -60,3 +60,8 @@ Este proyecto sigue la convención de versionado semántico.
 - Se agrego la vista de Inicio (FLAMG), ya con fondo y todo
 
 ## [0.7.0] - 2024-2-12
+### Added
+
+- Agregue las vista de crear nuevo producto y modificar producto
+
+## [0.8.0] - 2024-2-13
