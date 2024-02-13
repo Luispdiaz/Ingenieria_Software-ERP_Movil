@@ -54,3 +54,9 @@ Este proyecto sigue la convención de versionado semántico.
 - Agregue el boton de regresar y el de Modificar Producto a la vista de Producto
 
 ## [0.6.0] - 2024-2-12
+
+### Added
+
+- Se agrego la vista de Inicio (FLAMG), ya con fondo y todo
+
+## [0.7.0] - 2024-2-12
