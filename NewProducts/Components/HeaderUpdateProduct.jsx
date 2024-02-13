@@ -3,7 +3,7 @@ import Constants from 'expo-constants';
 
 
 
-const Header = () =>  {
+const UpdateHeader = () =>  {
   return (
     <View>
       <Text style = {styles.titulo}>Modificar producto
@@ -29,4 +29,4 @@ const styles = StyleSheet.create({
     }
   });
 
-export default Header
+export default UpdateHeader

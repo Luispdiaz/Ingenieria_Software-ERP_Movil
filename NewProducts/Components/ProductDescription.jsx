@@ -1,7 +1,7 @@
 import { StyleSheet, View, TextInput, Image, TouchableOpacity, Alert, Text} from 'react-native';
 
 
-const Product = () =>{
+const NewProduct = () =>{
     return(
         <View>
         <TextInput
@@ -104,4 +104,4 @@ const styles = StyleSheet.create({
     }
   });
 
-export default Product
+export default NewProduct
