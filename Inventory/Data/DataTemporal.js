@@ -33,7 +33,7 @@ export default [
       subcategoria: "Camisas",
       descripcion: "Una elegante camisa de vestir",
       color: "Blanco",
-      marca: "MarcaY",
+      marca: "Marca",
       modelo: "ModeloY1",
       cantidadExistencia: 30,
       minimaCantidad: 3,
@@ -51,7 +51,7 @@ export default [
     },
     {
         id: "3",
-        nombre: "Producto C",
+        nombre: "Producto  C",
         imagenURL: "https://cdn.pixabay.com/photo/2018/05/01/18/21/eclair-3366430_1280.jpg",
         codProveedor: "DEF789",
         categoria: "Hogar",

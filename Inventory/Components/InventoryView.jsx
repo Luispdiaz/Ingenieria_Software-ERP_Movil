@@ -27,9 +27,9 @@ const Styles = StyleSheet.create({
         justifyContent: 'flex-start'
     },
     contenedorRedondo: {
-        width: windowHeight * 0.07,  // Ajusta el ancho según tus necesidades
-        height: windowHeight * 0.07,  // Ajusta la altura según tus necesidades
-        borderRadius: 50,  // La mitad del valor de la altura para hacerlo circular // Color de fondo
+        width: windowHeight * 0.07,  
+        height: windowHeight * 0.07,  
+        borderRadius: 50, 
         justifyContent:'center',
         alignItems:'center',
         borderColor: theme.colors.cuartario,
@@ -37,9 +37,8 @@ const Styles = StyleSheet.create({
         marginRight: windowHeight * 0.015
       },
       contenedorFlecha: {
-        width: windowHeight * 0.07,  // Ajusta el ancho según tus necesidades
-        height: windowHeight * 0.07,  // Ajusta la altura según tus necesidades
-         // La mitad del valor de la altura para hacerlo circular // Color de fondo
+        width: windowHeight * 0.07,  
+        height: windowHeight * 0.07,  
         marginLeft: windowHeight * 0.015,
         alignItems:'center',
         justifyContent:'center'
