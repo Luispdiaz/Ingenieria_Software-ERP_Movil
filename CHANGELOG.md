@@ -65,3 +65,8 @@ Este proyecto sigue la convención de versionado semántico.
 - Agregue las vista de crear nuevo producto y modificar producto
 
 ## [0.8.0] - 2024-2-13
+### Added
+
+- Cree los botones en crear y modificar producto, rellene los campos con los datos en modificar producto y adapte el contenedor de la descripcion
+
+## [0.9.0] - 2024-2-13
