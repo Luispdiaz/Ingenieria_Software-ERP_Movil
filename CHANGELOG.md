@@ -17,3 +17,40 @@ Este proyecto sigue la convención de versionado semántico.
 - Inicio del proyecto.
 
 ## [0.1.0] - 2024-1-19
+
+### Added
+
+- Agregue el Navigation para enrutar, esta en el App.js
+- Agregue una carpeta App, que contiene el Main que va a ser el que nos direccione por las vistas.
+- Agregue la Carpeta Inventario que contiene la vista de inventario, por ahora solo con titulo y fondo.
+
+## [0.2.0] - 2024-2-11
+
+### Added
+
+- Agregue el componente Product, y en la vista de inventario hice una flatlist para mostrarlos.
+- Agregue un archivo de DataTemporal para extraer los datos de ahi de manera provicional, 
+  luego hay que hacerlo con la Base de Datos
+
+## [0.3.0] - 2024-2-12
+
+### Added
+
+- Agregue el componente de (+) para redireccionar a Agregar Productos
+- Agregue el enrutamiento de los productos. Al tocar en la imagen del producto
+  redirecciona a la vista del producto como tal.
+- Agregue la vista del Producto, pero por ahora es un borrador. No esta trabajada.
+
+## [0.4.0] - 2024-2-12
+
+### Added
+
+- Agregue la vista individual de cada producto
+
+## [0.5.0] - 2024-2-12
+
+### Added
+
+- Agregue el boton de regresar y el de Modificar Producto a la vista de Producto
+
+## [0.6.0] - 2024-2-12
