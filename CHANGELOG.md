@@ -48,3 +48,9 @@ Este proyecto sigue la convención de versionado semántico.
 - Agregue la vista individual de cada producto
 
 ## [0.5.0] - 2024-2-12
+
+### Added
+
+- Agregue el boton de regresar y el de Modificar Producto a la vista de Producto
+
+## [0.6.0] - 2024-2-12
