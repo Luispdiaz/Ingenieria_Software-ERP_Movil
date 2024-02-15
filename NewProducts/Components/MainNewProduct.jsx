@@ -5,7 +5,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import theme from "../../Inventory/Themes/Theme";
 import Header from "./HeaderCreateProduct";
 import NewProduct from "./ProductDescription";
-import ButtonsCreate from "./ButtonsCreate";
 
 
 const image = require("./Imagenes/Fondo.png");
@@ -23,7 +22,7 @@ const MainNewProduct = () =>{
     <ImageBackground source={image} resizeMode="cover"  style={styles.image}>
     <Header/>
     <NewProduct/>
-    <ButtonsCreate/>
+    
     </ImageBackground>
     </ScrollView>
   </SafeAreaView>

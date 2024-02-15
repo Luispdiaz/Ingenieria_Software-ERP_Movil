@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import theme from "../Themes/Theme";
@@ -7,6 +7,7 @@ import Product from "./Product";
 import DataTemporal from "../Data/DataTemporal";
 import { Dimensions } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
+import { useProducts } from "../../Context/ProductContext";
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -60,6 +61,13 @@ const Styles = StyleSheet.create({
   });
 
 const InventoryView = () =>{
+
+  const {Productos, getProducts} = useProducts() 
+
+  useEffect(()=>{
+    getProducts()
+  }, [])
+
   const navigation = useNavigation();
   return(
     <LinearGradient
@@ -93,7 +101,7 @@ const InventoryView = () =>{
     <View style={Styles.contenedorProductos}> 
     
     <FlatList
-        data={DataTemporal}
+        data={Productos}
         renderItem={({ item }) => (
             <Product {...item}
             />

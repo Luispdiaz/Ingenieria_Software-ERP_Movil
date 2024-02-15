@@ -119,7 +119,7 @@ const ProductView = ({ route }) => {
     const {
         id,
         nombre,
-        imagenURL,
+        Imagen,
         codProveedor,
         categoria,
         subcategoria,
@@ -127,16 +127,16 @@ const ProductView = ({ route }) => {
         color,
         marca,
         modelo,
-        cantidadExistencia,
+        cantidad_existencia,
         minimaCantidad,
         maximaCantidad,
         reordenarCantidad,
         costo_usd,
         costo_efectivo,
         costoPromedioEfectivo,
-        precioDolar,
-        precioEfectivo,
-        tipoImpuesto,
+        precio_usd,
+        precio_efectivo,
+        tipo_impuesto,
         descuentoProm,
         porcentajeDescuentoProm,
         conversionUsdEfectivo,
@@ -161,7 +161,7 @@ const ProductView = ({ route }) => {
     end={{ x: 1, y: 1 }}
     style={styles.contenedorPrincipal}
     >
-      <Image style={styles.EstiloImagen} source={{ uri: imagenURL }} />
+      <Image style={styles.EstiloImagen} source={{ uri: Imagen }} />
     
 
       <View style={styles.backButton}>
@@ -194,7 +194,7 @@ const ProductView = ({ route }) => {
       <View style={{marginHorizontal: Math.sqrt(windowWidth**2 + windowHeight**2) * 0.045, marginVertical:2}}>
       <View style={{flexDirection:'row', justifyContent:'space-between'}}>
       <Text style={styles.titulo}>{nombre}</Text>
-      <Text style={styles.titulo}>{cantidadExistencia}</Text>
+      <Text style={styles.titulo}>{cantidad_existencia}</Text>
       </View>
        <Text style={styles.text}>{descripcion}</Text>
        <View style={{flexDirection:'row'}}>
@@ -219,19 +219,19 @@ const ProductView = ({ route }) => {
 
         <View style={{flexDirection:'row', justifyContent:'space-between'}}>
         <Text style={styles.textList}>➤  Precio (Dolares)</Text>
-        <Text style={styles.textList2}>{precioDolar} $</Text>
+        <Text style={styles.textList2}>{precio_usd} $</Text>
         </View>
 
         <View style={{flexDirection:'row', justifyContent:'space-between'}}>
         <Text style={styles.textList}>➤  Precio (Efectivo)</Text>
-        <Text style={styles.textList2}>{precioEfectivo} $</Text>
+        <Text style={styles.textList2}>{precio_efectivo} $</Text>
         </View>
 
        </View>
        <View style={{flexDirection:'row', alignItems:'center', marginTop:25}}>
        <Text style={styles.textList}>Tipo de Impuesto  </Text>
        <View style={styles.CategoriaImpuesto}>
-       <Text style={styles.CategoriaTexto}>{tipoImpuesto} 🏷️</Text>
+       <Text style={styles.CategoriaTexto}>{tipo_impuesto} 🏷️</Text>
        </View>
        </View>
       </View>

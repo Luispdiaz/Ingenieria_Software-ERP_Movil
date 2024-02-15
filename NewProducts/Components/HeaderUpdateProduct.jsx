@@ -39,12 +39,16 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       marginLeft:15,
     },
+    TextoModificar: {
+      width:  30, 
+      height: 27
+    },
     BotonModificar: {
       position: 'absolute',
       left: Constants.statusBarHeight * 0.1,
       padding: 10,
       alignSelf: 'flex-end'
-    },
+    }
   });
 
 export default UpdateHeader
