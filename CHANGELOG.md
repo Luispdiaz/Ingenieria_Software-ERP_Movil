@@ -70,3 +70,10 @@ Este proyecto sigue la convención de versionado semántico.
 - Cree los botones en crear y modificar producto, rellene los campos con los datos en modificar producto y adapte el contenedor de la descripcion
 
 ## [0.9.0] - 2024-2-13
+
+### Added
+
+- Se crearon las conexiones correspondientes con la Base de Datos, para poder visualizar los productos disponibles y 
+crear y modificar productos.
+
+## [0.10.0] - 2024-2-16
