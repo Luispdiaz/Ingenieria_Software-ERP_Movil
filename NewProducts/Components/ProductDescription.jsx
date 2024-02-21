@@ -1,4 +1,4 @@
-import { StyleSheet, View, TextInput, Image, TouchableOpacity, Text, ImageBackground, ScrollView, Alert} from 'react-native';
+import { StyleSheet, View, TextInput, Image, TouchableOpacity, Text, ImageBackground, ScrollView, Alert, Switch} from 'react-native';
 import Header from './HeaderCreateProduct';
 import { useNavigation } from '@react-navigation/native';
 import { useState, useEffect } from 'react';
@@ -26,6 +26,15 @@ const NewProduct = () =>{
   const [Imagen, setImagen] = useState('');
   const navigation = useNavigation()
   const { createProduct } = useProducts()
+
+  const [isEnabled, setIsEnabled] = useState(false);
+    const handleToggle = () => {
+        setIsEnabled(!isEnabled);
+    };
+  const [isEnabledText, setIsEnabledText] = useState(false);
+    const handleToggleText = () => {
+        setIsEnabledText(!isEnabledText);
+    };
 
   
     const handleSubmit = async () => {
@@ -60,12 +69,7 @@ const NewProduct = () =>{
         <ImageBackground source={image} resizeMode="cover"  style={styles.image}>
         <Header/>
 
-        <TextInput
-            style={styles.textinput}
-            placeholder='URL de la Imagen'
-            placeholderTextColor='#FFFFFF'
-            onChangeText={(texto) => setImagen(texto)}
-            />
+
 
 <TextInput
   style={styles.textinput}
@@ -105,6 +109,36 @@ const NewProduct = () =>{
 <TextInput
   style={styles.textinput}
   placeholder='Cantidad Inicial en el Inventario'
+  placeholderTextColor='#FFFFFF'
+  onChangeText={(texto6) => {
+    
+    const numeroEntero = parseInt(texto6, 10)
+    
+    setCantidadInicial(numeroEntero);}}
+/>
+<TextInput
+  style={styles.textinput}
+  placeholder='Cantidad maxima en el Inventario'
+  placeholderTextColor='#FFFFFF'
+  onChangeText={(texto6) => {
+    
+    const numeroEntero = parseInt(texto6, 10)
+    
+    setCantidadInicial(numeroEntero);}}
+/>
+<TextInput
+  style={styles.textinput}
+  placeholder='Cantidad minima en el Inventario'
+  placeholderTextColor='#FFFFFF'
+  onChangeText={(texto6) => {
+    
+    const numeroEntero = parseInt(texto6, 10)
+    
+    setCantidadInicial(numeroEntero);}}
+/>
+<TextInput
+  style={styles.textinput}
+  placeholder='Cantidad restock para el Inventario'
   placeholderTextColor='#FFFFFF'
   onChangeText={(texto6) => {
     
@@ -164,6 +198,45 @@ const NewProduct = () =>{
   onChangeText={(texto12) => setTipoImpuesto(texto12)}
 />
 
+<View style = {{flexDirection: "row"}}>
+<Text style = {styles.text}>Descuento</Text>
+<Switch trackColor= "yellow"
+        thumbColor= "white"
+        marginLeft = {10}
+        marginTop = {5}
+            onValueChange={handleToggleText}
+            value={isEnabledText}
+        />
+            {isEnabledText && <TextInput
+        style={styles.textinputDescuento}
+        placeholder='Porcentaje'
+        placeholderTextColor='#FFFFFF'
+        onChangeText={(texto) => setImagen(texto)}
+        />}
+        </View>
+<View >
+<Text style = {styles.text}>Imagen</Text>
+<Switch trackColor= "yellow"
+        thumbColor= "white"
+            onValueChange={handleToggle}
+            value={isEnabled}
+        />
+            {!isEnabled && <TextInput
+        style={styles.textinput}
+        placeholder='URL de la Imagen'
+        placeholderTextColor='#FFFFFF'
+        onChangeText={(texto) => setImagen(texto)}
+        />}
+        {isEnabled && (
+            <TouchableOpacity style={styles.buttonImage} onPress={() => {}}>
+            <Image
+                source={require("./Imagenes/BotonAgregar.png")}
+            />
+            </TouchableOpacity>
+        )}
+        </View>
+        
+
         <View style={styles.countContainer}>
             <TouchableOpacity style={styles.button} onPress={handleSubmit} >
             <Text style={styles.buttonText}>Agregar</Text>
@@ -183,8 +256,21 @@ const styles = StyleSheet.create({
         borderColor: "#4D09FF",
         color: "#FFFFFF",
         textAlign: "left",
-        paddingStart: 30, /*Aqui cambio la posicion del texto dentro del input*/
+        paddingStart: 30, 
         width: '80%',
+        height: 50,
+        marginTop: 20,
+        marginLeft: 25,
+        borderRadius: 25,
+    },
+    textinputDescuento:{
+        padding: 10,
+        borderWidth: 1,
+        borderColor: "#4D09FF",
+        color: "#FFFFFF",
+        textAlign: "left",
+        paddingStart: 30, 
+        width: '45%',
         height: 50,
         marginTop: 20,
         marginLeft: 25,
@@ -195,7 +281,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginLeft:50
     },
-    button: {
+    buttonImage: {
         alignItems: 'center',
         padding: 10,
         marginTop: 20,
@@ -229,7 +315,8 @@ const styles = StyleSheet.create({
       contenedorPrincipal: {
         flex: 1,
         justifyContent:"flex-start"
-      }
+      },
+      
   });
 
 export default NewProduct
