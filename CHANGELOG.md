@@ -77,3 +77,9 @@ Este proyecto sigue la convención de versionado semántico.
 crear y modificar productos.
 
 ## [0.10.0] - 2024-2-16
+
+### Version
+
+- Se ha subido la primera version a producción.
+
+## [1.0.0] - 2024-2-22 
