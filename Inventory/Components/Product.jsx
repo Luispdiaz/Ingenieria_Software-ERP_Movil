@@ -10,19 +10,22 @@ const styles = StyleSheet.create({
     contenedor: {
       flex: 1,
       margin: 20,
-      borderColor: theme.colors.cuartario,
+      borderColor: theme.colors.textPrimary,
+      backgroundColor: theme.colors.textPrimary,
       borderWidth: 2,
       borderRadius: 25,
       height: windowHeight * 0.22,
     },
     NombreProducto: {
-        color: theme.colors.textPrimary,
+        color: theme.colors.secundario,
         fontSize: theme.text.fontSize,
         fontWeight: theme.text.fontWeight,
       },
       EstiloImagen:{
         height: windowHeight * 0.15,
         borderRadius:25,
+        borderWidth:1,
+        borderColor: theme.colors.background,
         }
   });
 

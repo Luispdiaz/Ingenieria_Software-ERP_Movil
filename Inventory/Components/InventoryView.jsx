@@ -19,14 +19,19 @@ const Styles = StyleSheet.create({
     contenedorTitulo: {
         marginTop: Constants.statusBarHeight + 10,
         alignItems: 'center',
-        justifyContent:'center',
         justifyContent: 'space-between',
         flexDirection:'row',
-        marginBottom: 10
+        marginBottom: 20
     },
     contenedorProductos: {
         flex: 1,
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
+        backgroundColor: 'rgba(192, 101, 230, 0.2)',
+        borderRadius: 20,
+        borderColor: 'black',
+        margin: 20,
+        elevation:300,
+        borderWidth: 0.4
     },
     contenedorRedondo: {
         width: windowHeight * 0.07,  
@@ -57,6 +62,9 @@ const Styles = StyleSheet.create({
         color: theme.colors.textPrimary,
         justifyContent:'center',
         alignItems:'center'
+      },
+      background:{
+        flex:1
       }
   });
 
@@ -70,21 +78,11 @@ const InventoryView = () =>{
 
   const navigation = useNavigation();
   return(
-    <LinearGradient
-    colors={[
-    theme.colors.primario,
-    theme.colors.terciario,
-    theme.colors.secundario,
-    theme.colors.secundario,
-    theme.colors.secundario,
-    theme.colors.secundario, 
-    theme.colors.secundario,
-    theme.colors.terciario,
-    theme.colors.primario,
-    ]}
-    start={{ x: 0, y: 0 }}
-    end={{ x: 1, y: 1 }}
-    style={Styles.contenedorPrincipal}
+
+    <LinearGradient colors={['#B56FEE', '#781BB8', '#000000', '#070914']}
+    start={{ x: 1, y: 0 }} // Modificado
+    end={{ x: 0, y: 1 }} // Modificado
+    style={Styles.background}
     >
     <View style={Styles.contenedorTitulo}>
         <View style={Styles.contenedorFlecha}>{/*Hay que hacer la flecha de retroceso*/}</View> 
@@ -97,7 +95,6 @@ const InventoryView = () =>{
         </View>
 
     </View>
-    
     <View style={Styles.contenedorProductos}> 
     
     <FlatList
@@ -109,7 +106,7 @@ const InventoryView = () =>{
           numColumns={2} 
     /> 
    </View>
-    </LinearGradient>
+  </LinearGradient>
   )
 }
 
