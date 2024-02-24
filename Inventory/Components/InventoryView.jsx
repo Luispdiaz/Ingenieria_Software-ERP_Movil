@@ -26,12 +26,7 @@ const Styles = StyleSheet.create({
     contenedorProductos: {
         flex: 1,
         justifyContent: 'flex-start',
-        backgroundColor: 'rgba(192, 101, 230, 0.2)',
-        borderRadius: 20,
-        borderColor: 'black',
-        margin: 20,
-        elevation:300,
-        borderWidth: 0.4
+        
     },
     contenedorRedondo: {
         width: windowHeight * 0.07,  
@@ -79,9 +74,10 @@ const InventoryView = () =>{
   const navigation = useNavigation();
   return(
 
-    <LinearGradient colors={['#B56FEE', '#781BB8', '#000000', '#070914']}
-    start={{ x: 1, y: 0 }} // Modificado
-    end={{ x: 0, y: 1 }} // Modificado
+    <LinearGradient colors={['#611B97', '#000000','#000000', '#9A30D1','#000000']}
+    locations={[0, 0.2,0.5, 0.7, 0.8]}
+    start={{ x: 0, y: 0 }}
+    end={{ x: 1, y: 1 }}
     style={Styles.background}
     >
     <View style={Styles.contenedorTitulo}>
