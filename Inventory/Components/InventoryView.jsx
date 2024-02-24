@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, TextInput, Image } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import theme from "../Themes/Theme";
 import Constants from 'expo-constants';
@@ -8,6 +8,7 @@ import DataTemporal from "../Data/DataTemporal";
 import { Dimensions } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { useProducts } from "../../Context/ProductContext";
+import { useState, useRef } from "react";
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -57,18 +58,54 @@ const Styles = StyleSheet.create({
         color: theme.colors.textPrimary,
         justifyContent:'center',
         alignItems:'center'
-      }
+      },
+      textinput: {
+        flex: 1, // Hace que el TextInput ocupe todo el espacio restante horizontalmente
+        padding: 10,
+        borderWidth: 1,
+        borderColor: "#4D09FF",
+        color: "#FFFFFF",
+        textAlign: "left",
+        paddingStart: 30, 
+        borderRadius: 25,
+      },
+    TextoModificar: {
+      width: 24, // Ajusta el ancho de la imagen según tus necesidades
+      height: 20, // Ajusta la altura de la imagen según tus necesidades
+      marginRight: 10, // Agrega un margen derecho entre la imagen y el TextInput
+    },
+    containerBuscador: {
+      flexDirection: 'row', // Alinear los elementos en una fila
+      alignItems: 'center', // Centrar verticalmente los elementos
+      paddingHorizontal: 16, // Agregar un relleno horizontal para espacio alrededor de los elementos
+    }
   });
+  
 
 const InventoryView = () =>{
 
-  const {Productos, getProducts} = useProducts() 
+  const {Productos, getProducts,buscarProductos} = useProducts() 
+  const [Busqueda, setBusqueda] = useState('');
+
+  const ResetBusqueda = () => {
+    setBusqueda("")
+  }
 
   useEffect(()=>{
     getProducts()
   }, [])
 
+  const handleLimpiarBusqueda = () => {
+    setBusqueda('');
+    if (inputRef.current) {
+      inputRef.current.clear();
+    }
+    buscarProductos('');
+  };
+
   const navigation = useNavigation();
+  const inputRef = useRef(null);
+  
   return(
     <LinearGradient
     colors={[
@@ -98,8 +135,31 @@ const InventoryView = () =>{
 
     </View>
     
-    <View style={Styles.contenedorProductos}> 
-    
+    <View style={Styles.contenedorProductos}>
+    <View style={Styles.containerBuscador}>
+    {Busqueda !== '' && (
+        <TouchableOpacity
+          onPress={handleLimpiarBusqueda}
+        >
+          <Image
+            source={require('../Assets/image (3).png')}
+            style={Styles.TextoModificar}
+          />
+        </TouchableOpacity>
+      )}
+ 
+
+  <TextInput
+  ref={inputRef}
+  style={Styles.textinput}
+  placeholder="Buscar en el inventario..."
+  placeholderTextColor='#FFFFFF'
+  onChangeText={(texto1) => setBusqueda(texto1)}
+  onSubmitEditing={() =>buscarProductos(Busqueda)}
+  />
+  </View>
+ 
+
     <FlatList
         data={Productos}
         renderItem={({ item }) => (

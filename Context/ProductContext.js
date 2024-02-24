@@ -69,8 +69,24 @@ export const ProductContextProvider = ({children}) =>{
         ))
     }
 
+    const buscarProductos = async (searchText) => {
+        try {
+          const { data, error } = await Supa
+            .from("Productos")
+            .select('*')
+            .or(`nombre.ilike."*${searchText}*",descripcion.ilike."*${searchText}*",categoria.ilike."*${searchText}*",sub_categorias.ilike."*${searchText}*",color.ilike."*${searchText}*",marca.ilike."*${searchText}*",modelo.ilike."*${searchText}*"`);
+          
+          if (error) {
+            return;
+          }
+          setProductos(data)
+        } catch (error) {
+          console.error('Error general:', error.message);
+        }
+      };
+
     return(
-        <ProductContext.Provider value={{Productos, getProducts, createProduct, UpdateProduct}}>
+        <ProductContext.Provider value={{Productos, getProducts, createProduct, UpdateProduct, buscarProductos}}>
         {children}
         </ProductContext.Provider>
     )
