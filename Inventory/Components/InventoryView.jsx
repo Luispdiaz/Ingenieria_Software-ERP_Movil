@@ -19,14 +19,14 @@ const Styles = StyleSheet.create({
     contenedorTitulo: {
         marginTop: Constants.statusBarHeight + 10,
         alignItems: 'center',
-        justifyContent:'center',
         justifyContent: 'space-between',
         flexDirection:'row',
-        marginBottom: 10
+        marginBottom: 20
     },
     contenedorProductos: {
         flex: 1,
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
+        
     },
     contenedorRedondo: {
         width: windowHeight * 0.07,  
@@ -57,6 +57,9 @@ const Styles = StyleSheet.create({
         color: theme.colors.textPrimary,
         justifyContent:'center',
         alignItems:'center'
+      },
+      background:{
+        flex:1
       },
       textinput: {
         flex: 1, 
@@ -109,21 +112,12 @@ const InventoryView = () =>{
   const inputRef = useRef(null);
   
   return(
-    <LinearGradient
-    colors={[
-    theme.colors.primario,
-    theme.colors.terciario,
-    theme.colors.secundario,
-    theme.colors.secundario,
-    theme.colors.secundario,
-    theme.colors.secundario, 
-    theme.colors.secundario,
-    theme.colors.terciario,
-    theme.colors.primario,
-    ]}
+
+    <LinearGradient colors={['#611B97', '#000000','#000000', '#9A30D1','#000000']}
+    locations={[0, 0.2,0.5, 0.7, 0.8]}
     start={{ x: 0, y: 0 }}
     end={{ x: 1, y: 1 }}
-    style={Styles.contenedorPrincipal}
+    style={Styles.background}
     >
     <View style={Styles.contenedorTitulo}>
         <View style={Styles.contenedorFlecha}>{/*Hay que hacer la flecha de retroceso*/}</View> 
@@ -136,7 +130,6 @@ const InventoryView = () =>{
         </View>
 
     </View>
-    
     <View style={Styles.contenedorProductos}>
     <View style={Styles.containerBuscador}>
     {Busqueda !== '' && (
@@ -177,7 +170,7 @@ const InventoryView = () =>{
           numColumns={2} 
     /> 
    </View>
-    </LinearGradient>
+  </LinearGradient>
   )
 }
 

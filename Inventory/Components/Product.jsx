@@ -10,10 +10,11 @@ const styles = StyleSheet.create({
     contenedor: {
       flex: 1,
       margin: 20,
-      borderColor: theme.colors.cuartario,
-      borderWidth: 2,
+      borderWidth:0,
       borderRadius: 25,
       height: windowHeight * 0.22,
+      elevation: 300,
+      backgroundColor: "rgba(128, 41, 181, 0.1)",
     },
     NombreProducto: {
         color: theme.colors.textPrimary,
