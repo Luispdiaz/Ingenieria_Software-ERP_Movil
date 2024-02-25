@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { Supa } from "../Supabase/supabase";
+import unorm from 'unorm'
 
 export const ProductContext = createContext()
 
@@ -71,6 +72,7 @@ export const ProductContextProvider = ({children}) =>{
 
     const buscarProductos = async (searchText) => {
         try {
+
           const { data, error } = await Supa
             .from("Productos")
             .select('*')

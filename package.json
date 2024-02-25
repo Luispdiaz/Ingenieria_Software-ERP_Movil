@@ -24,7 +24,8 @@
     "react-native": "0.73.2",
     "react-native-fonts": "^0.0.0",
     "react-native-svg": "^14.1.0",
-    "react-native-web": "~0.19.6"
+    "react-native-web": "~0.19.6",
+    "unorm": "^1.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

@@ -4,7 +4,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import theme from "../Themes/Theme";
 import Constants from 'expo-constants';
 import Product from "./Product";
-import DataTemporal from "../Data/DataTemporal";
 import { Dimensions } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { useProducts } from "../../Context/ProductContext";
@@ -60,7 +59,7 @@ const Styles = StyleSheet.create({
         alignItems:'center'
       },
       textinput: {
-        flex: 1, // Hace que el TextInput ocupe todo el espacio restante horizontalmente
+        flex: 1, 
         padding: 10,
         borderWidth: 1,
         borderColor: "#4D09FF",
@@ -70,14 +69,14 @@ const Styles = StyleSheet.create({
         borderRadius: 25,
       },
     TextoModificar: {
-      width: 24, // Ajusta el ancho de la imagen según tus necesidades
-      height: 20, // Ajusta la altura de la imagen según tus necesidades
-      marginRight: 10, // Agrega un margen derecho entre la imagen y el TextInput
+      width: 24, 
+      height: 20, 
+      marginRight: 10, 
     },
     containerBuscador: {
-      flexDirection: 'row', // Alinear los elementos en una fila
-      alignItems: 'center', // Centrar verticalmente los elementos
-      paddingHorizontal: 16, // Agregar un relleno horizontal para espacio alrededor de los elementos
+      flexDirection: 'row', 
+      alignItems: 'center', 
+      paddingHorizontal: 16,
     }
   });
   
@@ -87,9 +86,6 @@ const InventoryView = () =>{
   const {Productos, getProducts,buscarProductos} = useProducts() 
   const [Busqueda, setBusqueda] = useState('');
 
-  const ResetBusqueda = () => {
-    setBusqueda("")
-  }
 
   useEffect(()=>{
     getProducts()
