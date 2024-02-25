@@ -83,3 +83,9 @@ crear y modificar productos.
 - Se ha subido la primera version a producción.
 
 ## [1.0.0] - 2024-2-22 
+
+### Changed
+
+- Se ha modificado el esilo de la tarjetas y del fondo
+
+## [1.0.1] - 2024-2-22 
