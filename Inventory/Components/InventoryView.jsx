@@ -77,6 +77,12 @@ const Styles = StyleSheet.create({
       flexDirection: 'row', 
       alignItems: 'center', 
       paddingHorizontal: 16,
+    },
+    mensajeNoCoincidencias: {
+      fontSize: 16,
+      color: theme.colors.textPrimary, 
+      textAlign: 'center',
+      marginTop: 20,
     }
   });
   
@@ -143,6 +149,7 @@ const InventoryView = () =>{
           />
         </TouchableOpacity>
       )}
+
  
 
   <TextInput
@@ -154,7 +161,12 @@ const InventoryView = () =>{
   onSubmitEditing={() =>buscarProductos(Busqueda)}
   />
   </View>
- 
+  
+  {Busqueda !== '' && Productos.length === 0 && (
+  <Text style={Styles.mensajeNoCoincidencias}>
+    No hay coincidencias con la búsqueda
+  </Text>
+)}
 
     <FlatList
         data={Productos}
