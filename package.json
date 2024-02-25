@@ -23,6 +23,7 @@
     "react-dom": "18.2.0",
     "react-native": "0.73.2",
     "react-native-fonts": "^0.0.0",
+    "react-native-shadow-generator": "^1.1.2",
     "react-native-svg": "^14.1.0",
     "react-native-web": "~0.19.6",
     "unorm": "^1.6.0"

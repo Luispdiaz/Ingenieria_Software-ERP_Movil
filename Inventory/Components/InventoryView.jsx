@@ -27,6 +27,20 @@ const Styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-start',
         
+        
+        
+    },
+    tarjetaProducto:{
+      backgroundColor: theme.colors.secundario,
+      borderRadius: 10,
+      margin: 10,
+      padding: 10,
+      width: windowHeight * 0.4,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.5,
+      shadowRadius: 2,
+      elevation: 5, // Esto es para Android
     },
     contenedorRedondo: {
         width: windowHeight * 0.07,  
@@ -113,12 +127,18 @@ const InventoryView = () =>{
   
   return(
 
-    <LinearGradient colors={['#611B97', '#000000','#000000', '#9A30D1','#000000']}
-    locations={[0, 0.2,0.5, 0.7, 0.8]}
-    start={{ x: 0, y: 0 }}
-    end={{ x: 1, y: 1 }}
-    style={Styles.background}
-    >
+    <LinearGradient
+            colors={[
+                theme.colors.primario,
+                theme.colors.terciario,
+                theme.colors.secundario,
+                theme.colors.terciario,
+                theme.colors.primario,
+            ]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={Styles.contenedorPrincipal}
+        >
     <View style={Styles.contenedorTitulo}>
         <View style={Styles.contenedorFlecha}>{/*Hay que hacer la flecha de retroceso*/}</View> 
         <Text style={Styles.tituloInventario}>Inventario</Text>
@@ -130,7 +150,7 @@ const InventoryView = () =>{
         </View>
 
     </View>
-    <View style={Styles.contenedorProductos}>
+    
     <View style={Styles.containerBuscador}>
     {Busqueda !== '' && (
         <TouchableOpacity
@@ -160,8 +180,9 @@ const InventoryView = () =>{
     No hay coincidencias con la búsqueda
   </Text>
 )}
-
+  <View style={Styles.contenedorProductos}>
     <FlatList
+    style={{marginTop:20, marginHorizontal:10}}
         data={Productos}
         renderItem={({ item }) => (
             <Product {...item}
