@@ -6,6 +6,7 @@ import theme from "../../Inventory/Themes/Theme";
 import { useProducts } from '../../Context/ProductContext';
 import { LinearGradient } from 'expo-linear-gradient';
 import Constants from 'expo-constants';
+import * as ImagePicker from "expo-image-picker"
 
 
 
@@ -54,6 +55,25 @@ const NewProduct = () =>{
         const numberValue = parseFloat(value);
         return !isNaN(numberValue) && numberValue >= 0;
       }
+
+    const [imgUrl, setimgUrl] = useState("https://cdn-icons-png.freepik.com/512/5733/5733887.png")
+    const openCameraLib = async() =>{
+      console.log("PRESSS=====>>")
+      const result = await ImagePicker.launchCameraAsync({cameraType: ImagePicker.CameraType.front});
+      setimgUrl(result?.assets[0]?.uri)
+      console.log("RESULT ===>>", result)
+    }
+    const openImageLib = async() =>{
+      console.log("PRESSS=====>>2")
+      const result = await ImagePicker.launchImageLibraryAsync({imageType: ImagePicker.MediaTypeOptions.Images});
+      setimgUrl(result?.assets[0]?.uri)
+      console.log("RESULT ===>>", result)
+    }
+
+    const [showView, setShowView] = useState(false);
+    const handlePress = () => {
+      setShowView(!showView);
+    };
 
     return(
         
@@ -221,22 +241,28 @@ const NewProduct = () =>{
             onValueChange={handleToggle}
             value={isEnabled}
         />
-            {!isEnabled && <TextInput
+        {!isEnabled && <TextInput
         style={styles.textinput}
         placeholder='URL de la Imagen'
         placeholderTextColor='#FFFFFF'
         onChangeText={(texto) => setImagen(texto)}
         />}
         {isEnabled && (
-            <TouchableOpacity style={styles.buttonImage} onPress={() => {}}>
-            <Image
-                source={require("./Imagenes/BotonAgregar.png")}
-            />
+            <TouchableOpacity style={styles.buttonImage} onPress={handlePress}>
+            <Image resizeMode = "contain" style = {styles.img} source = {{uri: imgUrl}} />
             </TouchableOpacity>
         )}
+            {showView && (
+              <View style={styles.view}>
+              <TouchableOpacity style = {styles.btnCam} onPress = {openCameraLib}>
+              <Image style = {{width: 100, height:100}} source={require('./Imagenes/Camara.png')} />
+              </TouchableOpacity>
+              <TouchableOpacity style = {styles.btnCam} onPress = {openImageLib}>
+              <Image style = {{width: 100, height:100}} source={require('./Imagenes/Image.png')}  />
+              </TouchableOpacity>
+              </View>
+            )}
         </View>
-        
-
         <View style={styles.countContainer}>
             <TouchableOpacity style={styles.button} onPress={handleSubmit} >
             <Text style={styles.buttonText}>Agregar</Text>
@@ -262,6 +288,12 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginLeft: 25,
         borderRadius: 25,
+    },
+    img: {
+      width: 300,
+      height: 300,
+      alignSelf: "center",
+      borderRadius: 6
     },
     textinputDescuento:{
         padding: 10,
@@ -315,6 +347,14 @@ const styles = StyleSheet.create({
       contenedorPrincipal: {
         flex: 1,
         justifyContent:"flex-start"
+      },
+      view: {
+        backgroundColor: 'white',
+        padding: 10,
+        borderRadius: 5,
+        borderColor: "black",
+        flexDirection: "row",
+        justifyContent: "center"
       },
       
   });
