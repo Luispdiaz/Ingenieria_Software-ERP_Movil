@@ -89,3 +89,9 @@ crear y modificar productos.
 - Se ha modificado el esilo de la tarjetas y del fondo
 
 ## [1.0.1] - 2024-2-22 
+
+### Added
+
+- Se ha agregado el buscador 
+
+## [1.1.0] - 2024-2-22 
