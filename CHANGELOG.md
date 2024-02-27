@@ -92,6 +92,12 @@ crear y modificar productos.
 
 ### Added
 
-- Se ha agregado el buscador 
+- Se ha agregado el buscador en la vista del inventario
 
 ## [1.1.0] - 2024-2-22 
+
+### Added
+
+- Se han agregado los filtros por categoria en la vista del inventario
+
+## [1.2.0] - 2024-2-22 
