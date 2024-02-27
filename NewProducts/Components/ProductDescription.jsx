@@ -38,37 +38,38 @@ const NewProduct = () =>{
     };
 
   
-    const handleSubmit = async () => {
+  const handleSubmit = async () => {
+      if (!isValidNumber(CantidadInicial) || !isValidNumber(PrecioD) || !isValidNumber(PrecioE) || !isValidNumber(CostoD) || !isValidNumber(CostoE)) {
+          Alert.alert('Error', 'Por favor, ingresa valores válidos');
+          navigation.navigate("VistaInventario");
+        }
+        else {
+      createProduct(Nombre,Imagen,CodProveedor,Categoria,Descripcion,Marca,CantidadInicial,CostoD,CostoE,PrecioD,PrecioE,TipoImpuesto)
+      Alert.alert('El producto se modificó de manera exitosa');
+      navigation.navigate('VistaInventario')
+    };
+  }
 
-        if (!isValidNumber(CantidadInicial) || !isValidNumber(PrecioD) || !isValidNumber(PrecioE) || !isValidNumber(CostoD) || !isValidNumber(CostoE)) {
-            Alert.alert('Error', 'Por favor, ingresa valores válidos');
-            navigation.navigate("VistaInventario");
-          }
-          else {
-        createProduct(Nombre,Imagen,CodProveedor,Categoria,Descripcion,Marca,CantidadInicial,CostoD,CostoE,PrecioD,PrecioE,TipoImpuesto)
-        Alert.alert('El producto se modificó de manera exitosa');
-        navigation.navigate('VistaInventario')
-      };
+  const isValidNumber = (value) => {
+      const numberValue = parseFloat(value);
+      return !isNaN(numberValue) && numberValue >= 0;
     }
 
-    const isValidNumber = (value) => {
-        const numberValue = parseFloat(value);
-        return !isNaN(numberValue) && numberValue >= 0;
-      }
+  const [imgUrl, setimgUrl] = useState("https://cdn-icons-png.freepik.com/512/5733/5733887.png")
+  
+  const openCameraLib = async() =>{
+    console.log("PRESSS=====>>")
+    const result = await ImagePicker.launchCameraAsync({cameraType: ImagePicker.CameraType.front});
+    setimgUrl(result?.assets[0]?.uri)
+    console.log("RESULT ===>>", result)
+  }
 
-    const [imgUrl, setimgUrl] = useState("https://cdn-icons-png.freepik.com/512/5733/5733887.png")
-    const openCameraLib = async() =>{
-      console.log("PRESSS=====>>")
-      const result = await ImagePicker.launchCameraAsync({cameraType: ImagePicker.CameraType.front});
-      setimgUrl(result?.assets[0]?.uri)
-      console.log("RESULT ===>>", result)
-    }
-    const openImageLib = async() =>{
-      console.log("PRESSS=====>>2")
-      const result = await ImagePicker.launchImageLibraryAsync({imageType: ImagePicker.MediaTypeOptions.Images});
-      setimgUrl(result?.assets[0]?.uri)
-      console.log("RESULT ===>>", result)
-    }
+  const openImageLib = async() =>{
+    console.log("PRESSS=====>>2")
+    const result = await ImagePicker.launchImageLibraryAsync({imageType: ImagePicker.MediaTypeOptions.Images});
+    setimgUrl(result?.assets[0]?.uri)
+    console.log("RESULT ===>>", result)
+  }
 
     const [showView, setShowView] = useState(false);
     const handlePress = () => {
@@ -254,10 +255,10 @@ const NewProduct = () =>{
         )}
             {showView && (
               <View style={styles.view}>
-              <TouchableOpacity style = {styles.btnCam} onPress = {openCameraLib}>
+              <TouchableOpacity onPress = {openCameraLib}>
               <Image style = {{width: 100, height:100}} source={require('./Imagenes/Camara.png')} />
               </TouchableOpacity>
-              <TouchableOpacity style = {styles.btnCam} onPress = {openImageLib}>
+              <TouchableOpacity  onPress = {openImageLib}>
               <Image style = {{width: 100, height:100}} source={require('./Imagenes/Image.png')}  />
               </TouchableOpacity>
               </View>

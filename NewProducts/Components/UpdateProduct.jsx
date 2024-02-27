@@ -1,9 +1,17 @@
-import { StyleSheet, View, TextInput, Image, TouchableOpacity, Alert,Text} from 'react-native';
+import { StyleSheet, View, TextInput, TouchableOpacity, Alert,Text,Image, Switch,ScrollView,ImageBackground} from 'react-native';
 import { useProducts } from '../../Context/ProductContext';
 import { useState } from 'react';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
+import theme from "../../Inventory/Themes/Theme";
 import Product from '../../Inventory/Components/Product';
+import * as ImagePicker from "expo-image-picker"
+import {useEffect } from 'react';
+import Constants from 'expo-constants';
+import UpdateHeader from './HeaderUpdateProduct';
 
+
+const image = require("./Imagenes/Fondo.png");
 
 
 const UpdateProduct = ({Lista}) =>{
@@ -21,6 +29,16 @@ const UpdateProduct = ({Lista}) =>{
     const [TipoImpuesto, setTipoImpuesto] = useState('');
     const [Imagen, setImagen] = useState('');
     const navigation = useNavigation()
+
+    const [isEnabled, setIsEnabled] = useState(false);
+    const handleToggle = () => {
+        setIsEnabled(!isEnabled);
+    };
+  const [isEnabledText, setIsEnabledText] = useState(false);
+
+  const handleToggleText = () => {
+      setIsEnabledText(!isEnabledText);
+  };
 
     const handleSubmit = () => {
         if (!isValidNumber(CantidadInicial) || !isValidNumber(PrecioD) || !isValidNumber(PrecioE) || !isValidNumber(CostoD) || !isValidNumber(CostoE)) {
@@ -57,98 +75,205 @@ const UpdateProduct = ({Lista}) =>{
     }
     
     }
-    const isValidNumber = (value) => {
-        const numberValue = parseFloat(value);
-        return !isNaN(numberValue) && numberValue >= 0;
-      };
 
-    return(
-        <View>
+  const isValidNumber = (value) => {
+      const numberValue = parseFloat(value);
+      return !isNaN(numberValue) && numberValue >= 0;
+    };
 
-           <TextInput
-            style={styles.textinput}
-            placeholder='URL de la Imagen'
-            placeholderTextColor='#FFFFFF'
-            onChangeText={(texto) => setImagen(texto)}
-            />
+  const [imgUrl, setimgUrl] = useState("https://cdn-icons-png.freepik.com/512/5733/5733887.png")
 
-        <TextInput
+  const openCameraLib = async() =>{
+    console.log("PRESSS=====>>")
+    const result = await ImagePicker.launchCameraAsync({cameraType: ImagePicker.CameraType.front});
+    setimgUrl(result?.assets[0]?.uri)
+    console.log("RESULT ===>>", result)
+  }
+
+  const openImageLib = async() =>{
+    console.log("PRESSS=====>>2")
+    const result = await ImagePicker.launchImageLibraryAsync({imageType: ImagePicker.MediaTypeOptions.Images});
+    setimgUrl(result?.assets[0]?.uri)
+    console.log("RESULT ===>>", result)
+  }
+
+  const [showView, setShowView] = useState(false);
+    const handlePress = () => {
+      setShowView(!showView);
+    };
+
+
+  return(
+    <LinearGradient
+        colors={[
+        theme.colors.secundario,
+        theme.colors.primario,
+        ]}
+        style={styles.contenedorPrincipal}
+    >
+    <View>
+    <ScrollView>
+    <ImageBackground source={image} resizeMode="cover"  style={styles.image}>
+    <UpdateHeader/>
+      <TextInput
       style={styles.textinput}
-      placeholder={`Nombre: ${Lista.nombre}`}
+      placeholder={`Nombre del producto: ${Lista.nombre}`}
       placeholderTextColor="#FFFFFF"
-      onChangeText={(texto) => setNombre(texto)}
-    />
-    <TextInput
+      onChangeText={(texto1) => setNombre(texto1)}
+      />
+
+      <TextInput
       style={styles.textinput}
       placeholder={`Codigo Proveedor: ${Lista.cod_proveedor}`}
       placeholderTextColor="#FFFFFF"
-      onChangeText={(texto) => setCodProveedor(texto)}
+      onChangeText={(texto2) => setCodProveedor(texto2)}
+      />
+      
+    <TextInput
+    style={styles.textinput}
+    placeholder={`Categoria del producto: ${Lista.categoria}`}
+    placeholderTextColor="#FFFFFF"
+    onChangeText={(texto3) => setCategoria(texto3)}
     />
     <TextInput
       style={styles.textinputDescription}
-      placeholder={`Descripción: ${Lista.descripcion}`}
+      placeholder={`Descripción del producto: ${Lista.descripcion}`}
       multiline={true}
       scrollEnabled={true}
       placeholderTextColor="#FFFFFF"
-      onChangeText={(texto) => setDescripcion(texto)}
+      onChangeText={(texto4) => setDescripcion(texto4)}
     />
     <TextInput
       style={styles.textinput}
-      placeholder={`Marca: ${Lista.marca}`}
+      placeholder={`Marca del producto: ${Lista.marca}`}
       placeholderTextColor="#FFFFFF"
-      onChangeText={(texto) => setMarca(texto)}
+      onChangeText={(texto5) => setMarca(texto5)}
     />
     <TextInput
       style={styles.textinput}
-      placeholder={`Categoria: ${Lista.categoria}`}
+      placeholder='URL de la Imagen'
+      placeholderTextColor='#FFFFFF'
+      onChangeText={(texto) => setImagen(texto)}
+      />
+    <TextInput
+      style={styles.textinput}
+      placeholder={`Cantidad inicial en el inventario: ${Lista.cantidad_existencia}`}
       placeholderTextColor="#FFFFFF"
-      onChangeText={(texto) => setCategoria(texto)}
+      onChangeText={(texto6) => {
+        const numeroEntero = parseInt(texto6, 10)
+        setCantidadInicial(numeroEntero);}}
     />
     <TextInput
       style={styles.textinput}
-      placeholder={`Cantidad: ${Lista.cantidad_existencia}`}
-      placeholderTextColor="#FFFFFF"
-      onChangeText={(texto) => setCantidadInicial(texto)}
-
+      placeholder='Cantidad maxima en el Inventario'
+      placeholderTextColor='#FFFFFF'
+      onChangeText={(texto6) => {
+        const numeroEntero = parseInt(texto6, 10)
+        setCantidadInicial(numeroEntero);}}
     />
     <TextInput
+    style={styles.textinput}
+    placeholder='Cantidad restock para el Inventario'
+    placeholderTextColor='#FFFFFF'
+    onChangeText={(texto6) => {
+    const numeroEntero = parseInt(texto6, 10)
+    setCantidadInicial(numeroEntero);}}
+    />
+    <TextInput
+    style={styles.textinput}
+    placeholder='Costo por unidad ($)'
+    placeholderTextColor='#FFFFFF'
+    onChangeText={(texto7) => {
+      
+      const numeroEntero = parseInt(texto7, 10)
+      
+      setCostoD(numeroEntero);}}
+    />
+    <TextInput
+    style={styles.textinput}
+    placeholder='Costo por unidad (Efectivo)'
+    placeholderTextColor='#FFFFFF'
+    onChangeText={(texto8) => {
+      
+      const numeroEntero = parseInt(texto8, 10)
+      
+      setCostoE(numeroEntero);}}
+  />
+    <TextInput
       style={styles.textinput}
-      placeholder={`Precio USD: ${Lista.precio_usd}`}
+      placeholder={`Precio por unidad ($): ${Lista.precio_usd}`}
       placeholderTextColor="#FFFFFF"
       onChangeText={(texto) => setPrecioD(texto)}
     />
     <TextInput
       style={styles.textinput}
-      placeholder={`Precio Efectivo: ${Lista.precio_efectivo}`}
+      placeholder={`Precio por unidad (Efectivo): ${Lista.precio_efectivo}`}
       placeholderTextColor="#FFFFFF"
       onChangeText={(texto) => setPrecioE(texto)}
     />
+  
     <TextInput
       style={styles.textinput}
-      placeholder={`Costo USD: ${Lista.costo_usd}`}
-      placeholderTextColor="#FFFFFF"
-      onChangeText={(texto) => setCostoD(texto)}
-    />
-    <TextInput
-      style={styles.textinput}
-      placeholder={`Costo Efectivo: ${Lista.costo_efectivo}`}
-      placeholderTextColor="#FFFFFF"
-      onChangeText={(texto) => setCostoE(texto)}
-    />
-    <TextInput
-      style={styles.textinput}
-      placeholder={`Impuesto: ${Lista.tipo_impuesto}`}
+      placeholder={`Tipo de Impuesto: ${Lista.tipo_impuesto}`}
       placeholderTextColor="#FFFFFF"
       onChangeText={(texto) => setTipoImpuesto(texto)}
     />
+    <View style = {{flexDirection: "row"}}>
+      <Text style = {styles.text}>Descuento</Text>
+        <Switch trackColor= "yellow"
+            thumbColor= "white"
+            marginLeft = {10}
+            marginTop = {5}
+                onValueChange={handleToggleText}
+                value={isEnabledText}
+            />
+                {isEnabledText && <TextInput
+            style={styles.textinputDescuento}
+            placeholder='Porcentaje'
+            placeholderTextColor='#FFFFFF'
+            onChangeText={(texto) => setImagen(texto)}
+            />}
+    </View>
+    <View >
+<Text style = {styles.text}>Imagen</Text>
+<Switch trackColor= "yellow"
+        thumbColor= "white"
+            onValueChange={handleToggle}
+            value={isEnabled}
+        />
+        {!isEnabled && <TextInput
+        style={styles.textinput}
+        placeholder='URL de la Imagen'
+        placeholderTextColor='#FFFFFF'
+        onChangeText={(texto) => setImagen(texto)}
+        />}
+        {isEnabled && (
+            <TouchableOpacity style={styles.buttonImage} onPress={handlePress}>
+            <Image resizeMode = "contain" style = {styles.img} source = {{uri: imgUrl}} />
+            </TouchableOpacity>
+        )}
+            {showView && (
+              <View style={styles.view}>
+              <TouchableOpacity style = {styles.btnCam} onPress = {openCameraLib}>
+              <Image style = {{width: 100, height:100}} source={require('./Imagenes/Camara.png')} />
+              </TouchableOpacity>
+              <TouchableOpacity style = {styles.btnCam} onPress = {openImageLib}>
+              <Image style = {{width: 100, height:100}} source={require('./Imagenes/Image.png')}  />
+              </TouchableOpacity>
+              </View>
+            )}
+        </View>
+        
 
         <View style={styles.countContainer}>
             <TouchableOpacity style={styles.button} onPress={handleSubmit} >
             <Text style={styles.buttonText}>Modificar</Text>
             </TouchableOpacity>
         </View>
-        
+        </ImageBackground>
+        </ScrollView>
         </View>
+        </LinearGradient>
     )
 }
 
@@ -165,6 +290,12 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginLeft: 25,
         borderRadius: 25,
+    },
+    img: {
+      width: 300,
+      height: 300,
+      alignSelf: "center",
+      borderRadius: 6
     },
     textinputDescription:{
         padding: 10,
@@ -214,11 +345,40 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginLeft:50
     },
+    textinputDescuento:{
+      padding: 10,
+      borderWidth: 1,
+      borderColor: "#4D09FF",
+      color: "#FFFFFF",
+      textAlign: "left",
+      paddingStart: 30, 
+      width: '45%',
+      height: 50,
+      marginTop: 20,
+      marginLeft: 25,
+      borderRadius: 25,
+  },
     EstiloImagen:{
         height: 20,
         borderRadius:5,
         flex: 1
-    }
+    },
+    view: {
+      backgroundColor: 'white',
+      padding: 10,
+      borderRadius: 5,
+      borderColor: "black",
+      flexDirection: "row",
+      justifyContent: "center"
+    },
+    contenedorPrincipal: {
+      flex: 1,
+      justifyContent:"flex-start"
+    },
+    image: {
+      marginTop: Constants.statusBarHeight,
+      flex: 1,
+    },
   });
 
 export default UpdateProduct

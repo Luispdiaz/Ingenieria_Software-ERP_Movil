@@ -22,7 +22,6 @@ const MainUpdateProduct = ({route}) =>{
         <SafeAreaView style = {styles.container}>
           <ScrollView> 
           <ImageBackground source={image} resizeMode="cover"  style={styles.image}>
-          <UpdateHeader/>
           <UpdateProduct Lista={{...props}}/>
           </ImageBackground>
           </ScrollView>
