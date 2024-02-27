@@ -1,6 +1,5 @@
 import { createContext, useContext, useState } from "react";
 import { Supa } from "../Supabase/supabase";
-import unorm from 'unorm'
 
 export const ProductContext = createContext()
 
@@ -13,6 +12,7 @@ export const useProducts = () =>{
 export const ProductContextProvider = ({children}) =>{
 
     const [Productos, setProductos] = useState([])
+    const [Categorias, setCategorias] = useState([])
 
     const getProducts = async () => {
         const {error, data} = await Supa.from("Productos").select();
@@ -87,8 +87,46 @@ export const ProductContextProvider = ({children}) =>{
         }
       };
 
+      const obtenerCategoriasUnicas = async () => {
+        try {
+          const { data, error } = await Supa
+            .from("Productos")
+            .select("categoria")
+      
+          if (error) {
+            throw error;
+          }
+          
+  const todasLasCategorias = data.map(item => item.categoria);
+  const categoriasUnicas = [...new Set(todasLasCategorias)];
+  setCategorias(categoriasUnicas)
+      
+        } catch (error) {
+          console.error('Error al obtener categorías:', error.message);
+          return [];
+        }
+      };
+
+      const buscarProductosPorCategoria = async (categoria) => {
+        try {
+          const { data, error } = await Supa
+            .from("Productos")
+            .select('*')
+            .eq('categoria', categoria);
+      
+          if (error) {
+            return;
+          }
+          
+          setProductos(data);
+        } catch (error) {
+          console.error('Error general:', error.message);
+        }
+      }
+
+
     return(
-        <ProductContext.Provider value={{Productos, getProducts, createProduct, UpdateProduct, buscarProductos}}>
+        <ProductContext.Provider value={{Productos, getProducts, createProduct, UpdateProduct, buscarProductos, obtenerCategoriasUnicas, Categorias, buscarProductosPorCategoria}}>
         {children}
         </ProductContext.Provider>
     )

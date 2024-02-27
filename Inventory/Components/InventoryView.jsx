@@ -8,6 +8,9 @@ import { Dimensions } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { useProducts } from "../../Context/ProductContext";
 import { useState, useRef } from "react";
+import Category from "./Category";
+
+
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -19,7 +22,7 @@ const Styles = StyleSheet.create({
     contenedorTitulo: {
         marginTop: Constants.statusBarHeight + 10,
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         flexDirection:'row',
         marginBottom: 20
     },
@@ -43,14 +46,18 @@ const Styles = StyleSheet.create({
       elevation: 5, // Esto es para Android
     },
     contenedorRedondo: {
-        width: windowHeight * 0.07,  
-        height: windowHeight * 0.07,  
-        borderRadius: 50, 
-        justifyContent:'center',
-        alignItems:'center',
-        borderColor: theme.colors.cuartario,
-        borderWidth: 2,
-        marginRight: windowHeight * 0.015
+      width: windowHeight * 0.07,
+      height: windowHeight * 0.07,
+      borderRadius: windowHeight * 0.07, // Para que sea completamente redondo
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'blue', // Color de fondo del botón
+      marginRight: windowHeight * 0.015,
+      elevation: 100, // Sombra para dar la apariencia de elevación
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.3,
+      shadowRadius: 2,
       },
       contenedorFlecha: {
         width: windowHeight * 0.07,  
@@ -79,7 +86,7 @@ const Styles = StyleSheet.create({
         flex: 1, 
         padding: 10,
         borderWidth: 1,
-        borderColor: "#4D09FF",
+        borderColor: 'white',
         color: "#FFFFFF",
         textAlign: "left",
         paddingStart: 30, 
@@ -100,30 +107,42 @@ const Styles = StyleSheet.create({
       color: theme.colors.textPrimary, 
       textAlign: 'center',
       marginTop: 20,
-    }
+    },
+    contenedorMas:{ 
+      width: windowHeight * 0.06,
+        height: windowHeight * 0.06, 
+        marginLeft:7}
+    
   });
   
 
 const InventoryView = () =>{
 
-  const {Productos, getProducts,buscarProductos} = useProducts() 
+  const {Productos, getProducts,buscarProductos,obtenerCategoriasUnicas, Categorias, buscarProductosPorCategoria} = useProducts() 
   const [Busqueda, setBusqueda] = useState('');
-
+  
 
   useEffect(()=>{
     getProducts()
+    obtenerCategoriasUnicas()
   }, [])
 
   const handleLimpiarBusqueda = () => {
     setBusqueda('');
+    setSelectedCategory(null)
     if (inputRef.current) {
       inputRef.current.clear();
     }
     buscarProductos('');
   };
 
+  const handleCategoryPress = (nombre) => {
+    setSelectedCategory(nombre);
+  };
+
   const navigation = useNavigation();
   const inputRef = useRef(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   
   return(
 
@@ -140,30 +159,18 @@ const InventoryView = () =>{
             style={Styles.contenedorPrincipal}
         >
     <View style={Styles.contenedorTitulo}>
-        <View style={Styles.contenedorFlecha}>{/*Hay que hacer la flecha de retroceso*/}</View> 
         <Text style={Styles.tituloInventario}>Inventario</Text>
-        
-        <View style={Styles.contenedorRedondo}>
-        <TouchableOpacity activeOpacity={1} onPress={() => navigation.navigate("CrearProducto")}>
-        <Text style={Styles.Simbolo}>+</Text>
-        </TouchableOpacity>
-        </View>
-
     </View>
     
     <View style={Styles.containerBuscador}>
-    {Busqueda !== '' && (
-        <TouchableOpacity
-          onPress={handleLimpiarBusqueda}
-        >
-          <Image
-            source={require('../Assets/image (3).png')}
-            style={Styles.TextoModificar}
-          />
-        </TouchableOpacity>
-      )}
-
- 
+    {((Busqueda !== '' || selectedCategory) && (
+  <TouchableOpacity onPress={handleLimpiarBusqueda}>
+    <Image
+      source={require('../Assets/image (3).png')}
+      style={Styles.TextoModificar}
+    />
+  </TouchableOpacity>
+))}
 
   <TextInput
   ref={inputRef}
@@ -173,6 +180,12 @@ const InventoryView = () =>{
   onChangeText={(texto1) => setBusqueda(texto1)}
   onSubmitEditing={() =>buscarProductos(Busqueda)}
   />
+  <TouchableOpacity activeOpacity={1} onPress={() => navigation.navigate("CrearProducto")}>
+        <Image
+        source={require('../Assets/assets 5.png')} 
+       style={Styles.contenedorMas} 
+      />
+        </TouchableOpacity>
   </View>
   
   {Busqueda !== '' && Productos.length === 0 && (
@@ -180,6 +193,28 @@ const InventoryView = () =>{
     No hay coincidencias con la búsqueda
   </Text>
 )}
+
+{Busqueda == '' && (
+  <View>
+    <FlatList
+      style={{marginTop: 20, marginHorizontal: 10}}
+      horizontal={true}
+      data={Categorias}
+      renderItem={({ item }) => (
+        <Category 
+          nombre={item} 
+          isSelected={selectedCategory === item}
+          onPress={() => {
+            handleCategoryPress(item);
+            buscarProductosPorCategoria(item);
+          }}
+        />
+      )}
+    />
+  </View>
+)}
+
+
   <View style={Styles.contenedorProductos}>
     <FlatList
     style={{marginTop:20, marginHorizontal:10}}
