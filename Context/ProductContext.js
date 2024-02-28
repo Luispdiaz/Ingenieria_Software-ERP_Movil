@@ -26,7 +26,7 @@ export const ProductContextProvider = ({children}) =>{
         try {
             const {error, data} = await Supa.from('Productos').insert([
                 {nombre: Nombre,
-                Imagen: Imagen,
+                imagen: Imagen,
                 sub_categorias: null,
                 cod_proveedor: CodProveedor,
                 descripcion: Descripcion,

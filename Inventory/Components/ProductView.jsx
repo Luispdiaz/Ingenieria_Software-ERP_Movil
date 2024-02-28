@@ -119,7 +119,7 @@ const ProductView = ({ route }) => {
     const {
         id,
         nombre,
-        Imagen,
+        imagen,
         codProveedor,
         categoria,
         subcategoria,
@@ -161,7 +161,7 @@ const ProductView = ({ route }) => {
     end={{ x: 1, y: 1 }}
     style={styles.contenedorPrincipal}
     >
-      <Image style={styles.EstiloImagen} source={{ uri: Imagen }} />
+      <Image style={styles.EstiloImagen} source={{ uri: imagen }} />
     
 
       <View style={styles.backButton}>

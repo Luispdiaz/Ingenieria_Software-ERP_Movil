@@ -2,7 +2,6 @@ import { StyleSheet, View, TextInput, Image, TouchableOpacity, Alert,Text} from 
 import { useProducts } from '../../Context/ProductContext';
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import Product from '../../Inventory/Components/Product';
 
 
 

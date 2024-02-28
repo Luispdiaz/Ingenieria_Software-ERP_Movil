@@ -42,7 +42,7 @@ return(
     <View style={styles.contenedor}>
         <TouchableOpacity activeOpacity={1} onPress={() => navigation.navigate("VistaProducto", {props})}>
         <View>
-        <Image style={styles.EstiloImagen} source={{ uri: props.Imagen }} />
+        <Image style={styles.EstiloImagen} source={{ uri: props.imagen }} />
         </View>
         </TouchableOpacity>
         <View style={{alignItems:'center',justifyContent:'center',flex:1}}>
