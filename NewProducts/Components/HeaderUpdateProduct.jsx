@@ -13,7 +13,7 @@ const UpdateHeader = () =>  {
         onPress={() => navigation.goBack()}
         >
         <Image
-        source={require('./Imagenes/image (3).png')}
+        source={require('../Imagenes/image (3).png')}
         style={styles.TextoModificar}
         />
       </TouchableOpacity>
