@@ -1,10 +1,58 @@
 import React from "react";
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, TextInput, Image } from "react-native";
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, ScrollView, Image } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Constants from 'expo-constants';
 import theme from "../Themes/Theme";
 import { useNavigation } from '@react-navigation/native';
 
+//funciones para hacer tarjetas automaticas:
+function generarDiametro() {
+    return Math.floor(Math.random() * (125 - 75 + 1)) + 75;
+}
+
+function generarNumerosAleatorios() {
+    const numeroTop = Math.floor(Math.random() * 101); // Genera un número aleatorio entre 0 y 100
+    const numeroRight = Math.floor(Math.random() * 101); // Genera otro número aleatorio entre 0 y 100
+    const numeroAltura = Math.floor(Math.random() * (340 - 195 + 1)) + 130;
+    return [numeroTop, numeroRight, numeroAltura]; // Retorna un arreglo con los dos números generados
+}
+
+function generarColorClaro() {
+    const r = Math.floor(Math.random() * 156) + 70; // Componente rojo entre 100 y 255
+    const g = Math.floor(Math.random() * 156) + 70; // Componente verde entre 100 y 255
+    const b = Math.floor(Math.random() * 156) + 70; // Componente azul entre 100 y 255
+    return `rgb(${r}, ${g}, ${b})`; // Retorna el color en formato rgb
+}
+
+const Tarjeta = ({ imagen, texto, pagina}) => {
+    const diametro = generarDiametro();
+    const [numeroTop, numeroRight, numeroAltura] = generarNumerosAleatorios();
+    const colorClaro = generarColorClaro();
+    const navigation = useNavigation();
+
+    const dynamicStyles = StyleSheet.create({
+        circle: {
+          ...Styles.circle, // Mantén los estilos originales
+          width: diametro,
+          height: diametro,
+          top: numeroTop,
+          right: numeroRight,
+        },
+        cuadro: {
+            ...Styles.cuadro,
+            height: numeroAltura,
+            backgroundColor: colorClaro
+        }
+      });
+
+    return (
+      <TouchableOpacity style={dynamicStyles.cuadro} onPress={() => navigation.navigate(pagina)}>
+          <Image source={imagen} style={Styles.settingsImg} />
+          <Text style={Styles.normalText}>{texto}</Text>
+          <View style={dynamicStyles.circle}/>
+      </TouchableOpacity>
+    );
+  }
 
 const Styles = StyleSheet.create({
     ContenedorGlobal: {
@@ -18,8 +66,19 @@ const Styles = StyleSheet.create({
         flexDirection:'row'
     },
     contenedorSaludo: {
-        margin: Constants.statusBarHeight,
+        margin: 30,
         flexDirection: 'column'
+    },
+    contenedorTarjetas: {
+        flexDirection: 'column',
+        alignContent: 'flex-start',
+        width: '45%'
+    },
+    contenedorBigTarjetas: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        alignContent: 'flex-start',
+        justifyContent: 'center'
     },
     profileImg: {
         width: 50,
@@ -54,19 +113,15 @@ const Styles = StyleSheet.create({
         backgroundColor: 'rgba(255, 255, 255, 0.15)',
         position: 'absolute',
         zIndex: -1,
-        top: '60%',
-        right: '-10%'
     },
-    cuadro1: {
+    cuadro: {
         margin: 5,
-        backgroundColor: '#6B05B5',
-        width: '45%',
-        height: 195,
         borderRadius: 30,
         flexDirection: 'row',
         justifyContent: 'center',
         overflow: 'hidden',
         alignItems: "center",
+        width: '90%'
     }
 });
 
@@ -87,22 +142,8 @@ const getGreeting = () => {
     return greeting;
   };
 
-  function generarDiametro() {
-    return Math.floor(Math.random() * (125 - 75 + 1)) + 75;
-  }
-
 const MainMenu = () => {
     const greeting = getGreeting();
-    const navigation = useNavigation();
-    const diametro = generarDiametro();
-    
-    const dynamicStyles = StyleSheet.create({
-        circle: {
-          ...Styles.circle, // Mantén los estilos originales
-          width: diametro,
-          height: diametro,
-        },
-      });
 
     return (
         
@@ -112,8 +153,9 @@ const MainMenu = () => {
         locations={[0,0.5, 0.8, 1]}
         start={[0, 0]}
         end={[1,   1]}>
+        <ScrollView>
             <View style={Styles.contenedorInicio}>
-                <Image source={require('../Assets/Remove-bg.ai_1709067403836.png')} style={Styles.settingsImg}/>
+                <Text>.</Text>
                 <Text style={Styles.tituloInicio}>Inicio</Text>
                 <Image source={require('../Assets/computer-icons-user-profile-avatar-profile-145f8a4162de6d6749f402e758214dfd.png')} style={Styles.profileImg}/>
             </View>
@@ -121,14 +163,44 @@ const MainMenu = () => {
                 <Text style={Styles.Maintitle}>¡Hola, @Username!</Text>
                 <Text style={Styles.tituloInicio}>{greeting}</Text>
             </View>
-            <View>
-                <TouchableOpacity style={Styles.cuadro1}>
-                    <Image source={require('../Assets/Remove-bg.ai_1709083657086.png')} style={Styles.settingsImg}/>
-                    <Text style={Styles.normalText}>Movimientos</Text>
-                    <View style={dynamicStyles.circle}/>
-                </TouchableOpacity>
+            <View style={Styles.contenedorBigTarjetas}>
+                <View style={Styles.contenedorTarjetas}>
+                    <Tarjeta
+                        imagen={require('..//Assets/MovementsIcon.png')}
+                        texto='Movimientos'
+                        pagina='VistaInventario'  
+                    />
+                    <Tarjeta
+                        imagen={require('..//Assets/InventoryIcon.png')}
+                        texto='Inventario'
+                        pagina='VistaInventario'
+                    />
+                    <Tarjeta
+                        imagen={require('..//Assets/CompaniesIcon.png')}
+                        texto='Empresas'
+                        pagina='VistaInventario'  
+                    />
+                </View>
+                <View style={Styles.contenedorTarjetas}>
+                    <Tarjeta
+                        imagen={require('..//Assets/contactIcon.png')}
+                        texto='Personas'
+                        pagina='VistaInventario'  
+                    />
+                    <Tarjeta
+                        imagen={require('..//Assets/PointOfSaleIcon.png')}
+                        texto='Punto de Venta'
+                        pagina='VistaInventario'  
+                    />
+                    <Tarjeta
+                        imagen={require('..//Assets/ReportsIcon.png')}
+                        texto='Report'
+                        pagina='VistaInventario'  
+                    />
+                </View>
             </View>
-            
+           
+            </ScrollView>  
         </LinearGradient>
     )
 }
