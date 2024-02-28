@@ -9,7 +9,7 @@ import Constants from 'expo-constants';
 
 
 
-const image = require("./Imagenes/Fondo.png");
+const image = require("../Imagenes/Fondo.png");
 
 const NewProduct = () =>{
   const [CodProveedor, setCodProveedor] = useState('');
