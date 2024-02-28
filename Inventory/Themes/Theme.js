@@ -39,6 +39,10 @@ text: {
     fontSize: 13,
     fontWeight: 'normal',
   },
+  hypertitle: {
+    fontSize: 34,
+    fontWeight: 'bold'
+  },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
