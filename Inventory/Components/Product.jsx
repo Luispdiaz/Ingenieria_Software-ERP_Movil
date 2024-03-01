@@ -49,8 +49,7 @@ return(
         <Text style={styles.NombreProducto}>
             {props.nombre}
         </Text>
-        
-        </View>
+    </View>
     
     </View>
 
