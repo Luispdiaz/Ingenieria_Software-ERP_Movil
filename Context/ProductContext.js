@@ -21,11 +21,11 @@ export const ProductContextProvider = ({children}) =>{
         setProductos(data)
     }
 
-    const createProduct = async (Nombre, Imagen,CodProveedor,Descripcion,Categoria,Marca,CantidadInicial,CostoD,CostoE,PrecioD,PrecioE,TipoImpuesto) => {
+    const createProduct = async (Nombre,Imagen,CodProveedor,Categoria,Descripcion,Marca,CantidadInicial,CantidadMaxima,CantidadMinima,CantidadRestock,CostoD,CostoE,PrecioD,PrecioE,Porcentaje,TipoImpuesto) => {
         try {
             const {error, data} = await Supa.from('Productos').insert([
                 {nombre: Nombre,
-                Imagen: Imagen,
+                imagen: Imagen,
                 sub_categorias: null,
                 cod_proveedor: CodProveedor,
                 descripcion: Descripcion,
@@ -34,9 +34,9 @@ export const ProductContextProvider = ({children}) =>{
                 marca: Marca,
                 modelo: null,
                 cantidad_existencia: CantidadInicial,
-                minima_cantidad:null,
-                maxima_cantidad:null,
-                reordenar_cantidad:null,
+                minima_cantidad:CantidadMinima,
+                maxima_cantidad:CantidadMaxima,
+                reordenar_cantidad:CantidadRestock,
                 costo_promedio_usd:null,
                 costo_promedio_efectivo:null,
                 costo_usd: CostoD,
@@ -46,7 +46,7 @@ export const ProductContextProvider = ({children}) =>{
                 tipo_impuesto:TipoImpuesto,
                 descuento_promocion:null,
                 conversion_usd_efectivo:null,
-                valor_descuento_promocion:null}
+                valor_descuento_promocion:Porcentaje}
             
             ]).select()
           if (error) throw error

@@ -7,6 +7,9 @@ import { useProducts } from '../../Context/ProductContext';
 import { LinearGradient } from 'expo-linear-gradient';
 import Constants from 'expo-constants';
 import * as ImagePicker from "expo-image-picker"
+import { storage } from './firebaseconfig';
+import {ref,uploadBytesResumable,getDownloadURL} from "firebase/storage"
+import {addDoc,collection,onSnapshot, snapshotEqual} from "firebase/firestore"
 
 
 
@@ -19,10 +22,14 @@ const NewProduct = () =>{
   const [Marca, setMarca] = useState('');
   const [Categoria, setCategoria] = useState('');
   const [CantidadInicial, setCantidadInicial] = useState('');
+  const [CantidadMaxima, setCantidadMaxima] = useState('');
+  const [CantidadMinima, setCantidadMinima] = useState('');
+  const [CantidadRestock, setCantidadRestock] = useState('');
   const [PrecioD, setPrecioD] = useState('');
   const [PrecioE, setPrecioE] = useState('');
   const [CostoD, setCostoD] = useState('');
   const [CostoE, setCostoE] = useState('');
+  const [Porcentaje, setPorcentaje] = useState(0);
   const [TipoImpuesto, setTipoImpuesto] = useState('');
   const [Imagen, setImagen] = useState('');
   const navigation = useNavigation()
@@ -37,15 +44,14 @@ const NewProduct = () =>{
         setIsEnabledText(!isEnabledText);
     };
 
-  
   const handleSubmit = async () => {
       if (!isValidNumber(CantidadInicial) || !isValidNumber(PrecioD) || !isValidNumber(PrecioE) || !isValidNumber(CostoD) || !isValidNumber(CostoE)) {
           Alert.alert('Error', 'Por favor, ingresa valores válidos');
           navigation.navigate("VistaInventario");
         }
         else {
-      createProduct(Nombre,Imagen,CodProveedor,Categoria,Descripcion,Marca,CantidadInicial,CostoD,CostoE,PrecioD,PrecioE,TipoImpuesto)
-      Alert.alert('El producto se modificó de manera exitosa');
+      createProduct(Nombre,Imagen,CodProveedor,Categoria,Descripcion,Marca,CantidadInicial,CantidadMaxima,CantidadMinima,CantidadRestock,CostoD,CostoE,PrecioD,PrecioE,Porcentaje,TipoImpuesto)
+      Alert.alert('El producto se agrego de manera exitosa');
       navigation.navigate('VistaInventario')
     };
   }
@@ -58,17 +64,47 @@ const NewProduct = () =>{
   const [imgUrl, setimgUrl] = useState("https://cdn-icons-png.freepik.com/512/5733/5733887.png")
   
   const openCameraLib = async() =>{
-    console.log("PRESSS=====>>")
-    const result = await ImagePicker.launchCameraAsync({cameraType: ImagePicker.CameraType.front});
-    setimgUrl(result?.assets[0]?.uri)
-    console.log("RESULT ===>>", result)
+      let result = await ImagePicker.launchCameraAsync({cameraType: ImagePicker.CameraType.front});
+      setimgUrl(result?.assets[0]?.uri)
   }
 
-  const openImageLib = async() =>{
-    console.log("PRESSS=====>>2")
-    const result = await ImagePicker.launchImageLibraryAsync({imageType: ImagePicker.MediaTypeOptions.Images});
-    setimgUrl(result?.assets[0]?.uri)
-    console.log("RESULT ===>>", result)
+ 
+  async function pickImage() {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [3, 4],
+      quality: 1,
+    });
+    if (!result.canceled) {
+      setimgUrl(result.assets[0].uri);
+      await uploadImage(result.assets[0].uri, "image");
+    }
+
+    
+    async function uploadImage(uri, fileType){
+      const response = await fetch(uri)
+      const blob =  await response.blob()
+  
+      const storageRef = ref(storage,"Imagenes/"+new Date().getTime())
+      const uploadTask = uploadBytesResumable(storageRef,blob)
+  
+      uploadTask.on("state_changed",
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          console.log("Upload is" + progress + "% done")
+        },
+        (error) =>{
+  
+        },
+        () =>{
+          getDownloadURL(uploadTask.snapshot.ref).then(async(downloadURL) =>{
+            console.log("File available at", downloadURL)
+            setImagen(downloadURL)
+          })
+        }
+        )
+    }
   }
 
     const [showView, setShowView] = useState(false);
@@ -145,36 +181,36 @@ const NewProduct = () =>{
     
     const numeroEntero = parseInt(texto6, 10)
     
-    setCantidadInicial(numeroEntero);}}
+    setCantidadMaxima(numeroEntero);}}
 />
 <TextInput
   style={styles.textinput}
   placeholder='Cantidad minima en el Inventario'
   placeholderTextColor='#FFFFFF'
-  onChangeText={(texto6) => {
+  onChangeText={(texto7) => {
     
-    const numeroEntero = parseInt(texto6, 10)
+    const numeroEntero = parseInt(texto7, 10)
     
-    setCantidadInicial(numeroEntero);}}
+    setCantidadMinima(numeroEntero);}}
 />
 <TextInput
   style={styles.textinput}
   placeholder='Cantidad restock para el Inventario'
   placeholderTextColor='#FFFFFF'
-  onChangeText={(texto6) => {
+  onChangeText={(texto8) => {
     
-    const numeroEntero = parseInt(texto6, 10)
+    const numeroEntero = parseInt(texto8, 10)
     
-    setCantidadInicial(numeroEntero);}}
+    setCantidadRestock(numeroEntero);}}
 />
 
 <TextInput
   style={styles.textinput}
   placeholder='Costo por unidad ($)'
   placeholderTextColor='#FFFFFF'
-  onChangeText={(texto7) => {
+  onChangeText={(texto9) => {
     
-    const numeroEntero = parseInt(texto7, 10)
+    const numeroEntero = parseInt(texto9, 10)
     
     setCostoD(numeroEntero);}}
 />
@@ -183,9 +219,9 @@ const NewProduct = () =>{
   style={styles.textinput}
   placeholder='Costo por unidad (Efectivo)'
   placeholderTextColor='#FFFFFF'
-  onChangeText={(texto8) => {
+  onChangeText={(texto10) => {
     
-    const numeroEntero = parseInt(texto8, 10)
+    const numeroEntero = parseInt(texto10, 10)
     
     setCostoE(numeroEntero);}}
 />
@@ -194,9 +230,9 @@ const NewProduct = () =>{
   style={styles.textinput}
   placeholder='Precio por unidad ($)'
   placeholderTextColor='#FFFFFF'
-  onChangeText={(texto9) => {
+  onChangeText={(texto11) => {
     
-    const numeroEntero = parseInt(texto9, 10)
+    const numeroEntero = parseInt(texto11, 10)
     
     setPrecioD(numeroEntero);}}
 />
@@ -205,9 +241,9 @@ const NewProduct = () =>{
   style={styles.textinput}
   placeholder='Precio por unidad (Efectivo)'
   placeholderTextColor='#FFFFFF'
-  onChangeText={(texto11) => {
+  onChangeText={(texto12) => {
     
-    const numeroEntero = parseInt(texto11, 10)
+    const numeroEntero = parseInt(texto12, 10)
     
     setPrecioE(numeroEntero);}}
 />
@@ -216,7 +252,7 @@ const NewProduct = () =>{
   style={styles.textinput}
   placeholder='Tipo de Impuesto'
   placeholderTextColor='#FFFFFF'
-  onChangeText={(texto12) => setTipoImpuesto(texto12)}
+  onChangeText={(texto13) => setTipoImpuesto(texto13)}
 />
 
 <View style = {{flexDirection: "row"}}>
@@ -228,11 +264,11 @@ const NewProduct = () =>{
             onValueChange={handleToggleText}
             value={isEnabledText}
         />
-            {isEnabledText && <TextInput
+        {isEnabledText && <TextInput
         style={styles.textinputDescuento}
         placeholder='Porcentaje'
         placeholderTextColor='#FFFFFF'
-        onChangeText={(texto) => setImagen(texto)}
+        onChangeText={(texto14) => setPorcentaje(texto14)}
         />}
         </View>
 <View >
@@ -246,11 +282,11 @@ const NewProduct = () =>{
         style={styles.textinput}
         placeholder='URL de la Imagen'
         placeholderTextColor='#FFFFFF'
-        onChangeText={(texto) => setImagen(texto)}
+        onChangeText={(texto15) => setImagen(texto15)}
         />}
         {isEnabled && (
-            <TouchableOpacity style={styles.buttonImage} onPress={handlePress}>
-            <Image resizeMode = "contain" style = {styles.img} source = {{uri: imgUrl}} />
+            <TouchableOpacity style={styles.buttonImage} onPress={handlePress} >
+            <Image resizeMode = "contain" style = {styles.img} source = {{uri: imgUrl}}/>
             </TouchableOpacity>
         )}
             {showView && (
@@ -258,7 +294,7 @@ const NewProduct = () =>{
               <TouchableOpacity onPress = {openCameraLib}>
               <Image style = {{width: 100, height:100}} source={require('./Imagenes/Camara.png')} />
               </TouchableOpacity>
-              <TouchableOpacity  onPress = {openImageLib}>
+              <TouchableOpacity  onPress = {pickImage}>
               <Image style = {{width: 100, height:100}} source={require('./Imagenes/Image.png')}  />
               </TouchableOpacity>
               </View>
@@ -359,5 +395,4 @@ const styles = StyleSheet.create({
       },
       
   });
-
 export default NewProduct
