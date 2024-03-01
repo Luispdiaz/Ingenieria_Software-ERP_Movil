@@ -6,7 +6,8 @@ const theme = {
       cuartario: "#490bfc",
       textPrimary: "#FFFFFF",   //Color del texto principal
       textSecondary: "#8A2BE2", //Color del texto secundario
-      background: "#000000" 
+      background: "#000000",
+      transparent: 'rgba(0,0,0,0)' //Transparente
   },
   FontsFamily: {
     playfair: {
@@ -38,6 +39,10 @@ text: {
   smalltext: {
     fontSize: 13,
     fontWeight: 'normal',
+  },
+  hypertitle: {
+    fontSize: 34,
+    fontWeight: 'bold'
   },
   title: {
     fontSize: 24,

@@ -111,7 +111,15 @@ const Styles = StyleSheet.create({
     contenedorMas:{ 
       width: windowHeight * 0.06,
         height: windowHeight * 0.06, 
-        marginLeft:7}
+        marginLeft:7},
+    backButton: {
+      position: 'absolute',
+      left: Constants.statusBarHeight * 0.01,
+      padding: 10,
+      zIndex: 1,
+      alignSelf:'flex-start',
+      justifyContent:'flex-start'
+    }
     
   });
   
@@ -159,6 +167,16 @@ const InventoryView = () =>{
             style={Styles.contenedorPrincipal}
         >
     <View style={Styles.contenedorTitulo}>
+    <View style={Styles.backButton}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+        >
+          <Image
+          source={require('../Assets/image (3).png')}
+          style={Styles.TextoModificar}
+        />
+        </TouchableOpacity>
+        </View>
         <Text style={Styles.tituloInventario}>Inventario</Text>
     </View>
     

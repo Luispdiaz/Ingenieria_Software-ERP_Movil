@@ -101,3 +101,9 @@ crear y modificar productos.
 - Se han agregado los filtros por categoria en la vista del inventario
 
 ## [1.2.0] - 2024-2-22 
+
+### Added
+
+- Se han agregado el menu principal
+
+## [1.3.0] - 2024-2-22 

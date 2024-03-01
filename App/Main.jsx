@@ -7,6 +7,7 @@ import InitialPageView from "../Inventory/Components/InitialPageView";
 import MainNewProduct from "../NewProducts/Components/MainNewProduct";
 import MainUpdateProduct from "../NewProducts/Components/MainUpdateProduct";
 import NewProduct from "../NewProducts/Components/ProductDescription";
+import MainMenu from "../Inventory/Components/MainMenu";
 import { ProductContextProvider } from "../Context/ProductContext";
 import ContactsView from "../Contacts/Components/ContactsView";
 import { ContactContextProvider } from "../Context/ContactContext";
@@ -30,6 +31,7 @@ const Main = () => {
       <ProductContextProvider>
       <Stack.Navigator>
       <Stack.Screen name="PaginaInicial" component={InitialPageView} options={{ headerShown: false }}></Stack.Screen>
+      <Stack.Screen name="MenuPrincipal" component={MainMenu} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name="VistaInventario" component={InventoryView} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name="VistaProducto" component={ProductView} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name="CrearProducto" component={NewProduct} options={{ headerShown: false }}></Stack.Screen>

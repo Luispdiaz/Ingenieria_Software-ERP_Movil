@@ -60,6 +60,14 @@ const Styles = StyleSheet.create({
         width: 24, 
         height: 20, 
         marginRight: 10, 
+      },
+      backButton: {
+        position: 'absolute',
+        left: Constants.statusBarHeight * 0.01,
+        padding: 10,
+        zIndex: 1,
+        alignSelf:'flex-start',
+        justifyContent:'flex-start'
       }
 })
 
@@ -102,6 +110,16 @@ const ContactsView = () => {
         style={Styles.contenedorPrincipal}
       >
         <View style={Styles.contenedorTitulo}>
+          <View style={Styles.backButton}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+        >
+          <Image
+          source={require('../Assets/image (3).png')}
+          style={Styles.TextoModificar}
+        />
+        </TouchableOpacity>
+        </View>
           <Text style={Styles.tituloInventario}>Contactos</Text>
         </View>
   

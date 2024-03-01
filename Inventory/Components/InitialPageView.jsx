@@ -27,7 +27,7 @@ const InitialPageView = () =>{
     useEffect(() => {
         const timer = setTimeout(() => {
             setShowSplash(false);
-            navigation.navigate("VistaContactos");
+            navigation.navigate("MenuPrincipal");
         }, 3000); 
 
         return () => clearTimeout(timer);
