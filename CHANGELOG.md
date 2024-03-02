@@ -107,3 +107,9 @@ crear y modificar productos.
 - Se han agregado el menu principal
 
 ## [1.3.0] - 2024-2-22 
+
+### Added
+
+- Se ha agregado el modulo de Contactos, incluyendo vista principal de los contactos y redireccionando a crear, modificar y vista individual del contacto.
+
+## [1.4.0] - 2024-3-01 
