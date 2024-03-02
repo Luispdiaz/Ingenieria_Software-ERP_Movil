@@ -104,7 +104,7 @@ crear y modificar productos.
 
 ### Added
 
-- Se han agregado el menu principal
+- Se han agregado el menu principal.
 
 ## [1.3.0] - 2024-2-22 
 
