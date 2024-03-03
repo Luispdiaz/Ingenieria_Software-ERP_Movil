@@ -113,3 +113,9 @@ crear y modificar productos.
 - Se ha agregado el modulo de Contactos, incluyendo vista principal de los contactos y redireccionando a crear, modificar y vista individual del contacto.
 
 ## [1.4.0] - 2024-3-01 
+
+### Added
+
+- Se ha agregado la primera parte del modulo de ventas que es identificar el cliente o en su defecto registrarlo.
+
+## [1.5.0] - 2024-3-02 
