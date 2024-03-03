@@ -4,13 +4,13 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import InventoryView from "../Inventory/Components/InventoryView";
 import ProductView from "../Inventory/Components/ProductView";
 import InitialPageView from "../Inventory/Components/InitialPageView";
-import MainNewProduct from "../NewProducts/Components/MainNewProduct";
 import MainUpdateProduct from "../NewProducts/Components/MainUpdateProduct";
 import NewProduct from "../NewProducts/Components/ProductDescription";
 import MainMenu from "../Inventory/Components/MainMenu";
 import { ProductContextProvider } from "../Context/ProductContext";
 import ContactsView from "../Contacts/Components/ContactsView";
 import { ContactContextProvider } from "../Context/ContactContext";
+import { VentaContextProvider } from "../Context/VentaContext";
 import ContactView from "../Contacts/Components/ContactView";
 import NewContact from "../Contacts/Components/CreateContactView";
 import UpdateContact from "../Contacts/Components/UpdateContact";
@@ -18,6 +18,7 @@ import IdentificationView from "../Sales/Components/IdentificationView";
 import ConfirmContact from "../Sales/Components/ConfirmContact";
 import ShoppingCartView from "../Sales/Components/ShoppingCartView";
 import NewClient from "../Sales/Components/NewClient";
+import SelectedProductsView from "../Sales/Components/SelectedProductsView";
 
 
 const Stack = createNativeStackNavigator();
@@ -31,6 +32,7 @@ const Styles = StyleSheet.create({
 const Main = () => {
     return (
       <View style={Styles.contenedorPrincipal}>
+      <VentaContextProvider>
       <ContactContextProvider>
       <ProductContextProvider>
       <Stack.Navigator>
@@ -48,9 +50,11 @@ const Main = () => {
       <Stack.Screen name="VistaConfirmarInfoPV" component={ConfirmContact} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name="VistaRegistroPV" component={NewClient} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name="VistaCarritoCompras" component={ShoppingCartView} options={{ headerShown: false }}></Stack.Screen>
+      <Stack.Screen name="VistaProductosVenta" component={SelectedProductsView} options={{ headerShown: false }}></Stack.Screen>
       </Stack.Navigator>
       </ProductContextProvider>
       </ContactContextProvider>
+      </VentaContextProvider>
       </View>
     );
   };
