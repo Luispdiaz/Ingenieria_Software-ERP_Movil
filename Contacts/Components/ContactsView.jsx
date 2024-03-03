@@ -172,7 +172,7 @@ const ContactsView = () => {
             placeholder="¿A quién deseas buscar?"
             placeholderTextColor='#FFFFFF'
             onChangeText={(texto1) => setBusquedaC(texto1)}
-            onSubmitEditing={() =>buscarContactos(BusquedaC)}
+            onSubmitEditing={() => buscarContactos(BusquedaC)}
             />
         <TouchableOpacity activeOpacity={1} onPress={() => navigation.navigate("CrearContacto")}>
         <Image

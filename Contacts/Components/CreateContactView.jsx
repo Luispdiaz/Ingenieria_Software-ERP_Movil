@@ -36,30 +36,37 @@ const NewContact = () => {
   
     const handleSubmit = async () => {
 
-        if (!isValidNumber(CantidadInicial) || !isValidNumber(PrecioD) || !isValidNumber(PrecioE) || !isValidNumber(CostoD) || !isValidNumber(CostoE)) {
-            Alert.alert('Error', 'Por favor, ingresa valores válidos');
-            navigation.navigate("VistaContactos");
-          }
-          else {
-        createContact(cont_tipo_documento,
-            cont_id_fiscal,
-            nombre,
-            fecha_nacimiento,
-            cod_telefono,
-            telefono,
-            correo,
-            direccion,
-            contribuyente,
-            condicion_venta,
-            credito_total,
-            credito_vence,
-            vendedor,
-            fecha_ingreso,
-            cliente,
-            empleado,
-            proveedor,
-            imagen,
-            Contacto_pkey)
+      if (cont_tipo_documento === null || cont_id_fiscal === null || nombre === null || fecha_nacimiento === null || cod_telefono === null || telefono === null || direccion === null) {
+        Alert.alert('Error', 'Por favor, completa todos los campos obligatorios');
+        return;
+      }
+
+      else if (!isValidString(cont_tipo_documento) || !isValidNumber(cont_id_fiscal) || !isValidString(nombre) || !isValidDate(fecha_nacimiento) || !isValidNumber(cod_telefono) || !isValidNumber(telefono) || !isValidString(direccion)) {
+        Alert.alert('Error', 'Por favor, ingresa valores válidos');
+        return;
+      }
+
+      else {
+      createContact(
+        cont_tipo_documento,
+        cont_id_fiscal,
+        nombre,
+        fecha_nacimiento,
+        cod_telefono,
+        telefono,
+        correo,
+        direccion,
+        contribuyente,
+        condicion_venta,
+        credito_total,
+        credito_vence,
+        vendedor,
+        fecha_ingreso,
+        cliente,
+        empleado,
+        proveedor,
+        imagen
+      )
         Alert.alert('El contacto se agregó de manera exitosa');
         navigation.navigate('VistaContactos')
       };

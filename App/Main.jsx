@@ -14,6 +14,10 @@ import { ContactContextProvider } from "../Context/ContactContext";
 import ContactView from "../Contacts/Components/ContactView";
 import NewContact from "../Contacts/Components/CreateContactView";
 import UpdateContact from "../Contacts/Components/UpdateContact";
+import IdentificationView from "../Sales/Components/IdentificationView";
+import ConfirmContact from "../Sales/Components/ConfirmContact";
+import ShoppingCartView from "../Sales/Components/ShoppingCartView";
+import NewClient from "../Sales/Components/NewClient";
 
 
 const Stack = createNativeStackNavigator();
@@ -40,6 +44,10 @@ const Main = () => {
       <Stack.Screen name="VistaContacto" component={ContactView} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name="CrearContacto" component={NewContact} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name="ModificarContacto" component={UpdateContact} options={{ headerShown: false }}></Stack.Screen>
+      <Stack.Screen name="VistaIdentificacion" component={IdentificationView} options={{ headerShown: false }}></Stack.Screen>
+      <Stack.Screen name="VistaConfirmarInfoPV" component={ConfirmContact} options={{ headerShown: false }}></Stack.Screen>
+      <Stack.Screen name="VistaRegistroPV" component={NewClient} options={{ headerShown: false }}></Stack.Screen>
+      <Stack.Screen name="VistaCarritoCompras" component={ShoppingCartView} options={{ headerShown: false }}></Stack.Screen>
       </Stack.Navigator>
       </ProductContextProvider>
       </ContactContextProvider>

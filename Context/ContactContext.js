@@ -75,9 +75,25 @@ export const ContactContextProvider = ({children}) =>{
         cliente,
         empleado,
         proveedor,
-        imagen,
-        Contacto_pkey) => {
+        imagen) => {
         try {
+          console.log(cont_id_fiscal,
+            nombre,
+            fecha_nacimiento,
+            cod_telefono,
+            telefono,
+            correo,
+            direccion,
+            contribuyente,
+            condicion_venta,
+            credito_total,
+            credito_vence,
+            vendedor,
+            fecha_ingreso,
+            cliente,
+            empleado,
+            proveedor,
+            imagen)
             const {error, data} = await Supa.from('Contacto').insert([
                 {cont_tipo_documento:cont_tipo_documento,
                   cont_id_fiscal:cont_id_fiscal,
@@ -96,8 +112,7 @@ export const ContactContextProvider = ({children}) =>{
                   cliente:cliente,
                   empleado:empleado,
                   proveedor:proveedor,
-                  imagen:imagen,
-                  Contacto_pkey:Contacto_pkey}
+                  imagen:imagen}
             
             ]).select()
           if (error) throw error
@@ -120,11 +135,37 @@ export const ContactContextProvider = ({children}) =>{
       const contactosOrdenados = [...contactosActualizados].sort((a, b) => a.nombre.localeCompare(b.nombre));
       
       setContactos(contactosOrdenados);
+  } 
+
+  const buscarContactosporCedula = async (valorContIdFiscal) => {
+    try {
+      const { data, error } = await Supa
+      .from("Contacto")
+      .select('*')
+      .eq('cont_id_fiscal', valorContIdFiscal)
+  
+      if (error) {
+        console.error('Error al buscar el contacto:', error.message);
+        return null; 
+    }
+
+    if (data.length > 0) {
+        const contactoEncontrado = data[0];
+        return contactoEncontrado;
+    } else {
+        console.log('No se encontró ningún contacto con ese cont_id_fiscal');
+        return null;
+    }
+      
+      
+    } catch (error) {
+      console.error('Error general:', error.message);
+    }
   }
 
 
     return(
-        <ContactContext.Provider value={{Contactos, getContacts, buscarContactos, buscarContactosporTipo, createContact, UpdateContact}}>
+        <ContactContext.Provider value={{Contactos, getContacts, buscarContactos, buscarContactosporTipo, createContact, UpdateContact, buscarContactosporCedula}}>
         {children}
         </ContactContext.Provider>
     )
