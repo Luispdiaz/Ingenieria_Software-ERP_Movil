@@ -119,3 +119,9 @@ crear y modificar productos.
 - Se ha agregado la primera parte del modulo de ventas que es identificar el cliente o en su defecto registrarlo.
 
 ## [1.5.0] - 2024-3-02 
+
+### Added
+
+- Se han agregado mas funcionalidades al modulo de ventas, entre ellas el calculo de los montos totales
+
+## [1.6.0] - 2024-3-03 
