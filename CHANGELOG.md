@@ -125,11 +125,3 @@ crear y modificar productos.
 - Se han agregado mas funcionalidades al modulo de ventas, entre ellas el calculo de los montos totales
 
 ## [1.6.0] - 2024-3-03 
-
-### Added
-
-- Se hizo creacion y actualizacion de producto
-
-## [1.7.0] - 2024-3-04
-
-
