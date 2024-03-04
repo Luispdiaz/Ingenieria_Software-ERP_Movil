@@ -70,3 +70,58 @@ Este proyecto sigue la convención de versionado semántico.
 - Cree los botones en crear y modificar producto, rellene los campos con los datos en modificar producto y adapte el contenedor de la descripcion
 
 ## [0.9.0] - 2024-2-13
+
+### Added
+
+- Se crearon las conexiones correspondientes con la Base de Datos, para poder visualizar los productos disponibles y 
+crear y modificar productos.
+
+## [0.10.0] - 2024-2-16
+
+### Version
+
+- Se ha subido la primera version a producción.
+
+## [1.0.0] - 2024-2-22 
+
+### Changed
+
+- Se ha modificado el esilo de la tarjetas y del fondo
+
+## [1.0.1] - 2024-2-22 
+
+### Added
+
+- Se ha agregado el buscador en la vista del inventario
+
+## [1.1.0] - 2024-2-22 
+
+### Added
+
+- Se han agregado los filtros por categoria en la vista del inventario
+
+## [1.2.0] - 2024-2-22 
+
+### Added
+
+- Se han agregado el menu principal.
+
+## [1.3.0] - 2024-2-22 
+
+### Added
+
+- Se ha agregado el modulo de Contactos, incluyendo vista principal de los contactos y redireccionando a crear, modificar y vista individual del contacto.
+
+## [1.4.0] - 2024-3-01 
+
+### Added
+
+- Se ha agregado la primera parte del modulo de ventas que es identificar el cliente o en su defecto registrarlo.
+
+## [1.5.0] - 2024-3-02 
+
+### Added
+
+- Se han agregado mas funcionalidades al modulo de ventas, entre ellas el calculo de los montos totales
+
+## [1.6.0] - 2024-3-03 

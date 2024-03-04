@@ -6,7 +6,7 @@ import theme from "../../Inventory/Themes/Theme";
 import UpdateProduct from "./UpdateProduct";
 import ButtonsUpdate from "./ButtonsUpdate";
 import UpdateHeader from "./HeaderUpdateProduct";
-const image = require("./Imagenes/Fondo.png");
+const image = require("../Imagenes/Fondo.png");
 const MainUpdateProduct = ({route}) =>{
     
     const props = route.params.props

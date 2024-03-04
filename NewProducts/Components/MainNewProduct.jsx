@@ -2,12 +2,12 @@ import React from "react";
 import Constants  from "expo-constants";
 import { StyleSheet,Text, View, ImageBackground, ScrollView, SafeAreaView} from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
-import theme from "../../Inventory/Themes/Theme";
+import theme from "../../Inventory/Themes/Theme";;
 import Header from "./HeaderCreateProduct";
-import NewProduct from "./ProductDescription";
+import NewProduct from "./ProductDescription";;
 
 
-const image = require("./Imagenes/Fondo.png");
+const image = require("../Imagenes/Fondo.png");
 const MainNewProduct = () =>{
   return(
     <LinearGradient

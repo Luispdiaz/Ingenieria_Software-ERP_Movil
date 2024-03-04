@@ -12,6 +12,7 @@ export const useProducts = () =>{
 export const ProductContextProvider = ({children}) =>{
 
     const [Productos, setProductos] = useState([])
+    const [Categorias, setCategorias] = useState([])
 
     const getProducts = async () => {
         const {error, data} = await Supa.from("Productos").select();
@@ -70,8 +71,63 @@ export const ProductContextProvider = ({children}) =>{
         ))
     }
 
+    const buscarProductos = async (searchText) => {
+        try {
+
+          const { data, error } = await Supa
+            .from("Productos")
+            .select('*')
+            .or(`nombre.ilike."*${searchText}*",descripcion.ilike."*${searchText}*",categoria.ilike."*${searchText}*",sub_categorias.ilike."*${searchText}*",color.ilike."*${searchText}*",marca.ilike."*${searchText}*",modelo.ilike."*${searchText}*"`);
+          
+          if (error) {
+            return;
+          }
+          setProductos(data)
+        } catch (error) {
+          console.error('Error general:', error.message);
+        }
+      };
+
+      const obtenerCategoriasUnicas = async () => {
+        try {
+          const { data, error } = await Supa
+            .from("Productos")
+            .select("categoria")
+      
+          if (error) {
+            throw error;
+          }
+          
+  const todasLasCategorias = data.map(item => item.categoria);
+  const categoriasUnicas = [...new Set(todasLasCategorias)];
+  setCategorias(categoriasUnicas)
+      
+        } catch (error) {
+          console.error('Error al obtener categorías:', error.message);
+          return [];
+        }
+      };
+
+      const buscarProductosPorCategoria = async (categoria) => {
+        try {
+          const { data, error } = await Supa
+            .from("Productos")
+            .select('*')
+            .eq('categoria', categoria);
+      
+          if (error) {
+            return;
+          }
+          
+          setProductos(data);
+        } catch (error) {
+          console.error('Error general:', error.message);
+        }
+      }
+
+
     return(
-        <ProductContext.Provider value={{Productos, getProducts, createProduct, UpdateProduct}}>
+        <ProductContext.Provider value={{Productos, getProducts, createProduct, UpdateProduct, buscarProductos, obtenerCategoriasUnicas, Categorias, buscarProductosPorCategoria}}>
         {children}
         </ProductContext.Provider>
     )

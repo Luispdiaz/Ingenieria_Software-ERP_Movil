@@ -9,11 +9,16 @@ const windowHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     contenedor: {
       flex: 1,
-      margin: 20,
-      borderColor: theme.colors.cuartario,
-      borderWidth: 2,
+      margin: 5,
+      borderWidth:0,
       borderRadius: 25,
       height: windowHeight * 0.22,
+      backgroundColor: "rgba(128, 41, 181, 0.15)",
+    shadowColor: 'rgba(0, 0, 0, 0.7)', // Color de la sombra
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 1,
+    shadowRadius: 6
+
     },
     NombreProducto: {
         color: theme.colors.textPrimary,
@@ -23,6 +28,10 @@ const styles = StyleSheet.create({
       EstiloImagen:{
         height: windowHeight * 0.15,
         borderRadius:25,
+        },
+        shadowContainer: {
+          ...StyleSheet.absoluteFillObject,
+          borderRadius: 15,
         }
   });
 
@@ -40,9 +49,10 @@ return(
         <Text style={styles.NombreProducto}>
             {props.nombre}
         </Text>
-        </View>
-        
     </View>
+    
+    </View>
+
     
 )
 }

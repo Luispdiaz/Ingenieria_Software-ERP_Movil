@@ -14,7 +14,7 @@ import { isEmpty } from '@firebase/util';
 
 
 
-const image = require("./Imagenes/Fondo.png");
+const image = require("../Imagenes/Fondo.png");
 
 const NewProduct = () =>{
   const [CodProveedor, setCodProveedor] = useState('');
@@ -444,10 +444,10 @@ const NewProduct = () =>{
             {showView && (
               <View style={styles.view}>
               <TouchableOpacity onPress = {openCameraLib}>
-              <Image style = {{width: 100, height:100}} source={require('./Imagenes/Camara.png')} />
+              <Image style = {{width: 100, height:100}} source={require('../Imagenes/Camara.png')} />
               </TouchableOpacity>
               <TouchableOpacity  onPress = {pickImage}>
-              <Image style = {{width: 100, height:100}} source={require('./Imagenes/Image.png')}  />
+              <Image style = {{width: 100, height:100}} source={require('../Imagenes/Image.png')}  />
               </TouchableOpacity>
               </View>
             )}

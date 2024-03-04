@@ -12,7 +12,7 @@ import UpdateHeader from './HeaderUpdateProduct';
 import { isEmpty } from '@firebase/util';
 
 
-const image = require("./Imagenes/Fondo.png");
+const image = require("../Imagenes/Fondo.png");
 
 
 const UpdateProduct = ({Lista}) =>{
@@ -438,10 +438,10 @@ async function pickImage() {
             {showView && (
               <View style={styles.view}>
               <TouchableOpacity style = {styles.btnCam} onPress = {openCameraLib}>
-              <Image style = {{width: 100, height:100}} source={require('./Imagenes/Camara.png')} />
+              <Image style = {{width: 100, height:100}} source={require('../Imagenes/Camara.png')} />
               </TouchableOpacity>
               <TouchableOpacity style = {styles.btnCam} onPress = {pickImage}>
-              <Image style = {{width: 100, height:100}} source={require('./Imagenes/Image.png')}  />
+              <Image style = {{width: 100, height:100}} source={require('../Imagenes/Image.png')}  />
               </TouchableOpacity>
               </View>
             )}
