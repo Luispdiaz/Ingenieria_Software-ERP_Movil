@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
 
   const TypeContact = ({ nombre, icono, color, isSelected, onPress }) => {
     const borderColor = isSelected ? 'white' : 'transparent';
+    const backgroundColor = isSelected ? '#5909fe' : color;
   
     return (
       <TouchableOpacity activeOpacity={1} onPress={() => onPress(nombre)} style={{flex: 1,
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 1,
         shadowRadius: 6,
-        backgroundColor: color}}>
+        backgroundColor: backgroundColor}}>
        
           <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
             <Image style={{ alignSelf: 'center', height: windowHeight * 0.045 }} source={icono} />

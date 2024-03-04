@@ -134,7 +134,7 @@ const ContactsView = () => {
           <TypeContact
             nombre="empleado"
             icono={require("../Assets/assetC_2.png")}
-            color="#1b1f4c"
+            color="#8a2be2"
             onPress={handleTypePress}
             isSelected={selectedType === "empleado"}
           ></TypeContact>
