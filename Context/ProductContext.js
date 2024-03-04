@@ -61,6 +61,7 @@ export const ProductContextProvider = ({children}) =>{
 
     const UpdateProduct = async (id, CamposActualizados) => {
         const {error , data } = await Supa.from("Productos").update(CamposActualizados).eq("id_producto",id).select()
+        
 
         if (error) throw error
 

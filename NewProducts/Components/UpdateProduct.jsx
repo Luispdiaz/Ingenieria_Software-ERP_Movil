@@ -9,6 +9,7 @@ import * as ImagePicker from "expo-image-picker"
 import {useEffect } from 'react';
 import Constants from 'expo-constants';
 import UpdateHeader from './HeaderUpdateProduct';
+import { isEmpty } from '@firebase/util';
 
 
 const image = require("./Imagenes/Fondo.png");
@@ -22,12 +23,18 @@ const UpdateProduct = ({Lista}) =>{
     const [Marca, setMarca] = useState('');
     const [Categoria, setCategoria] = useState('');
     const [CantidadInicial, setCantidadInicial] = useState('');
+    const [CantidadMaxima, setCantidadMaxima] = useState('');
+    const [CantidadMinima, setCantidadMinima] = useState('');
+    const [CantidadRestock, setCantidadRestock] = useState('');
     const [PrecioD, setPrecioD] = useState('');
     const [PrecioE, setPrecioE] = useState('');
     const [CostoD, setCostoD] = useState('');
     const [CostoE, setCostoE] = useState('');
+    const [Porcentaje, setPorcentaje] = useState(0);
     const [TipoImpuesto, setTipoImpuesto] = useState('');
     const [Imagen, setImagen] = useState('');
+    const[Empty, setEmpty] = useState(false)
+
     const navigation = useNavigation()
 
     const [isEnabled, setIsEnabled] = useState(false);
@@ -41,6 +48,10 @@ const UpdateProduct = ({Lista}) =>{
   };
 
     const handleSubmit = () => {
+      if (Empty){
+        Alert.alert("AVISO!!","Debe llenar todos los campos para agregar el producto")
+      }
+      else{
         if (!isValidNumber(CantidadInicial) || !isValidNumber(PrecioD) || !isValidNumber(PrecioE) || !isValidNumber(CostoD) || !isValidNumber(CostoE)) {
             Alert.alert('Error', 'Por favor, ingresa valores válidos');
             navigation.navigate("VistaInventario");
@@ -57,9 +68,9 @@ const UpdateProduct = ({Lista}) =>{
                 marca: Marca,
                 modelo: null,
                 cantidad_existencia: CantidadInicial,
-                minima_cantidad:null,
-                maxima_cantidad:null,
-                reordenar_cantidad:null,
+                minima_cantidad:CantidadMinima,
+                maxima_cantidad:CantidadMaxima,
+                reordenar_cantidad:CantidadRestock,
                 costo_promedio_usd:null,
                 costo_promedio_efectivo:null,
                 costo_usd: CostoD,
@@ -69,11 +80,11 @@ const UpdateProduct = ({Lista}) =>{
                 tipo_impuesto:TipoImpuesto,
                 descuento_promocion:null,
                 conversion_usd_efectivo:null,
-                valor_descuento_promocion:null})
+                valor_descuento_promocion:Porcentaje})
                 Alert.alert('El producto se modificó de manera exitosa');
                 navigation.navigate("VistaInventario")
     }
-    
+    }
     }
 
   const isValidNumber = (value) => {
@@ -84,18 +95,74 @@ const UpdateProduct = ({Lista}) =>{
   const [imgUrl, setimgUrl] = useState("https://cdn-icons-png.freepik.com/512/5733/5733887.png")
 
   const openCameraLib = async() =>{
-    console.log("PRESSS=====>>")
-    const result = await ImagePicker.launchCameraAsync({cameraType: ImagePicker.CameraType.front});
-    setimgUrl(result?.assets[0]?.uri)
-    console.log("RESULT ===>>", result)
+    let result = await ImagePicker.launchCameraAsync({cameraType: ImagePicker.CameraType.front});
+    if (!result.canceled) {
+      setimgUrl(result.assets[0].uri);
+      await uploadImage(result.assets[0].uri, "image");
+    }
+    async function uploadImage(uri, fileType){
+      const response = await fetch(uri)
+      const blob =  await response.blob()
+  
+      const storageRef = ref(storage,"Imagenes/"+new Date().getTime())
+      const uploadTask = uploadBytesResumable(storageRef,blob)
+  
+      uploadTask.on("state_changed",
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          console.log("Upload is" + progress + "% done")
+        },
+        (error) =>{
+  
+        },
+        () =>{
+          getDownloadURL(uploadTask.snapshot.ref).then(async(downloadURL) =>{
+            console.log("File available at", downloadURL)
+            setImagen(downloadURL)
+          })
+        }
+        )
+    }
+}
+
+
+async function pickImage() {
+  let result = await ImagePicker.launchImageLibraryAsync({
+    mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    allowsEditing: true,
+    aspect: [3, 4],
+    quality: 1,
+  });
+  if (!result.canceled) {
+    setimgUrl(result.assets[0].uri);
+    await uploadImage(result.assets[0].uri, "image");
   }
 
-  const openImageLib = async() =>{
-    console.log("PRESSS=====>>2")
-    const result = await ImagePicker.launchImageLibraryAsync({imageType: ImagePicker.MediaTypeOptions.Images});
-    setimgUrl(result?.assets[0]?.uri)
-    console.log("RESULT ===>>", result)
+  
+  async function uploadImage(uri, fileType){
+    const response = await fetch(uri)
+    const blob =  await response.blob()
+
+    const storageRef = ref(storage,"Imagenes/"+new Date().getTime())
+    const uploadTask = uploadBytesResumable(storageRef,blob)
+
+    uploadTask.on("state_changed",
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        console.log("Upload is" + progress + "% done")
+      },
+      (error) =>{
+
+      },
+      () =>{
+        getDownloadURL(uploadTask.snapshot.ref).then(async(downloadURL) =>{
+          console.log("File available at", downloadURL)
+          setImagen(downloadURL)
+        })
+      }
+      )
   }
+}
 
   const [showView, setShowView] = useState(false);
     const handlePress = () => {
@@ -120,6 +187,14 @@ const UpdateProduct = ({Lista}) =>{
       placeholder={`Nombre del producto: ${Lista.nombre}`}
       placeholderTextColor="#FFFFFF"
       onChangeText={(texto1) => setNombre(texto1)}
+      onEndEditing = {() =>{
+        if(isEmpty(Nombre)){
+          setEmpty(true)
+          Alert.alert("Aviso", "El campo no debe estar vacio")
+          setEmpty(false)
+
+        }
+      }}
       />
 
       <TextInput
@@ -127,6 +202,14 @@ const UpdateProduct = ({Lista}) =>{
       placeholder={`Codigo Proveedor: ${Lista.cod_proveedor}`}
       placeholderTextColor="#FFFFFF"
       onChangeText={(texto2) => setCodProveedor(texto2)}
+      onEndEditing = {() =>{
+        if(isEmpty(CodProveedor)){
+          setEmpty(true)
+          Alert.alert("Aviso", "El campo no debe estar vacio")
+          setEmpty(false)
+
+        }
+      }}
       />
       
     <TextInput
@@ -134,6 +217,14 @@ const UpdateProduct = ({Lista}) =>{
     placeholder={`Categoria del producto: ${Lista.categoria}`}
     placeholderTextColor="#FFFFFF"
     onChangeText={(texto3) => setCategoria(texto3)}
+    onEndEditing = {() =>{
+      if(isEmpty(Categoria)){
+        setEmpty(true)
+        Alert.alert("Aviso", "El campo no debe estar vacio")
+        setEmpty(false)
+
+      }
+    }}
     />
     <TextInput
       style={styles.textinputDescription}
@@ -142,19 +233,30 @@ const UpdateProduct = ({Lista}) =>{
       scrollEnabled={true}
       placeholderTextColor="#FFFFFF"
       onChangeText={(texto4) => setDescripcion(texto4)}
+      onEndEditing = {() =>{
+        if(isEmpty(Descripcion)){
+          setEmpty(true)
+          Alert.alert("Aviso", "El campo no debe estar vacio")
+          setEmpty(false)
+
+        }
+      }}
     />
     <TextInput
       style={styles.textinput}
       placeholder={`Marca del producto: ${Lista.marca}`}
       placeholderTextColor="#FFFFFF"
       onChangeText={(texto5) => setMarca(texto5)}
+      onEndEditing = {() =>{
+        if(isEmpty(Marca)){
+          setEmpty(true)
+          Alert.alert("Aviso", "El campo no debe estar vacio")
+          setEmpty(false)
+
+        }
+      }}
     />
-    <TextInput
-      style={styles.textinput}
-      placeholder='URL de la Imagen'
-      placeholderTextColor='#FFFFFF'
-      onChangeText={(texto) => setImagen(texto)}
-      />
+    
     <TextInput
       style={styles.textinput}
       placeholder={`Cantidad inicial en el inventario: ${Lista.cantidad_existencia}`}
@@ -162,36 +264,84 @@ const UpdateProduct = ({Lista}) =>{
       onChangeText={(texto6) => {
         const numeroEntero = parseInt(texto6, 10)
         setCantidadInicial(numeroEntero);}}
+        onEndEditing = {() =>{
+          if(isEmpty(toString(CantidadInicial))){
+            setEmpty(true)
+            Alert.alert("Aviso", "El campo no debe estar vacio")
+            setEmpty(false)
+
+          }
+        }}
     />
     <TextInput
       style={styles.textinput}
-      placeholder='Cantidad maxima en el Inventario'
+      placeholder={`Cantidad maxima en el Inventario: ${Lista.maxima_cantidad}`}
       placeholderTextColor='#FFFFFF'
       onChangeText={(texto6) => {
         const numeroEntero = parseInt(texto6, 10)
-        setCantidadInicial(numeroEntero);}}
+        setCantidadMaxima(numeroEntero);}}
+        onEndEditing = {() =>{
+          if(isEmpty(toString(CantidadMaxima))){
+            setEmpty(true)
+            Alert.alert("Aviso", "El campo no debe estar vacio")
+            setEmpty(false)
+
+          }
+        }}
+    />
+    <TextInput
+      style={styles.textinput}
+      placeholder={`Cantidad minima en el Inventario: ${Lista.minima_cantidad}`}
+      placeholderTextColor='#FFFFFF'
+      onChangeText={(texto6) => {
+        const numeroEntero = parseInt(texto6, 10)
+        setCantidadMinima(numeroEntero);}}
+        onEndEditing = {() =>{
+          if(isEmpty(toString(CantidadMaxima))){
+            setEmpty(true)
+            Alert.alert("Aviso", "El campo no debe estar vacio")
+            setEmpty(false)
+
+          }
+        }}
     />
     <TextInput
     style={styles.textinput}
-    placeholder='Cantidad restock para el Inventario'
+    placeholder={`Cantidad restock en el Inventario: ${Lista.reordenar_cantidad}`}
     placeholderTextColor='#FFFFFF'
     onChangeText={(texto6) => {
     const numeroEntero = parseInt(texto6, 10)
-    setCantidadInicial(numeroEntero);}}
+    setCantidadRestock(numeroEntero);}}
+    onEndEditing = {() =>{
+      if(isEmpty(toString(CantidadRestock))){
+        setEmpty(true)
+        Alert.alert("Aviso", "El campo no debe estar vacio")
+        setEmpty(false)
+
+      }
+    }}
     />
     <TextInput
     style={styles.textinput}
-    placeholder='Costo por unidad ($)'
+    placeholder={`Costo por unidad ($): ${Lista.costo_usd}`}
     placeholderTextColor='#FFFFFF'
     onChangeText={(texto7) => {
       
       const numeroEntero = parseInt(texto7, 10)
       
       setCostoD(numeroEntero);}}
+      onEndEditing = {() =>{
+        if(isEmpty(toString(CostoD))){
+          setEmpty(true)
+          Alert.alert("Aviso", "El campo no debe estar vacio")
+          setEmpty(false)
+
+        }
+      }}
     />
     <TextInput
     style={styles.textinput}
-    placeholder='Costo por unidad (Efectivo)'
+    placeholder={`Costo por unidad (efectivo): ${Lista.costo_efectivo}`}
     placeholderTextColor='#FFFFFF'
     onChangeText={(texto8) => {
       
@@ -204,12 +354,28 @@ const UpdateProduct = ({Lista}) =>{
       placeholder={`Precio por unidad ($): ${Lista.precio_usd}`}
       placeholderTextColor="#FFFFFF"
       onChangeText={(texto) => setPrecioD(texto)}
+      onEndEditing = {() =>{
+        if(isEmpty(toString(PrecioD))){
+          setEmpty(true)
+          Alert.alert("Aviso", "El campo no debe estar vacio")
+          setEmpty(false)
+
+        }
+      }}
     />
     <TextInput
       style={styles.textinput}
       placeholder={`Precio por unidad (Efectivo): ${Lista.precio_efectivo}`}
       placeholderTextColor="#FFFFFF"
       onChangeText={(texto) => setPrecioE(texto)}
+      onEndEditing = {() =>{
+        if(isEmpty(toString(PrecioE))){
+          setEmpty(true)
+          Alert.alert("Aviso", "El campo no debe estar vacio")
+          setEmpty(false)
+
+        }
+      }}
     />
   
     <TextInput
@@ -217,7 +383,16 @@ const UpdateProduct = ({Lista}) =>{
       placeholder={`Tipo de Impuesto: ${Lista.tipo_impuesto}`}
       placeholderTextColor="#FFFFFF"
       onChangeText={(texto) => setTipoImpuesto(texto)}
+      onEndEditing = {() =>{
+        if(isEmpty(TipoImpuesto)){
+          setEmpty(true)
+          Alert.alert("Aviso", "El campo no debe estar vacio")
+          setEmpty(false)
+
+        }
+      }}
     />
+    
     <View style = {{flexDirection: "row"}}>
       <Text style = {styles.text}>Descuento</Text>
         <Switch trackColor= "yellow"
@@ -246,6 +421,14 @@ const UpdateProduct = ({Lista}) =>{
         placeholder='URL de la Imagen'
         placeholderTextColor='#FFFFFF'
         onChangeText={(texto) => setImagen(texto)}
+        onEndEditing = {() =>{
+          if(isEmpty(Imagen)){
+            setEmpty(true)
+            Alert.alert("Aviso", "El campo no debe estar vacio")
+            setEmpty(false)
+
+          }
+        }}
         />}
         {isEnabled && (
             <TouchableOpacity style={styles.buttonImage} onPress={handlePress}>
@@ -257,7 +440,7 @@ const UpdateProduct = ({Lista}) =>{
               <TouchableOpacity style = {styles.btnCam} onPress = {openCameraLib}>
               <Image style = {{width: 100, height:100}} source={require('./Imagenes/Camara.png')} />
               </TouchableOpacity>
-              <TouchableOpacity style = {styles.btnCam} onPress = {openImageLib}>
+              <TouchableOpacity style = {styles.btnCam} onPress = {pickImage}>
               <Image style = {{width: 100, height:100}} source={require('./Imagenes/Image.png')}  />
               </TouchableOpacity>
               </View>
