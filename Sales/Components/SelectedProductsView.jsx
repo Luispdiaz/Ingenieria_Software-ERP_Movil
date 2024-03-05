@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions, Image, ScrollView, TouchableOpacity, TextInput, FlatList } from "react-native";
+import { View, Text, StyleSheet, Dimensions, Image, ScrollView, TouchableOpacity, TextInput, FlatList, Modal } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from "@react-navigation/native";
 import Constants from 'expo-constants';
@@ -101,9 +101,62 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       color: '#ECF0F1',
     },
+    modalContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+      backgroundColor: '#fff',
+      width: '80%', // Puedes ajustar el ancho según tus necesidades
+      padding: 20,
+      borderRadius: 10,
+    },
+    modalTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      marginBottom: 15,
+      color: '#000',
+    },
+    paymentMethodContainer: {
+      padding: 10,
+      borderWidth: 1,
+      borderColor: '#000',
+      borderRadius: 5,
+      marginVertical: 5,
+    },
+    selectedPaymentMethod: {
+      borderColor: '#4D09FF',
+    },
+    paymentMethodText: {
+      color: '#000',
+    },
+    pagoRecibidoButton: {
+      marginTop: 20,
+      backgroundColor: '#4D09FF',
+      padding: 10,
+      borderRadius: 5,
+    },
+    pagoRecibidoButtonText: {
+      color: '#fff',
+      textAlign: 'center',
+      fontWeight: 'bold',
+    },
+    cancelButton: {
+      marginTop: 10,
+      backgroundColor: '#ff3333', // Puedes ajustar el color según tu preferencia
+      padding: 10,
+      borderRadius: 5,
+    },
+    cancelButtonText: {
+      color: '#fff',
+      textAlign: 'center',
+      fontWeight: 'bold',
+    }
   });
 
-const SelectedProductsView = () => {
+const SelectedProductsView = ({route}) => {
     const navigation = useNavigation()
     const [CodCliente, setCodCliente] = useState('');
     const { buscarContactosporCedula } = useContact()
@@ -141,6 +194,43 @@ const SelectedProductsView = () => {
       const impuestos = parseFloat(calcularImpuestos());
       return (totalBs + impuestos).toFixed(2);
     };
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedPaymentMethods, setSelectedPaymentMethods] = useState([]);
+
+  const paymentMethods = [
+    { id: 1, name: 'Pago Móvil' },
+    { id: 2, name: 'Efectivo' },
+    { id: 3, name: 'Punto de Venta' },
+  ];
+
+  const togglePaymentMethod = (methodId) => {
+    const isSelected = selectedPaymentMethods.includes(methodId);
+    if (isSelected) {
+      setSelectedPaymentMethods(selectedPaymentMethods.filter(id => id !== methodId));
+    } else {
+      setSelectedPaymentMethods([...selectedPaymentMethods, methodId]);
+    }
+  };
+
+  const renderPaymentMethod = ({ item }) => (
+    <TouchableOpacity
+      style={[
+        styles.paymentMethodContainer,
+        selectedPaymentMethods.includes(item.id) && styles.selectedPaymentMethod,
+      ]}
+      onPress={() => togglePaymentMethod(item.id)}
+    >
+      <Text style={styles.paymentMethodText}>{item.name}</Text>
+    </TouchableOpacity>
+  );
+
+  const handlePaymentReceived = () => {
+    ProductosVenta
+    
+    navigation.navigate("VistaNotadeEntrega", {route})
+  };
+
 
 
   return (
@@ -195,10 +285,33 @@ const SelectedProductsView = () => {
         <Text style={styles.totalTexto}>Total en Bolivares:</Text>
         <Text style={styles.totalNumero}>{calcularTotalFinal()} Bs</Text>
       </View>
-      <TouchableOpacity style={styles.pagarBoton} onPress={null}>
+      <TouchableOpacity style={styles.pagarBoton} onPress={() => setModalVisible(true)}>
         <Text style={styles.pagarTexto}>Pagar</Text>
       </TouchableOpacity>
     </View>
+    <Modal
+  animationType="slide"
+  transparent={true}
+  visible={modalVisible}
+  onRequestClose={() => setModalVisible(false)}
+>
+  <View style={styles.modalContainer}>
+    <View style={styles.modalContent}>
+      <Text style={styles.modalTitle}>Métodos de Pago Recibidos</Text>
+      <FlatList
+        data={paymentMethods}
+        renderItem={renderPaymentMethod}
+        keyExtractor={(item) => item.id.toString()}
+      />
+      <TouchableOpacity style={styles.pagoRecibidoButton} onPress={handlePaymentReceived}>
+        <Text style={styles.pagoRecibidoButtonText}>Confirmar Pago</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
+        <Text style={styles.cancelButtonText}>Cancelar</Text>
+      </TouchableOpacity>
+    </View>
+  </View>
+</Modal>
             
     </LinearGradient>
   );

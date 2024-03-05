@@ -77,23 +77,6 @@ export const ContactContextProvider = ({children}) =>{
         proveedor,
         imagen) => {
         try {
-          console.log(cont_id_fiscal,
-            nombre,
-            fecha_nacimiento,
-            cod_telefono,
-            telefono,
-            correo,
-            direccion,
-            contribuyente,
-            condicion_venta,
-            credito_total,
-            credito_vence,
-            vendedor,
-            fecha_ingreso,
-            cliente,
-            empleado,
-            proveedor,
-            imagen)
             const {error, data} = await Supa.from('Contacto').insert([
                 {cont_tipo_documento:cont_tipo_documento,
                   cont_id_fiscal:cont_id_fiscal,

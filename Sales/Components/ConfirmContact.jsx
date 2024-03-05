@@ -6,6 +6,7 @@ import Constants from 'expo-constants';
 import theme from "../../Inventory/Themes/Theme";
 import { useState } from "react";
 import { useContact } from "../../Context/ContactContext";
+import { useVenta } from "../../Context/VentaContext";
 
 const styles = StyleSheet.create({
     contenedorPrincipal: {
@@ -107,9 +108,11 @@ const styles = StyleSheet.create({
 
 const ConfirmContact = ({ route }) => {
     const navigation = useNavigation()
+    const { CrearCliente } = useVenta()
 
     const handleConfirmar = () => {
-        navigation.navigate("VistaCarritoCompras", { ...route.params });
+        CrearCliente(route.params)
+        navigation.navigate("VistaCarritoCompras");
       }
   
 

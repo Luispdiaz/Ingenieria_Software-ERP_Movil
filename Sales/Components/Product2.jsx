@@ -162,11 +162,19 @@ return(
               <Text style={styles.buttonText}>-</Text>
             </TouchableOpacity>
             <Text style={styles.informacionAdicionalCantidad}>{cantidad}</Text>
-            <TouchableOpacity onPress={() => {
-            const nuevaCantidadSuma = parseInt(cantidad, 10) + 1;
-            const nuevoIdProducto = props.id_producto; 
-            ModificarCantidadProducto(nuevoIdProducto, nuevaCantidadSuma);
-            setCantidad(nuevaCantidadSuma)}} style={styles.button}>
+            <TouchableOpacity
+              onPress={() => {
+                const nuevaCantidadSuma = parseInt(cantidad, 10) + 1;
+                const nuevoIdProducto = props.id_producto;
+
+                // Verificar si la nueva cantidad no excede la cantidad disponible
+                if (nuevaCantidadSuma <= props.cantidad_existencia) {
+                  ModificarCantidadProducto(nuevoIdProducto, nuevaCantidadSuma);
+                  setCantidad(nuevaCantidadSuma);
+                } 
+              }}
+              style={styles.button}
+            >
               <Text style={styles.buttonText}>+</Text>
             </TouchableOpacity>
             

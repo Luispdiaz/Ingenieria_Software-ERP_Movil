@@ -149,3 +149,9 @@ crear y modificar productos.
 - Se han agrego los descuestos a los productos
 
 ## [1.9.0] - 2024-3-04
+
+### Added
+
+- Se han agregado funcionalidades al modulo de ventas, entre ellas metodo de pago y nota de entrega.
+
+## [1.10.0] - 2024-3-05

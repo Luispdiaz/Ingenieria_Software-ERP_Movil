@@ -3,6 +3,7 @@ import { Supa } from "../Supabase/supabase";
 
 export const VentaContext = createContext()
 
+
 export const useVenta = () =>{
     const context = useContext(VentaContext)
     return context
@@ -10,7 +11,7 @@ export const useVenta = () =>{
 
 
 export const VentaContextProvider = ({children}) =>{
-
+  const [Cliente, setCliente] = useState(null);
   const [ProductosVenta, setProductosVenta] = useState([])
 
     
@@ -41,8 +42,21 @@ export const VentaContextProvider = ({children}) =>{
     return ProductosVenta.some((producto) => producto.id_producto === productoId);
   }
 
+  const CrearCliente = (contacto) => {
+    setCliente(contacto);
+  };
+
+  const EliminarCliente = () => {
+    setCliente(null);
+  };
+
+  const ReiniciarVariables = () => {
+    setCliente(null);
+    setProductosVenta([]);
+  };
+
     return(
-        <VentaContext.Provider value={{ProductosVenta, AgregarProductoVenta, EliminarProductoVenta, ModificarCantidadProducto, VerificarProductoExistente}}>
+        <VentaContext.Provider value={{ProductosVenta, Cliente, AgregarProductoVenta, EliminarProductoVenta, ModificarCantidadProducto, VerificarProductoExistente, CrearCliente, ReiniciarVariables}}>
         {children}
         </VentaContext.Provider>
     )
