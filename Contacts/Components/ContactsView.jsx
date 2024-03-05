@@ -134,21 +134,21 @@ const ContactsView = () => {
           <TypeContact
             nombre="empleado"
             icono={require("../Assets/assetC_2.png")}
-            color="#8a2be2"
+            color="#b168ea"
             onPress={handleTypePress}
             isSelected={selectedType === "empleado"}
           ></TypeContact>
           <TypeContact
             nombre="proveedor"
             icono={require("../Assets/assetC_3.png")}
-            color="#903acf"
+            color="#b168ea"
             onPress={handleTypePress}
             isSelected={selectedType === "proveedor"}
           ></TypeContact>
           <TypeContact
             nombre="cliente"
             icono={require("../Assets/assetC_4.png")}
-            color="#952ccf"
+            color="#b168ea"
             onPress={handleTypePress}
             isSelected={selectedType === "cliente"}
           ></TypeContact>
