@@ -522,7 +522,6 @@ const styles = StyleSheet.create({
       padding: 10,
       marginTop: 20,
       borderRadius: 5,
-      
       },
       buttonText:{
           color:"#000000",
