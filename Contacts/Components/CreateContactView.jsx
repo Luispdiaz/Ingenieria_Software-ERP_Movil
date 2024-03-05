@@ -9,7 +9,8 @@ import DateTimePicker from "@react-native-community/datetimepicker"
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import * as ImagePicker from "expo-image-picker"
-
+import { storage } from '../../NewProducts/Components/firebaseconfig';
+import {ref,uploadBytesResumable,getDownloadURL} from "firebase/storage"
 
 
 const image = require("../Assets/Fondo.png");
@@ -23,15 +24,15 @@ const NewContact = () => {
   const [telefono, setTelefono] = useState('');
   const [correo, setCorreo] = useState('');
   const [direccion, setDireccion] = useState('');
-  const [contribuyente, setContribuyente] = useState('');
+  const [contribuyente, setContribuyente] = useState(false);
   const [condicion_venta, setCondicionVenta] = useState('');
   const [credito_total, setCreditoTotal] = useState(0);
   const [credito_vence, setCreditoVence] = useState(new Date());
-  const [vendedor, setVendedor] = useState('');
+  const [vendedor, setVendedor] = useState(false);
   const [fecha_ingreso, setFechaIngreso] = useState(new Date());
-  const [cliente, setCliente] = useState('');
-  const [empleado, setEmpleado] = useState('');
-  const [proveedor, setProveedor] = useState('');
+  const [cliente, setCliente] = useState(false);
+  const [empleado, setEmpleado] = useState(false);
+  const [proveedor, setProveedor] = useState(false);
   const [imagen, setImagen] = useState('');
   const [Contacto_pkey, setContactoPkey] = useState('');
   const navigation = useNavigation()
@@ -126,20 +127,7 @@ const NewContact = () => {
 
   const [value, setValue] = useState(null);
   
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
-  const [isEnabled1, setIsEnabled1] = useState(false);
-  const toggleSwitch1 = () => setIsEnabled1(previousState => !previousState);
-
-  const [isEnabled2, setIsEnabled2] = useState(false);
-  const toggleSwitch2 = () => setIsEnabled2(previousState => !previousState);
-
-  const [isEnabled3, setIsEnabled3] = useState(false);
-  const toggleSwitch3 = () => setIsEnabled3(previousState => !previousState);
-
-  const [isEnabled4, setIsEnabled4] = useState(false);
-  const toggleSwitch4 = () => setIsEnabled4(previousState => !previousState);
 
   const [imgUrl, setimgUrl] = useState("https://static.vecteezy.com/system/resources/previews/020/911/737/non_2x/user-profile-icon-profile-avatar-user-icon-male-icon-face-icon-profile-icon-free-png.png")
   const [showView, setShowView] = useState(false);
@@ -225,8 +213,20 @@ const NewContact = () => {
   }
 
   
-  
+    const isValidNumber = (value) => {
+      const numberValue = parseFloat(value);
+      return !isNaN(numberValue) && numberValue >= 0;
+    }
 
+    function isValidString(str) {
+      // Verificar si el string no está vacío ni es null ni undefined
+      if (str && typeof str === 'string') {
+        // Puedes agregar más criterios de validación según tus necesidades
+        return true;
+      }
+      return false;
+    }
+  
 
     const handleSubmit = async () => {
 
@@ -235,7 +235,7 @@ const NewContact = () => {
         return;
       }
 
-      else if (!isValidString(cont_tipo_documento) || !isValidNumber(cont_id_fiscal) || !isValidString(nombre) || !isValidDate(fecha_nacimiento) || !isValidNumber(cod_telefono) || !isValidNumber(telefono) || !isValidString(direccion)) {
+      else if (!isValidString(cont_tipo_documento) || !isValidNumber(cont_id_fiscal) || !isValidString(nombre) ||  !isValidNumber(cod_telefono) || !isValidNumber(telefono) || !isValidString(direccion)) {
         Alert.alert('Error', 'Por favor, ingresa valores válidos');
         return;
       }
@@ -266,10 +266,7 @@ const NewContact = () => {
       };
     }
 
-    const isValidNumber = (value) => {
-        const numberValue = parseFloat(value);
-        return !isNaN(numberValue) && numberValue >= 0;
-      }
+    
 
     return(
         
@@ -337,6 +334,7 @@ const NewContact = () => {
             value={value}
             onChange={item => {
               setValue(item.value);
+              setContTipoDocumento(item.value)
             }}
             renderLeftIcon={() => (
               <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
@@ -346,7 +344,11 @@ const NewContact = () => {
             style={styles.textinputID}
             placeholder='123456789'
             placeholderTextColor='black'
-            onChangeText={(texto2) => setContTipoDocumento(value)}
+
+            onChangeText={(texto2) => {
+
+              const numeroEntero = parseInt(texto2, 10)
+              setContIdFiscal(numeroEntero)}}
             />
             </View>
             <View style = {{flexDirection: "row"}}>
@@ -355,7 +357,7 @@ const NewContact = () => {
             style={styles.textinput}
             placeholder='Dirección'
             placeholderTextColor='black'
-            onChangeText={(texto3) => setNombre(texto3)}
+            onChangeText={(texto3) => setDireccion(texto3)}
             />
             </View>
             <View style = {{flexDirection: "row"}}>
@@ -375,7 +377,7 @@ const NewContact = () => {
             value={value}
             onChange={item => {
               setValue(item.value);
-              setCodTelefono(value)
+              setCodTelefono(item.value)
             }}
             renderLeftIcon={() => (
               <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
@@ -403,7 +405,7 @@ const NewContact = () => {
             <TextInput
             style={styles.textinputFecha}
             value = {fecha_ingreso.toLocaleDateString()}
-            onChangeText={(texto6) => setFechaIngreso(value)}
+            onChangeText={(texto6) => setFechaIngreso(texto6)}
             />
             {show1 && (
             <DateTimePicker
@@ -436,7 +438,7 @@ const NewContact = () => {
         value={value}
         onChange={item => {
           setValue(item.value);
-          setCondicionVenta(value)
+          setCondicionVenta(item.value)
         }}
         renderLeftIcon={() => (
           <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
@@ -487,7 +489,7 @@ const NewContact = () => {
         <Text style = {styles.titulos}>Crédito Total</Text>
         <TextInput
             style={styles.textinputFecha}
-            onChangeText={(texto7) => setNombre(texto7)}
+            onChangeText={(texto7) => setCreditoTotal(texto7)}
             />
       </View>
       <Text style = {styles.titulos}>Crédito Vence</Text>

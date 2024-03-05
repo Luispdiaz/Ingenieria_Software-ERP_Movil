@@ -416,20 +416,6 @@ async function pickImage() {
             onValueChange={handleToggle}
             value={isEnabled}
         />
-        {!isEnabled && <TextInput
-        style={styles.textinput}
-        placeholder='URL de la Imagen'
-        placeholderTextColor='#FFFFFF'
-        onChangeText={(texto) => setImagen(texto)}
-        onEndEditing = {() =>{
-          if(isEmpty(Imagen)){
-            setEmpty(true)
-            Alert.alert("Aviso", "El campo no debe estar vacio")
-            setEmpty(false)
-
-          }
-        }}
-        />}
         {isEnabled && (
             <TouchableOpacity style={styles.buttonImage} onPress={handlePress}>
             <Image resizeMode = "contain" style = {styles.img} source = {{uri: imgUrl}} />
