@@ -59,7 +59,7 @@ const UpdateProduct = ({Lista}) =>{
           else {
         UpdateProduct(Lista.id_producto, 
             {nombre: Nombre,
-                Imagen: Imagen,
+                imagen: Imagen,
                 sub_categorias: null,
                 cod_proveedor: CodProveedor,
                 descripcion: Descripcion,
