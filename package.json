@@ -30,7 +30,8 @@
     "react-native-shadow-generator": "^1.1.2",
     "react-native-svg": "^14.1.0",
     "react-native-web": "~0.19.6",
-    "unorm": "^1.6.0"
+    "unorm": "^1.6.0",
+    "yarn": "^1.22.21"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
