@@ -46,11 +46,8 @@ const InitialPageView = () =>{
             end={{ x: 1, y: 1 }}
             style={Styles.contenedorPrincipal}
         >
-            {showSplash && (
-                <Text style={Styles.tituloInventario}>FLAMG</Text>
-            )}
             
-            <Image source={require('../Assets/image (16).png')} style={{position: 'absolute'}}  />
+            <Image source={require('../Assets/Component 11.png')} style={{flex:1, height: "100%", width:"100%"}}  />
         </LinearGradient>
     );
 };

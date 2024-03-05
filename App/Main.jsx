@@ -15,7 +15,7 @@ import ContactView from "../Contacts/Components/ContactView";
 import NewContact from "../Contacts/Components/CreateContactView";
 import UpdateContact from "../Contacts/Components/UpdateContact";
 import IdentificationView from "../Sales/Components/IdentificationView";
-import ConfirmContact from "../Sales/Components/ConfirmContact";
+import ConfirmContact from "../Sales/Components/ConfirmContact"
 import ShoppingCartView from "../Sales/Components/ShoppingCartView";
 import NewClient from "../Sales/Components/NewClient";
 import SelectedProductsView from "../Sales/Components/SelectedProductsView";
