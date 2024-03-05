@@ -33,7 +33,7 @@ const NewContact = () => {
   const [cliente, setCliente] = useState(false);
   const [empleado, setEmpleado] = useState(false);
   const [proveedor, setProveedor] = useState(false);
-  const [imagen, setImagen] = useState('');
+  const [imagen, setImagen] = useState(null);
   const [Contacto_pkey, setContactoPkey] = useState('');
   const navigation = useNavigation()
   const { createContact } = useContact()
@@ -94,27 +94,27 @@ const NewContact = () => {
   };
 
   const opciones_ID =[
-    { label: 'V' },
-    { label: 'E' },
-    { label: 'J' }
+    { label: 'V', value: "V" },
+    { label: 'E', value: "E"},
+    { label: 'J', value: "J"}
   ]
 
   const opciones = [
-    { label: 'Crédito' },
-    { label: 'Contado' },
+    { label: 'C', value: "C" },
+    { label: 'Co', value:"Co" },
   ]
 
   const opciones_telefono = [
-    { label: '+58' },
-    { label: '+1' },
-    { label: '+52' },
-    { label: '+55' },
-    { label: '+54' },
-    { label: '+57' },
-    { label: '+34' },
-    { label: '+44' },
-    { label: '+48' },
-    { label: '+86' },
+    { label: "+58", value: "+58"},
+    { label: "+1", value: "+1"},
+    { label: "+52", value: "+52"},
+    { label: "+55", value: "+55"},
+    { label: "+54", value: "+54"},
+    { label: "+57", value: "+57"},
+    { label: "+34", value: "+34"},
+    { label: "+44", value: "+44"},
+    { label: "+48", value: "+48"},
+    { label: "+86", value: "+86"},
   ]
 
   const opciones_cargo = [
@@ -126,7 +126,46 @@ const NewContact = () => {
   ]
 
   const [value, setValue] = useState(null);
+  const [value_phone, setValue_phone] = useState(null);
+  const [value_venta, setValue_venta] = useState(null);
   
+  const [isEnabled_empleado, setIsEnabled_empleado] = useState(false);
+  const toggleSwitch_empleado = (new_value) => {
+    setIsEnabled_empleado(new_value)
+    setEmpleado(new_value)
+  }
+   
+  
+
+  const [isEnabled_cliente, setIsEnabled_cliente] = useState(false);
+  const toggleSwitch_cliente = (new_value) => {
+    setIsEnabled_cliente(new_value)
+    setCliente(new_value)
+  }
+    
+  
+
+  const [isEnabled_proveedor, setIsEnabled_proveedor] = useState(false);
+  const toggleSwitch_proveedor = (new_value) => {
+    setIsEnabled_proveedor(new_value)
+    setProveedor(new_value)
+    
+  }
+
+  const [isEnabled_contribuyente, setIsEnabled_contribuyente] = useState(false);
+  const toggleSwitch_contribuyente = (new_value) => {
+    setIsEnabled_contribuyente(new_value)
+    setContribuyente(new_value)
+  }
+    
+  
+
+  const [isEnabled_vendedor, setIsEnabled_vendedor] = useState(false);
+  const toggleSwitch_vendedor = (new_value) => {
+    setIsEnabled_vendedor(new_value)
+    setVendedor(new_value)
+  }
+
 
 
   const [imgUrl, setimgUrl] = useState("https://static.vecteezy.com/system/resources/previews/020/911/737/non_2x/user-profile-icon-profile-avatar-user-icon-male-icon-face-icon-profile-icon-free-png.png")
@@ -212,6 +251,7 @@ const NewContact = () => {
     }
   }
 
+
   
     const isValidNumber = (value) => {
       const numberValue = parseFloat(value);
@@ -226,9 +266,19 @@ const NewContact = () => {
       }
       return false;
     }
+
+    const formatFecha = (date) =>{
+      const options = {year: "numeric", month: "numeric", day: "numeric"}
+      return date.toLocaleDateString(undefined,options)
+    }
   
+    const img = 'https://ktwhvzmmaqaumjvobuqn.supabase.co/storage/v1/object/public/imagenes/perfil_01%20(1).png?t=2024-03-01T15%3A47%3A27.894Z'
 
     const handleSubmit = async () => {
+
+      if(imagen === null){
+        setImagen(img)
+      }
 
       if (cont_tipo_documento === null || cont_id_fiscal === null || nombre === null || fecha_nacimiento === null || cod_telefono === null || telefono === null || direccion === null) {
         Alert.alert('Error', 'Por favor, completa todos los campos obligatorios');
@@ -237,6 +287,14 @@ const NewContact = () => {
 
       else if (!isValidString(cont_tipo_documento) || !isValidNumber(cont_id_fiscal) || !isValidString(nombre) ||  !isValidNumber(cod_telefono) || !isValidNumber(telefono) || !isValidString(direccion)) {
         Alert.alert('Error', 'Por favor, ingresa valores válidos');
+        console.log("Aqui para abajo")
+        console.log(cont_tipo_documento,cont_id_fiscal,nombre,cod_telefono,telefono,direccion)
+        console.log(typeof cont_tipo_documento)
+        console.log(typeof cont_id_fiscal)
+        console.log(typeof nombre)
+        console.log(typeof cod_telefono)
+        console.log(typeof telefono)
+        console.log(typeof direccion)
         return;
       }
 
@@ -269,8 +327,15 @@ const NewContact = () => {
     
 
     return(
+      <LinearGradient
+      colors={[
+        "#7227a6",
+        "#431b6a",
+      ]}
+      style={styles.contenedorPrincipal}
+    >
+
         
-        <View style = {styles.fondo}>
         <ScrollView>
         <View style = {{marginTop: Constants.statusBarHeight}}>
           <Text style = {{fontSize:32, fontWeight: "bold"}}>Crear Nuevo Contacto</Text>
@@ -302,7 +367,6 @@ const NewContact = () => {
             style={styles.textinputFecha}
             value = {fecha_nacimiento.toLocaleDateString()}
             title='Fecha de Nacimiento'
-            onChangeText={(texto1) => setFechaNacimiento(texto1)}
             />
             {show && (
             <DateTimePicker
@@ -327,9 +391,9 @@ const NewContact = () => {
             iconStyle={styles.iconStyle}
             data={opciones_ID}
             search
-            maxHeight={300}
             labelField="label"
             valueField="value"
+            placeholder='Select Item'
             searchPlaceholder="Search..."
             value={value}
             onChange={item => {
@@ -373,10 +437,11 @@ const NewContact = () => {
             maxHeight={300}
             labelField="label"
             valueField="value"
+            placeholder='Select Item'
             searchPlaceholder="Search..."
-            value={value}
+            value={value_phone}
             onChange={item => {
-              setValue(item.value);
+              setValue_phone(item.value);
               setCodTelefono(item.value)
             }}
             renderLeftIcon={() => (
@@ -387,7 +452,10 @@ const NewContact = () => {
             style={styles.textinputtelefono}
             placeholder='Número de Teléfono'
             placeholderTextColor='black'
-            onChangeText={(texto4) => setTelefono(texto4)}
+            onChangeText={(texto4) =>{
+              const numeroEntero = parseInt(texto4, 10)
+              setTelefono(numeroEntero)
+            }} 
             />
             </View>
         </View>
@@ -405,7 +473,7 @@ const NewContact = () => {
             <TextInput
             style={styles.textinputFecha}
             value = {fecha_ingreso.toLocaleDateString()}
-            onChangeText={(texto6) => setFechaIngreso(texto6)}
+            onChangeText={(value) => setFechaIngreso(fecha_ingreso)}
             />
             {show1 && (
             <DateTimePicker
@@ -430,14 +498,13 @@ const NewContact = () => {
         iconStyle={styles.iconStyle}
         data={opciones}
         search
-        maxHeight={300}
         labelField="label"
         valueField="value"
         placeholder="Select item"
         searchPlaceholder="Search..."
-        value={value}
+        value={value_venta}
         onChange={item => {
-          setValue(item.value);
+          setValue_venta(item.value);
           setCondicionVenta(item.value)
         }}
         renderLeftIcon={() => (
@@ -447,43 +514,52 @@ const NewContact = () => {
 
       <View>
       <Text style = {styles.titulos}>Tipo de Cargo</Text>
-
-      <Dropdown
-        style={styles.dropdown}
-        placeholderStyle={styles.placeholderStyle}
-        selectedTextStyle={styles.selectedTextStyle}
-        inputSearchStyle={styles.inputSearchStyle}
-        iconStyle={styles.iconStyle}
-        data={opciones_cargo}
-        search
-        maxHeight={300}
-        labelField="label"
-        valueField="value"
-        placeholder="Select item"
-        searchPlaceholder="Search..."
-        value={value}
-        onChange={item => {
-          setValue(item.value);
-          if(value === "Cliente"){
-            setCliente(true)
-          }
-          else if(value === "Proveedor"){
-            setProveedor(true)
-          }
-          else if(value === "Contribuyente"){
-            setContribuyente(true)
-          }
-          else if(value === "Vendedor"){
-            setVendedor(true)
-          }
-          else{
-            setEmpleado(true)
-          }
-        }}
-        renderLeftIcon={() => (
-          <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
-        )}
+      <View style = {{flexDirection: "row"}}>
+        <Text>Empleado</Text>
+        <Switch
+        trackColor={{false: '#767577', true: '#81b0ff'}}
+        ios_backgroundColor="#3e3e3e"
+        onValueChange={toggleSwitch_empleado}
+        value={isEnabled_empleado}
       />
+      </View>
+      <View style = {{flexDirection: "row"}}>
+        <Text>Cliente</Text>
+        <Switch
+        trackColor={{false: '#767577', true: '#81b0ff'}}
+        ios_backgroundColor="#3e3e3e"
+        onValueChange={toggleSwitch_cliente}
+        value={isEnabled_cliente}
+      />
+      
+      </View>
+      <View style = {{flexDirection: "row"}}>
+        <Text>Proveedor</Text>
+        <Switch
+        trackColor={{false: '#767577', true: '#81b0ff'}}
+        ios_backgroundColor="#3e3e3e"
+        onValueChange={toggleSwitch_proveedor}
+        value={isEnabled_proveedor}
+      />
+      </View>
+      <View style = {{flexDirection: "row"}}>
+        <Text>Contribuyente</Text>
+        <Switch
+        trackColor={{false: '#767577', true: '#81b0ff'}}
+        ios_backgroundColor="#3e3e3e"
+        onValueChange={toggleSwitch_contribuyente}
+        value={isEnabled_contribuyente}
+      />
+      </View>
+      <View style = {{flexDirection: "row"}}>
+        <Text>Vendedor</Text>
+        <Switch
+        trackColor={{false: '#767577', true: '#81b0ff'}}
+        ios_backgroundColor="#3e3e3e"
+        onValueChange={toggleSwitch_vendedor}
+        value={isEnabled_vendedor}
+      />
+      </View>
       </View>
       <View style={{flexDirection: 'row' }}>
         <Text style = {styles.titulos}>Crédito Total</Text>
@@ -499,7 +575,7 @@ const NewContact = () => {
             value = {credito_vence.toLocaleDateString()}
             title='Credito Vence'
             placeholderTextColor='#FFFFFF'
-            onChangeText={(texto8) => setCreditoVence(texto8)}
+            onChangeText={(value) => setCreditoVence(credito_vence)}
             />
             {show2 && (
             <DateTimePicker
@@ -523,7 +599,7 @@ const NewContact = () => {
            
         </View>
         </ScrollView>
-        </View>
+        </LinearGradient>
         
     )
 }

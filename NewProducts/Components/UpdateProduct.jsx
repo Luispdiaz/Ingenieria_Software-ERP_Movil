@@ -92,6 +92,8 @@ const UpdateProduct = ({Lista}) =>{
       return !isNaN(numberValue) && numberValue >= 0;
     };
 
+  
+
   const [imgUrl, setimgUrl] = useState("https://cdn-icons-png.freepik.com/512/5733/5733887.png")
 
   const openCameraLib = async() =>{
