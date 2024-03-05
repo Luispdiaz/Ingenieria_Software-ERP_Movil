@@ -142,4 +142,10 @@ crear y modificar productos.
 
 - Se han agrego la vista descripción detallada de contacto
 
-## [1.8.1] - 2024-3-04
+## [1.8.0] - 2024-3-04
+
+### Added
+
+- Se han agrego los descuestos a los productos
+
+## [1.9.0] - 2024-3-04
