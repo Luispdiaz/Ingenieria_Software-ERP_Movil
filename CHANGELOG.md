@@ -132,4 +132,10 @@ crear y modificar productos.
 
 ## [1.7.0] - 2024-3-04
 
+### Changed
+
+- Se han arregló el error de actualizar y se cambio el estilo de las categorías de contactos
+
+## [1.7.1] - 2024-3-04
+
 
