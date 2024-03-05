@@ -1,9 +1,10 @@
-import React from "react";
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, ScrollView, Image } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, ScrollView, Image, Alert } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Constants from 'expo-constants';
 import theme from "../Themes/Theme";
 import { useNavigation } from '@react-navigation/native';
+import { useProducts } from "../../Context/ProductContext";
 
 //funciones para hacer tarjetas automaticas:
 function generarDiametro() {
@@ -29,6 +30,9 @@ const Tarjeta = ({ imagen, texto, pagina}) => {
     const [numeroTop, numeroRight, numeroAltura] = generarNumerosAleatorios();
     const colorClaro = generarColorClaro();
     const navigation = useNavigation();
+   
+
+    
 
     const dynamicStyles = StyleSheet.create({
         circle: {
@@ -161,6 +165,31 @@ const getGreeting = () => {
 
 const MainMenu = () => {
     const greeting = getGreeting();
+    const { Productos, getProducts } = useProducts()
+    const [verificacionRealizada, setVerificacionRealizada] = useState(false);
+    useEffect(() => {
+        const cargarProductosYVerificarReorden = async () => {
+          await getProducts();
+          setVerificacionRealizada(true);
+        };
+    
+        if (!verificacionRealizada) {
+          cargarProductosYVerificarReorden();
+        } else {
+          const productosReorden = [];
+          Productos.forEach(producto => {
+            if (producto.cantidad_existencia < producto.reordenar_cantidad) {
+              productosReorden.push(producto.nombre);
+            }
+          });
+    
+          if (productosReorden.length > 0) {
+            const mensaje = `Estos productos deben reordenarse: ${productosReorden.join(', ')}`;
+            Alert.alert('Reordenar Productos', mensaje);
+          }
+        }
+      }, [verificacionRealizada]);
+
 
     return (
         
@@ -178,7 +207,7 @@ const MainMenu = () => {
             </View>
             
             <View style={Styles.contenedorSaludo}>
-                <Text style={Styles.Maintitle}>¡Hola, @Username!</Text>
+                <Text style={Styles.Maintitle}>¡Hola!</Text>
                 <Text style={Styles.tituloInicio}>{greeting}</Text>
             </View>
             <View style={Styles.contenedorBigTarjetas}>

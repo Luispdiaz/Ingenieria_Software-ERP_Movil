@@ -125,3 +125,33 @@ crear y modificar productos.
 - Se han agregado mas funcionalidades al modulo de ventas, entre ellas el calculo de los montos totales
 
 ## [1.6.0] - 2024-3-03 
+
+### Added
+
+- Se hizo creacion y actualizacion de producto
+
+## [1.7.0] - 2024-3-04
+
+### Changed
+
+- Se han arregló el error de actualizar y se cambio el estilo de las categorías de contactos
+
+## [1.7.1] - 2024-3-04
+
+### Added
+
+- Se han agrego la vista descripción detallada de contacto
+
+## [1.8.0] - 2024-3-04
+
+### Added
+
+- Se han agrego los descuestos a los productos
+
+## [1.9.0] - 2024-3-04
+
+### Added
+
+- Se han agregado funcionalidades al modulo de ventas, entre ellas metodo de pago y nota de entrega.
+
+## [1.10.0] - 2024-3-05

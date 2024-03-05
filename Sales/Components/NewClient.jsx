@@ -7,6 +7,7 @@ import theme from "../../Inventory/Themes/Theme";
 import { useState } from "react";
 import { useContact } from "../../Context/ContactContext";
 import DateTimePicker from '@react-native-community/datetimepicker'
+import { useVenta } from "../../Context/VentaContext";
 
 const styles = StyleSheet.create({
     contenedorPrincipal: {
@@ -142,6 +143,7 @@ const NewClient = () => {
     const [telefono, setTelefono] = useState('');
     const [correo, setCorreo] = useState('');
     const [direccion, setDireccion] = useState('');
+    const { CrearCliente } = useVenta()
 
     const handleSubmit = () => {
     
@@ -204,9 +206,9 @@ const NewClient = () => {
         imagen
       }
       
-      
+      CrearCliente({Contacto:Contacto})
       Alert.alert('El contacto se agregó de manera exitosa');
-      navigation.navigate('VistaCarritoCompras', { Contacto });
+      navigation.navigate('VistaCarritoCompras');
   ;
 }}
       

@@ -4,8 +4,6 @@ import { StyleSheet,Text, View, ImageBackground, ScrollView, SafeAreaView} from 
 import { LinearGradient } from 'expo-linear-gradient';
 import theme from "../../Inventory/Themes/Theme";
 import UpdateProduct from "./UpdateProduct";
-import ButtonsUpdate from "./ButtonsUpdate";
-import UpdateHeader from "./HeaderUpdateProduct";
 const image = require("../Imagenes/Fondo.png");
 const MainUpdateProduct = ({route}) =>{
     
@@ -21,9 +19,7 @@ const MainUpdateProduct = ({route}) =>{
     >
         <SafeAreaView style = {styles.container}>
           <ScrollView> 
-          <ImageBackground source={image} resizeMode="cover"  style={styles.image}>
           <UpdateProduct Lista={{...props}}/>
-          </ImageBackground>
           </ScrollView>
         </SafeAreaView>
         </LinearGradient>

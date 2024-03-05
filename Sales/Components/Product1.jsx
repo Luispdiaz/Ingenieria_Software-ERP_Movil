@@ -138,34 +138,53 @@ return(
       </View>
 
       <Modal
-        transparent={true}
-        animationType="slide"
-        visible={modalVisible}
-        onRequestClose={closeModal}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalText}>Ingresa la cantidad:</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Cantidad"
-              keyboardType="numeric"
-              value={cantidadProducto}
-              onChangeText={(text) => setCantidadProducto(text)}
-            />
-            <View style={{flexDirection:'row'}}>
-            <TouchableOpacity onPress={cancelModal}>
-              <Text style={styles.closeButton}>Cancelar</Text>
-            </TouchableOpacity>
+  transparent={true}
+  animationType="slide"
+  visible={modalVisible}
+  onRequestClose={closeModal}
+>
+  <View style={styles.modalContainer}>
+    <View style={styles.modalContent}>
+      <Text style={styles.modalText}>Ingresa la cantidad:</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Cantidad"
+        keyboardType="numeric"
+        value={cantidadProducto}
+        onChangeText={(text) => setCantidadProducto(text)}
+      />
+      <View style={{ flexDirection: 'row' }}>
+        <TouchableOpacity onPress={cancelModal}>
+          <Text style={styles.closeButton}>Cancelar</Text>
+        </TouchableOpacity>
 
-            <TouchableOpacity onPress={closeModal}>
-              <Text style={styles.closeButton}>Confirmar</Text>
-            </TouchableOpacity>
-            
-            </View>
-          </View>
-        </View>
-      </Modal>
+        <TouchableOpacity
+          onPress={() => {
+            const nuevaCantidad = parseInt(cantidadProducto, 10);
+
+            // Verificar si la nueva cantidad no excede la cantidad disponible
+            if (nuevaCantidad <= props.cantidad_existencia) {
+              // Aquí puedes realizar la acción correspondiente al confirmar la cantidad
+              // En este ejemplo, solo logramos la cantidad
+
+              closeModal();
+            } else {
+              // Muestra un mensaje de error o realiza alguna acción si la cantidad es mayor a la disponible
+              setCantidadProducto('')
+              Alert.alert(
+                'Error',
+                'La cantidad ingresada excede la cantidad disponible.',
+                [{ text: 'OK', onPress: () => console.log('OK Pressed') }]
+              )
+            }
+          }}
+        >
+          <Text style={styles.closeButton}>Confirmar</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  </View>
+</Modal>
 
 
   </View>

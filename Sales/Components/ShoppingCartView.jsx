@@ -10,6 +10,7 @@ import Product from "../../Inventory/Components/Product";
 import { useProducts } from "../../Context/ProductContext";
 import { useEffect } from "react";
 import Product1 from "./Product1";
+import { useVenta } from "../../Context/VentaContext";
 
 
 const windowHeight = Dimensions.get('window').height;
@@ -151,6 +152,7 @@ const ShoppingCartView = ({route}) => {
     const [Busqueda, setBusqueda] = useState('');
     const navigation = useNavigation()
     const inputRef = useRef(null);
+    const { ReiniciarVariables } = useVenta()
 
     useEffect(()=>{
       getProducts()
@@ -176,7 +178,9 @@ const ShoppingCartView = ({route}) => {
     <View style={styles.contenedorTitulo}>
         <View style={styles.backButton}>
         <TouchableOpacity
-          onPress={() => navigation.goBack()}
+          onPress={() => {navigation.goBack()
+          ReiniciarVariables()
+          }}
         >
           <Image
           source={require('../Assets/image (3).png')}
@@ -187,7 +191,7 @@ const ShoppingCartView = ({route}) => {
         <Text style={styles.tituloInventario}>Punto de Venta</Text>
         <View style={styles.CarritoButton}>
         <TouchableOpacity
-          onPress={() => navigation.navigate("VistaProductosVenta")}
+          onPress={() => navigation.navigate("VistaProductosVenta", {route})}
         >
           <Image
           source={require('../Assets/assetV_1.png')}

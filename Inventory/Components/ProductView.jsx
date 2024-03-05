@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
         marginTop:15
       },
       Categoria: {
-        backgroundColor: theme.colors.cuartario, 
+        backgroundColor: '#8a2be2', 
         padding: 10,
         borderRadius: 5,
         marginTop: 30,
@@ -111,35 +111,60 @@ const styles = StyleSheet.create({
         padding: 10,
         alignSelf: 'flex-end'
          },
-    
+
+      purplecircle: {
+        borderColor: '#8a2be2',
+        borderWidth: 2,
+        padding: 10,
+        borderRadius: 20,
+        justifyContent:'center',
+        alignItems:'center',
+        marginLeft: 10
+        },  
+
+        card: {
+          backgroundColor: '#8a2be2',
+          borderRadius: 8,
+          paddingVertical: 15,
+          paddingHorizontal: 10,
+          width: '100%',
+          marginVertical: 10,
+        },
+        shadowProp: {
+          shadowColor: '#808080',
+          shadowOffset: {width: -2, height: 4},
+          shadowOpacity: 0.2,
+          shadowRadius: 3,
+        },
       
   });
 
 const ProductView = ({ route }) => {
     const {
-        id,
+        id_producto,
         nombre,
         imagen,
-        codProveedor,
+        cod_proveedor,
         categoria,
-        subcategoria,
+        sub_categorias,
         descripcion,
         color,
         marca,
         modelo,
         cantidad_existencia,
-        minimaCantidad,
-        maximaCantidad,
-        reordenarCantidad,
+        minima_cantidad,
+        maxima_cantidad,
+        reordenar_cantidad,
         costo_usd,
         costo_efectivo,
-        costoPromedioEfectivo,
+        costo_promedio_efectivo,
         precio_usd,
         precio_efectivo,
         tipo_impuesto,
-        descuentoProm,
+        descuento_promocion,
         porcentajeDescuentoProm,
-        conversionUsdEfectivo,
+        valor_descuento_promocion,
+        conversion_usd_efectivo,
       } = route.params.props;
 
       const ObjetoProps = route.params.props;
@@ -190,48 +215,110 @@ const ProductView = ({ route }) => {
       </TouchableOpacity>
       </View>
       <ScrollView>
-      <Text style={styles.smallText}>Disponible</Text>
       <View style={{marginHorizontal: Math.sqrt(windowWidth**2 + windowHeight**2) * 0.045, marginVertical:2}}>
       <View style={{flexDirection:'row', justifyContent:'space-between'}}>
       <Text style={styles.titulo}>{nombre}</Text>
-      <Text style={styles.titulo}>{cantidad_existencia}</Text>
+      <Text style={styles.titulo}>{precio_usd}$</Text>
       </View>
-       <Text style={styles.text}>{descripcion}</Text>
-       <View style={{flexDirection:'row'}}>
+
+      <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+      <Text style={styles.textList}>{descripcion}</Text>
+      <Text style={styles.textList}>Disponible {cantidad_existencia}</Text>
+      </View>
+      <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
        <View style={styles.Categoria}>
-       <Text style={styles.CategoriaTexto}>🔍 {categoria} </Text>
+       <Text style={styles.CategoriaTexto}>Categoria</Text>
        </View>
        <View style={styles.Categoria}>
-       <Text style={styles.CategoriaTexto}>⭐ {marca} </Text>
+       <Text style={styles.CategoriaTexto}>Subcategoria</Text>
        </View>
        </View>
+
+       <View style={{flexDirection:'row', justifyContent: 'space-between',borderBottomColor: 'white', borderTopColor:'white',
+       borderBottomWidth: StyleSheet.hairlineWidth, borderTopWidth: StyleSheet.hairlineWidth, marginTop:10}}>
+       <Text style={styles.CategoriaTexto}>{categoria}</Text>
+       <Text style={styles.CategoriaTexto}>{sub_categorias}</Text>
+       </View>
+
+       <View style={[styles.card, styles.shadowProp]}>
+       <View>
+       <Text style={styles.titulo}>Caracteristicas</Text>
+       </View>
+       <View style={{flexDirection:'row', justifyContent:'space-between',marginTop:10}}>
+        <Text style={styles.textList}>•Modelo: {modelo}</Text>
+        <Text style={styles.textList}>•Marca: {marca}</Text>
+        </View>
+        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+        <Text style={styles.textList}>•Color:{color}</Text>
+        <Text style={styles.textList}>•#Prov: {cod_proveedor}</Text>
+        </View>
+       </View>
+
        <View style={{marginTop:30}}>
-
+        
         <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-        <Text style={styles.textList}>➤  Costo (Dolares)</Text>
-        <Text style={styles.textList2}>{costo_usd} $</Text>
+        <Text style={styles.textList}>•Cantidad Existente</Text>
+        <View style={styles.purplecircle}>
+        <Text style={styles.textList}>{cantidad_existencia}</Text>
+        </View>
         </View>
 
-        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-        <Text style={styles.textList}>➤  Costo (Efectivo)</Text>
-        <Text style={styles.textList2}>{costo_efectivo} $</Text>
+        <View style={{flexDirection:'row', justifyContent:'space-between',marginTop:15}}>
+        <Text style={styles.textList}>•Reorden</Text>
+        <View style={styles.purplecircle}>
+        <Text style={styles.textList}>{reordenar_cantidad}</Text>
+        </View>
         </View>
 
-        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-        <Text style={styles.textList}>➤  Precio (Dolares)</Text>
-        <Text style={styles.textList2}>{precio_usd} $</Text>
+        <View style={{flexDirection:'row', justifyContent:'space-between',marginTop:15}}>
+        <Text style={styles.textList}>•Cantidad (maxima)</Text>
+        <View style={styles.purplecircle}>
+        <Text style={styles.textList}>{maxima_cantidad}</Text>
+        </View>
+        </View>
+        
+        <View style={{flexDirection:'row', justifyContent:'space-between',marginTop:15}}>
+        <Text style={styles.textList}>•Cantidad (minima)</Text>
+        <View style={styles.purplecircle}>
+        <Text style={styles.textList}>{minima_cantidad}</Text>
+        </View>
         </View>
 
-        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-        <Text style={styles.textList}>➤  Precio (Efectivo)</Text>
-        <Text style={styles.textList2}>{precio_efectivo} $</Text>
+        <View style={{flexDirection:'row', justifyContent:'space-between', marginTop:15}}>
+        <Text style={styles.textList}>•Costo promedio:</Text>
+        <View style={styles.purplecircle}>
+        <Text style={styles.textList}>{costo_promedio_efectivo}$</Text>
         </View>
+        </View>
+
+        <View style={{flexDirection:'row', justifyContent:'space-between', marginTop:15}}>
+        <Text style={styles.textList}>•Valor venta:</Text>
+        <View style={styles.purplecircle}>
+        <Text style={styles.textList}>{precio_usd} $</Text>
+        </View>
+        </View>
+        
 
        </View>
        <View style={{flexDirection:'row', alignItems:'center', marginTop:25}}>
-       <Text style={styles.textList}>Tipo de Impuesto  </Text>
+       <Text style={styles.textList}>•Tipo de Impuesto  </Text>
        <View style={styles.CategoriaImpuesto}>
-       <Text style={styles.CategoriaTexto}>{tipo_impuesto} 🏷️</Text>
+       <Text style={styles.CategoriaTexto}>{tipo_impuesto} 🏷️16%</Text>
+       </View>
+       </View>
+       <View style={{flexDirection:'row', alignItems:'center', marginTop:25}}>
+       <Text style={styles.textList}>•Descuento</Text>
+       <View style={styles.CategoriaImpuesto}>
+       <Text style={styles.CategoriaTexto}>{String(descuento_promocion)}</Text>
+       </View>
+       <View style={styles.CategoriaImpuesto}>
+       <Text style={styles.CategoriaTexto}>{valor_descuento_promocion}%</Text>
+       </View>
+       </View>
+       <View style={{flexDirection:'row', alignItems:'center', marginTop:25}}>
+       <Text style={styles.textList}>•Conversion  </Text>
+       <View style={styles.CategoriaImpuesto}>
+       <Text style={styles.CategoriaTexto}>{String(conversion_usd_efectivo)}</Text>
        </View>
        </View>
       </View>

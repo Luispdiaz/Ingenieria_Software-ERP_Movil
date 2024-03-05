@@ -125,9 +125,33 @@ export const ProductContextProvider = ({children}) =>{
         }
       }
 
+      const modificarCantidadExistencia = async (idProducto, nuevaCantidad) => {
+        try {
+          const { data, error } = await Supa
+            .from("Productos")
+            .update({ cantidad_existencia: nuevaCantidad })
+            .eq("id_producto", idProducto)
+            .select();
+    
+          if (error) {
+            throw error;
+          }
+    
+          setProductos((productos) =>
+            productos.map((producto) =>
+              producto.id_producto === idProducto
+                ? { ...producto, cantidad_existencia: nuevaCantidad }
+                : producto
+            )
+          );
+        } catch (error) {
+          console.error('Error al modificar cantidad_existencia:', error.message);
+        }
+      }
+
 
     return(
-        <ProductContext.Provider value={{Productos, getProducts, createProduct, UpdateProduct, buscarProductos, obtenerCategoriasUnicas, Categorias, buscarProductosPorCategoria}}>
+        <ProductContext.Provider value={{Productos, getProducts, createProduct, UpdateProduct, buscarProductos, obtenerCategoriasUnicas, Categorias, buscarProductosPorCategoria, modificarCantidadExistencia}}>
         {children}
         </ProductContext.Provider>
     )
