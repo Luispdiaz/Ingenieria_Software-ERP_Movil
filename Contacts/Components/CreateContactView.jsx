@@ -168,7 +168,7 @@ const NewContact = () => {
 
 
 
-  const [imgUrl, setimgUrl] = useState("https://static.vecteezy.com/system/resources/previews/020/911/737/non_2x/user-profile-icon-profile-avatar-user-icon-male-icon-face-icon-profile-icon-free-png.png")
+  const [imgUrl, setimgUrl] = useState("https://ktwhvzmmaqaumjvobuqn.supabase.co/storage/v1/object/public/imagenes/Component%2012.png?t=2024-03-05T23%3A36%3A47.376Z")
   const [showView, setShowView] = useState(false);
     const handlePress = () => {
       setShowView(!showView);
@@ -328,17 +328,16 @@ const NewContact = () => {
 
     return(
       <LinearGradient
-      colors={[
-        "#7227a6",
-        "#431b6a",
-      ]}
-      style={styles.contenedorPrincipal}
-    >
-
+        colors={[
+          "#7227a6",
+          "#431b6a",
+          "#000000"
+        ]}
+        style={styles.contenedorPrincipal}
+      >
         
         <ScrollView>
-        <View style = {{marginTop: Constants.statusBarHeight}}>
-          <Text style = {{fontSize:32, fontWeight: "bold"}}>Crear Nuevo Contacto</Text>
+        <View>
           <TouchableOpacity style={styles.buttonImage} onPress={handlePress} >
           <Image style = {styles.img} source = {{uri: imgUrl}}/>
           </TouchableOpacity>
@@ -352,6 +351,7 @@ const NewContact = () => {
               </TouchableOpacity>
               </View>
             )}
+            <View style = {styles.view_informacion}>
             <View style = {{flexDirection: "row"}}>
             <Image style = {{width: 50, height:50, marginTop: 30, marginLeft: 15}} source={require('../Components/ImagenesContacts/User.png')} />
             <TextInput
@@ -458,6 +458,7 @@ const NewContact = () => {
             }} 
             />
             </View>
+        </View>
         </View>
         <View style = {{flexDirection: "row"}}>
         <Image style = {{width: 50, height:50, marginTop: 30, marginLeft: 15}} source={require('../Components/ImagenesContacts/Email.png')} />
@@ -610,6 +611,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     marginBottom: 50
   },
+  view_informacion:{
+    backgroundColor: "rgba(0,0,0,0.4)", 
+    borderRadius: 18, 
+    marginTop: 20
+  },
     fondo:{
       backgroundColor: "#86CDF9",
       flex: 1
@@ -634,8 +640,8 @@ const styles = StyleSheet.create({
     textinput:{
         padding: 10,
         borderWidth: 2,
-        borderColor: "black",
-        backgroundColor: "white",
+        borderColor: "",
+        backgroundColor: "rgba(82,209,38,18)",
         textAlign: "center",
         paddingStart: 30, /*Aqui cambio la posicion del texto dentro del input*/
         width: "75%",
