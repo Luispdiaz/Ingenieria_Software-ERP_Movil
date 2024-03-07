@@ -220,7 +220,7 @@ const MainMenu = () => {
                     <Tarjeta
                         imagen={require('..//Assets/CompaniesIcon.png')}
                         texto='Empresas'
-                        pagina='VistaInventario'  
+                        pagina='VistaEmpresa'  
                     />
                 </View>
                 <View style={Styles.contenedorTarjetas}>
