@@ -344,7 +344,6 @@ const UpdateContact = ({Lista}) =>{
           <Image style = {{width: 60, height:60, marginTop: 20, marginLeft: 15}} source={require('../Assets/contactIcon.png')} />
           <TextInput
           style={styles.textinput}
-          placeholder={`Codigo Proveedor: ${Lista.nombre}`}
           placeholderTextColor='black'
           onChangeText={(texto0) => setNombre(texto0)}
           />
