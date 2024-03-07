@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
           backgroundColor: '#eebefe', // Color de fondo del círculo
           justifyContent: 'center',
           alignItems: 'center',
-        }
+        },
         line: {
           borderColor: 'white', 
           borderWidth: 2,
