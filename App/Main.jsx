@@ -20,6 +20,7 @@ import ShoppingCartView from "../Sales/Components/ShoppingCartView";
 import NewClient from "../Sales/Components/NewClient";
 import SelectedProductsView from "../Sales/Components/SelectedProductsView";
 import DeliveryNote from "../Sales/Components/DeliveryNote";
+import EnterpriseView from "../Contacts/Components/EnterpriseView";
 
 
 const Stack = createNativeStackNavigator();
@@ -53,6 +54,7 @@ const Main = () => {
       <Stack.Screen name="VistaCarritoCompras" component={ShoppingCartView} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name="VistaProductosVenta" component={SelectedProductsView} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name="VistaNotadeEntrega" component={DeliveryNote} options={{ headerShown: false }}></Stack.Screen>
+      <Stack.Screen name="VistaEmpresa" component={EnterpriseView} options={{ headerShown: false }}></Stack.Screen>
       </Stack.Navigator>
       </ProductContextProvider>
       </ContactContextProvider>

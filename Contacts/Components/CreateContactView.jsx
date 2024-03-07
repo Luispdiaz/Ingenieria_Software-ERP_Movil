@@ -13,7 +13,6 @@ import { storage } from '../../NewProducts/Components/firebaseconfig';
 import {ref,uploadBytesResumable,getDownloadURL} from "firebase/storage"
 
 
-const image = require("../Assets/Fondo.png");
 
 const NewContact = () => {
   const [cont_tipo_documento, setContTipoDocumento] = useState('');
@@ -41,6 +40,7 @@ const NewContact = () => {
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
 
+  
   
 
   const onChange = (event, selectedDate) => {
@@ -168,7 +168,7 @@ const NewContact = () => {
 
 
 
-  const [imgUrl, setimgUrl] = useState("https://static.vecteezy.com/system/resources/previews/020/911/737/non_2x/user-profile-icon-profile-avatar-user-icon-male-icon-face-icon-profile-icon-free-png.png")
+  const [imgUrl, setimgUrl] = useState("https://ktwhvzmmaqaumjvobuqn.supabase.co/storage/v1/object/public/imagenes/Component%2012.png?t=2024-03-05T23%3A36%3A47.376Z")
   const [showView, setShowView] = useState(false);
     const handlePress = () => {
       setShowView(!showView);
@@ -328,17 +328,25 @@ const NewContact = () => {
 
     return(
       <LinearGradient
-      colors={[
-        "#7227a6",
-        "#431b6a",
-      ]}
-      style={styles.contenedorPrincipal}
-    >
-
+        colors={[
+          "#7227a6",
+          "#431b6a",
+          "#000000"
+        ]}
+        style={styles.contenedorPrincipal}
+      >
         
         <ScrollView>
+        <View style={styles.backButton}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+        >
+          <Image
+          source={require('../Assets/image (3).png')}
+        />
+        </TouchableOpacity>
+        </View>
         <View style = {{marginTop: Constants.statusBarHeight}}>
-          <Text style = {{fontSize:32, fontWeight: "bold"}}>Crear Nuevo Contacto</Text>
           <TouchableOpacity style={styles.buttonImage} onPress={handlePress} >
           <Image style = {styles.img} source = {{uri: imgUrl}}/>
           </TouchableOpacity>
@@ -352,8 +360,10 @@ const NewContact = () => {
               </TouchableOpacity>
               </View>
             )}
+            <View style = {styles.view_informacion}>
+            <Text  style = {styles.titulos}>Información Personal</Text>
             <View style = {{flexDirection: "row"}}>
-            <Image style = {{width: 50, height:50, marginTop: 30, marginLeft: 15}} source={require('../Components/ImagenesContacts/User.png')} />
+            <Image style = {{width: 60, height:60, marginTop: 20, marginLeft: 15}} source={require('../Assets/contactIcon.png')} />
             <TextInput
             style={styles.textinput}
             placeholder='Nombre y Apellido'
@@ -362,7 +372,7 @@ const NewContact = () => {
             />
             </View>
             <View style = {{flexDirection: "row"}}>
-            <Image style = {{width: 50, height:50, marginTop: 30, marginLeft: 15}} source={require('../Components/ImagenesContacts/Cake.png')} />
+            <Image style = {{width: 60, height:60, marginTop: 20, marginLeft: 15}} source={require('../Assets/birthdayIcon.png')} />
             <TextInput
             style={styles.textinputFecha}
             value = {fecha_nacimiento.toLocaleDateString()}
@@ -382,7 +392,7 @@ const NewContact = () => {
             </TouchableOpacity>
             </View>
             <View style = {{flexDirection: "row"}}>
-            <Image style = {{width: 50, height:50, marginTop: 30, marginLeft: 15}} source={require('../Components/ImagenesContacts/ID.png')} />
+            <Image style = {{width: 60, height:60, marginTop: 30, marginLeft: 15}} source={require('../Assets/idIcon.png')} />
             <Dropdown
             style={styles.dropdownID}
             placeholderStyle={styles.placeholderStyle}
@@ -393,7 +403,7 @@ const NewContact = () => {
             search
             labelField="label"
             valueField="value"
-            placeholder='Select Item'
+            placeholder='Select'
             searchPlaceholder="Search..."
             value={value}
             onChange={item => {
@@ -416,7 +426,7 @@ const NewContact = () => {
             />
             </View>
             <View style = {{flexDirection: "row"}}>
-            <Image style = {{width: 50, height:50, marginTop: 30, marginLeft: 15}} source={require('../Components/ImagenesContacts/Location.png')} />
+            <Image style = {{width: 60, height:60, marginTop: 30, marginLeft: 15}} source={require('../Assets/locationIcon.png')} />
             <TextInput
             style={styles.textinput}
             placeholder='Dirección'
@@ -425,7 +435,7 @@ const NewContact = () => {
             />
             </View>
             <View style = {{flexDirection: "row"}}>
-            <Image style = {{width: 50, height:50, marginTop: 30, marginLeft: 15}} source={require('../Components/ImagenesContacts/Phone.png')} />
+            <Image style = {{width: 60, height:60, marginTop: 30, marginLeft: 15}} source={require('../Assets/phoneIcon.png')} />
             <Dropdown
             style={styles.dropdownID}
             placeholderStyle={styles.placeholderStyle}
@@ -437,7 +447,7 @@ const NewContact = () => {
             maxHeight={300}
             labelField="label"
             valueField="value"
-            placeholder='Select Item'
+            placeholder='Select'
             searchPlaceholder="Search..."
             value={value_phone}
             onChange={item => {
@@ -459,8 +469,11 @@ const NewContact = () => {
             />
             </View>
         </View>
+        </View>
+        <View style = {styles.view_correo}>
+        <Text  style = {styles.titulos}>Correo</Text>
         <View style = {{flexDirection: "row"}}>
-        <Image style = {{width: 50, height:50, marginTop: 30, marginLeft: 15}} source={require('../Components/ImagenesContacts/Email.png')} />
+        <Image style = {{width: 60, height:60, marginTop: 20, marginLeft: 15}} source={require('../Assets/mailIcon.png')} />
             <TextInput
             style={styles.textinput}
             placeholder='Correo Electrónico'
@@ -468,6 +481,8 @@ const NewContact = () => {
             onChangeText={(texto5) => setCorreo(texto5)}
             />
         </View>
+        </View>
+        <View style = {styles.view_fecha}>
           <Text  style = {styles.titulos}>Fecha de Ingreso</Text>
         <View style = {{flexDirection: "row"}}>
             <TextInput
@@ -488,7 +503,8 @@ const NewContact = () => {
             <Image style = {{width: 30, height:30}} source={require('../Components/ImagenesContacts/Calendario.png')}  />
             </TouchableOpacity>
             </View>
-
+            </View>
+        <View style = {styles.view_correo}>
         <Text style = {styles.titulos}>Condicion de Venta</Text>
         <Dropdown
         style={styles.dropdown}
@@ -511,60 +527,66 @@ const NewContact = () => {
           <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
         )}
       />
-
-      <View>
-      <Text style = {styles.titulos}>Tipo de Cargo</Text>
+      </View>
+      <View style = {styles.view_cargo}>
       <View style = {{flexDirection: "row"}}>
-        <Text>Empleado</Text>
+        <Text style = {styles.titulos}>Empleado</Text>
         <Switch
-        trackColor={{false: '#767577', true: '#81b0ff'}}
-        ios_backgroundColor="#3e3e3e"
+        style = {{flex: 1, justifyContent: "flex-end"}}
+        trackColor = {"green"}
+        thumbColor={"green"}
         onValueChange={toggleSwitch_empleado}
         value={isEnabled_empleado}
       />
       </View>
       <View style = {{flexDirection: "row"}}>
-        <Text>Cliente</Text>
+        <Text style = {styles.titulos}>Cliente</Text>
         <Switch
-        trackColor={{false: '#767577', true: '#81b0ff'}}
-        ios_backgroundColor="#3e3e3e"
+        style = {{flex: 1, justifyContent: "flex-end"}}
+        trackColor = {"green"}
+        thumbColor={"green"}
         onValueChange={toggleSwitch_cliente}
         value={isEnabled_cliente}
       />
       
       </View>
       <View style = {{flexDirection: "row"}}>
-        <Text>Proveedor</Text>
+        <Text style = {styles.titulos}>Proveedor</Text>
         <Switch
-        trackColor={{false: '#767577', true: '#81b0ff'}}
-        ios_backgroundColor="#3e3e3e"
+        style = {{flex: 1, justifyContent: "flex-end"}}
+        trackColor = {"green"}
+        thumbColor={"green"}
         onValueChange={toggleSwitch_proveedor}
         value={isEnabled_proveedor}
       />
       </View>
       <View style = {{flexDirection: "row"}}>
-        <Text>Contribuyente</Text>
+        <Text style = {styles.titulos}>Contribuyente</Text>
         <Switch
-        trackColor={{false: '#767577', true: '#81b0ff'}}
-        ios_backgroundColor="#3e3e3e"
+        style = {{flex: 1, justifyContent: "flex-end"}}
+        trackColor = {"green"}
+        thumbColor={"green"}
         onValueChange={toggleSwitch_contribuyente}
         value={isEnabled_contribuyente}
       />
       </View>
       <View style = {{flexDirection: "row"}}>
-        <Text>Vendedor</Text>
+        <Text style = {styles.titulos}>Vendedor</Text>
         <Switch
-        trackColor={{false: '#767577', true: '#81b0ff'}}
-        ios_backgroundColor="#3e3e3e"
+        trackColor = {"green"}
+        thumbColor={"green"}
+        style = {styles.switch_style}
         onValueChange={toggleSwitch_vendedor}
         value={isEnabled_vendedor}
       />
       </View>
       </View>
+      <View style = {styles.view_credito}>
       <View style={{flexDirection: 'row' }}>
         <Text style = {styles.titulos}>Crédito Total</Text>
         <TextInput
             style={styles.textinputFecha}
+            placeholder = "$"
             onChangeText={(texto7) => setCreditoTotal(texto7)}
             />
       </View>
@@ -574,7 +596,6 @@ const NewContact = () => {
             style={styles.textinputFecha}
             value = {credito_vence.toLocaleDateString()}
             title='Credito Vence'
-            placeholderTextColor='#FFFFFF'
             onChangeText={(value) => setCreditoVence(credito_vence)}
             />
             {show2 && (
@@ -589,9 +610,12 @@ const NewContact = () => {
             <TouchableOpacity style={styles.botonfecha} onPress={showDatepicker2}>
             <Image style = {{width: 30, height:30}} source={require('../Components/ImagenesContacts/Calendario.png')}  />
             </TouchableOpacity>
+            </View>
             
-
+            
+      
       </View>
+      
       <View style={styles.countContainer}>
           <TouchableOpacity style={styles.button} onPress={handleSubmit} >
           <Text style={styles.buttonText}>Agregar</Text>
@@ -610,14 +634,63 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     marginBottom: 50
   },
+  view_informacion:{
+    backgroundColor: "rgba(0,0,0,0.4)", 
+    borderRadius: 18, 
+    marginTop: 20
+  },
+  view_correo:{
+    backgroundColor: "rgba(0,0,0,0.4)", 
+    borderRadius: 18, 
+    marginTop: 20,
+    height: 150
+  },
+  backButton: {
+    position: 'absolute',
+    top: Constants.statusBarHeight * 0.5,
+    left: Constants.statusBarHeight * 0.01,
+    padding: 10,
+    zIndex: 1,
+    alignSelf:'flex-start',
+    justifyContent:'flex-start'
+  },
+  view_fecha:{
+    backgroundColor: "rgba(0,0,0,0.4)", 
+    borderRadius: 18, 
+    marginTop: 20,
+    height: 150
+  },
+  view_correo:{
+    backgroundColor: "rgba(0,0,0,0.4)", 
+    borderRadius: 18, 
+    marginTop: 20,
+    height: 150
+  },
+  view_cargo:{
+    backgroundColor: "rgba(0,0,0,0.4)", 
+    borderRadius: 18, 
+    marginTop: 20,
+    height: 250
+  },
+  switch_style:{
+    flex: 1,
+    justifyContent: "flex-end",
+  },
+  view_credito:{
+    backgroundColor: "rgba(0,0,0,0.4)", 
+    borderRadius: 18, 
+    marginTop: 20,
+    height: 200
+  },
     fondo:{
       backgroundColor: "#86CDF9",
       flex: 1
     },
     titulos:{
-      color:"black", 
+      color:"white", 
       fontWeight: "bold",
-      fontSize: 20
+      fontSize: 20,
+      marginLeft: 10
     },
     buttonText:{
       color:"green",
@@ -634,11 +707,11 @@ const styles = StyleSheet.create({
     textinput:{
         padding: 10,
         borderWidth: 2,
-        borderColor: "black",
-        backgroundColor: "white",
+        borderColor: "",
+        backgroundColor: "rgba(82,209,38,18)",
         textAlign: "center",
         paddingStart: 30, /*Aqui cambio la posicion del texto dentro del input*/
-        width: "75%",
+        width: "70%",
         height: 60,
         marginTop: 20,
         marginLeft: 25,
@@ -648,7 +721,7 @@ const styles = StyleSheet.create({
         padding: 10,
         borderWidth: 2,
         borderColor: "black",
-        backgroundColor: "white",
+        backgroundColor: "rgba(82,209,38,18)",
         textAlign: "center",
         paddingStart: 30, /*Aqui cambio la posicion del texto dentro del input*/
         flex: 1,
@@ -661,7 +734,7 @@ const styles = StyleSheet.create({
         padding: 10,
         borderWidth: 2,
         borderColor: "black",
-        backgroundColor: "white",
+        backgroundColor: "rgba(82,209,38,18)",
         textAlign: "center",
         paddingStart: 30, /*Aqui cambio la posicion del texto dentro del input*/
         flex: 1,
@@ -674,7 +747,7 @@ const styles = StyleSheet.create({
         padding: 10,
         borderWidth: 2,
         borderColor: "black",
-        backgroundColor: "white",
+        backgroundColor: "rgba(82,209,38,18)",
         textAlign: "center",
         paddingStart: 30, /*Aqui cambio la posicion del texto dentro del input*/
         width: 215,
@@ -687,7 +760,7 @@ const styles = StyleSheet.create({
         padding: 10,
         borderWidth: 2,
         borderColor: "black",
-        backgroundColor: "white",
+        backgroundColor: "rgba(82,209,38,18)",
         alignItems: "center",
         width: 60,
         height: 60,
@@ -771,14 +844,14 @@ const styles = StyleSheet.create({
         flex: 1,
         borderBottomColor: 'black',
         borderBottomWidth: 2,
-        backgroundColor: "white"
+        backgroundColor: "rgba(82,209,38,18)"
       },
       dropdown: {
         margin: 16,
         height: 50,
         borderBottomColor: 'black',
         borderBottomWidth: 2,
-        backgroundColor: "white"
+        backgroundColor: "rgba(82,209,38,18)"
       },
       icon: {
         marginRight: 5,
