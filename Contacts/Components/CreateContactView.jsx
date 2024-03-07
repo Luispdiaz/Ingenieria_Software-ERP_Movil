@@ -13,7 +13,6 @@ import { storage } from '../../NewProducts/Components/firebaseconfig';
 import {ref,uploadBytesResumable,getDownloadURL} from "firebase/storage"
 
 
-const image = require("../Assets/Fondo.png");
 
 const NewContact = () => {
   const [cont_tipo_documento, setContTipoDocumento] = useState('');
