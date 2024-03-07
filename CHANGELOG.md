@@ -161,3 +161,9 @@ crear y modificar productos.
 - Listo creacion de contacto y envio a la base de datos
 
 ## [1.11.0] - 2024-3-05
+
+### Changed
+
+- Se mejoro la vista contact description
+
+## [1.11.1] - 2024-3-07

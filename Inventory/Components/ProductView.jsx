@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, StyleSheet, Dimensions, Image, ScrollView, TouchableOpacity } from "react-native";
+import React, {useState} from "react";
+import { View, Text, StyleSheet, Dimensions, Image, ScrollView, TouchableOpacity, Switch } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import Constants from 'expo-constants';
 import theme from "../Themes/Theme";
@@ -8,11 +8,70 @@ import { useNavigation } from '@react-navigation/native'
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').height;
 
+const Pasador = ({estado}) => {
+  const [isSwitchOn, setIsSwitchOn] = useState(estado === true);
+  return(
+    <Switch
+      trackColor={{ false: "#52D126", true: "#52D126" }}
+      thumbColor={isSwitchOn ? "#52D126" : "#52D126"}
+      ios_backgroundColor="#52D126"
+      borderColor= "#52D126"
+      onValueChange={() => setIsSwitchOn(previousState => !previousState)}
+      value={isSwitchOn}
+      disabled={true} // Siempre deshabilitado
+    />
+  )
+};
+
+function obtenerColor(quantity) {
+  if (quantity === 0) {
+    return '#FF0000';
+  } else if (quantity >= 1 && quantity <= 5) {
+    return '#FFFF00';
+  } else {
+    return '#52D126';
+  }
+}
+
+function HayDescuento(descuento) {
+  if (descuento > 0) {
+    return (
+      
+      <View style={styles.CategoriaImpuesto}>
+        {String(descuento)}
+        <Text>hello world</Text>
+        <Pasador
+        estado= {true}/>
+        <Text style={styles.CategoriaTexto}>{descuento}%</Text>
+      </View> 
+    );
+  }  else {
+    return  (
+      <View>
+      
+      <Text>hello world {descuento}</Text>
+      <Pasador
+        estado= {false}/>
+        </View>
+    );
+  }
+}
+
 
 const styles = StyleSheet.create({
-    container: {
+    contenedorPrincipal: {
       flex: 1,
-      backgroundColor: theme.colors.secundario
+      justifyContent: 'flex-start'
+    },
+    contenedorCasilla: {
+      margin: 25,
+      marginTop: 30,
+      justifyContent: 'space-between'
+    },
+    miniContenedor: {
+      margin: 5,
+      flexDirection:'row',
+      justifyContent:'space-between'
     },
     text: {
         fontSize: theme.text.fontSize,
@@ -24,7 +83,13 @@ const styles = StyleSheet.create({
         fontSize: theme.text.fontSize,
         fontWeight: theme.text.fontWeight,
         color: theme.colors.textPrimary,
+        
     },
+    smallTextList: {
+      fontSize: theme.smalltext.fontSize,
+      fontWeight: theme.text.fontWeight,
+      color: theme.colors.textPrimary,
+  },
     textList2: {
         fontSize: theme.text.fontSize,
         fontWeight: theme.text.fontWeight,
@@ -33,7 +98,7 @@ const styles = StyleSheet.create({
     },
     EstiloImagen: {
         width: '100%',
-        height: windowHeight * 0.4, // Puedes ajustar este valor según tus necesidades
+        height: windowHeight * 0.6,
         borderBottomLeftRadius: 85,
         borderBottomRightRadius: 85,
         marginTop: Constants.statusBarHeight
@@ -67,17 +132,13 @@ const styles = StyleSheet.create({
         marginTop:15
       },
       Categoria: {
-        backgroundColor: '#8a2be2', 
+        marginHorizontal: '5%',
+        backgroundColor: 'rgba(255, 255, 255,0.07)', 
         padding: 10,
-        borderRadius: 5,
-        marginTop: 30,
+        borderRadius: 40,
+        marginTop: 20,
         alignSelf: "flex-start",
-        marginRight: 10
-      },
-      CategoriaTexto: {
-        color: theme.colors.textPrimary, 
-        fontSize: theme.text.fontSize, 
-        fontWeight: theme.text.fontWeight, 
+        margin: 'auto'
       },
       CategoriaImpuesto: {
         backgroundColor: theme.colors.primario, 
@@ -90,11 +151,15 @@ const styles = StyleSheet.create({
       CategoriaTexto: {
         color: theme.colors.textPrimary, 
         fontSize: theme.text.fontSize,
-        fontWeight: theme.text.fontWeight, 
+        fontWeight: theme.text.fontWeight,
+        marginVertical: '3%',
+        marginHorizontal: '7%'
       },
-      contenedorPrincipal: {
-        flex: 1,
-    },
+      CategoriaTextoBold: {
+        color: theme.colors.textPrimary, 
+        fontSize: theme.text.fontSize,
+        fontWeight: theme.hypertitle.fontWeight, 
+      },
     backButton: {
         position: 'absolute',
         top: Constants.statusBarHeight,
@@ -112,10 +177,10 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-end'
          },
 
-      purplecircle: {
-        borderColor: '#8a2be2',
+      greenCircle: {
+        borderColor: '#52D126',
         borderWidth: 2,
-        padding: 10,
+        padding: 5,
         borderRadius: 20,
         justifyContent:'center',
         alignItems:'center',
@@ -123,12 +188,12 @@ const styles = StyleSheet.create({
         },  
 
         card: {
-          backgroundColor: '#8a2be2',
+          backgroundColor: 'rgba(255, 255, 255,0.04)',
           borderRadius: 8,
           paddingVertical: 15,
           paddingHorizontal: 10,
-          width: '100%',
-          marginVertical: 10,
+          margin: 25,
+          marginTop: 50
         },
         shadowProp: {
           shadowColor: '#808080',
@@ -143,6 +208,36 @@ const styles = StyleSheet.create({
           backgroundColor: '#eebefe', // Color de fondo del círculo
           justifyContent: 'center',
           alignItems: 'center',
+        },
+        line: {
+          borderColor: 'white', 
+          borderWidth: 2,
+          marginHorizontal: '5%'
+        },
+        textCategory: {
+          flexDirection:'row', 
+          justifyContent: 'space-between',
+          marginHorizontal: '5%'
+        },
+        green: {
+          color: '#52D126'
+        },
+        statsContainer: {
+          margin: '3%',
+          marginTop: '15%',
+          marginBottom: '30%',
+          backgroundColor: 'rgba(255, 255, 255,0.06)',
+          borderRadius: 30,
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+        },
+        littleStatsBox: {
+          flexDirection:'row',
+          justifyContent:'space-between',
+          marginHorizontal:10,
+          margin: 8,
+          width: 'auto',
+          alignItems: 'center'
         }
       
   });
@@ -194,6 +289,7 @@ const ProductView = ({ route }) => {
     end={{ x: 1, y: 1 }}
     style={styles.contenedorPrincipal}
     >
+      <ScrollView>
       <Image style={styles.EstiloImagen} source={{ uri: imagen }} />
     
 
@@ -223,113 +319,117 @@ const ProductView = ({ route }) => {
       />
       </TouchableOpacity>
       </View>
-      <ScrollView>
-      <View style={{marginHorizontal: Math.sqrt(windowWidth**2 + windowHeight**2) * 0.045, marginVertical:2}}>
-      <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-      <Text style={styles.titulo}>{nombre}</Text>
-      <Text style={styles.titulo}>{precio_usd}$</Text>
-      </View>
+      
+      <View style={styles.contenedorPrincipal}>
+      
+        <View style={styles.contenedorCasilla}>
+          <View style={styles.miniContenedor}>
+            <Text style={styles.titulo}>{nombre}</Text>
+            <Text style={styles.titulo}>${precio_usd}</Text>
+          </View>
 
-      <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-      <Text style={styles.textList}>{descripcion}</Text>
-      <Text style={styles.textList}>Disponible {cantidad_existencia}</Text>
-      </View>
-      <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
-       <View style={styles.Categoria}>
-       <Text style={styles.CategoriaTexto}>Categoria</Text>
-       </View>
-       <View style={styles.Categoria}>
-       <Text style={styles.CategoriaTexto}>Subcategoria</Text>
-       </View>
-       </View>
+          <View style={[styles.miniContenedor, {justifyContent: 'flex-end'}]}>
+            <Text style={[styles.textList, {color: obtenerColor(cantidad_existencia)}]}>Disponible {cantidad_existencia}</Text>
+          </View>
 
-       <View style={{flexDirection:'row', justifyContent: 'space-between',borderBottomColor: 'white', borderTopColor:'white',
-       borderBottomWidth: StyleSheet.hairlineWidth, borderTopWidth: StyleSheet.hairlineWidth, marginTop:10}}>
-       <Text style={styles.CategoriaTexto}>{categoria}</Text>
-       <Text style={styles.CategoriaTexto}>{sub_categorias}</Text>
-       </View>
 
-       <View style={[styles.card, styles.shadowProp]}>
-       <View>
-       <Text style={styles.titulo}>Caracteristicas</Text>
-       </View>
-       <View style={{flexDirection:'row', justifyContent:'space-between',marginTop:10}}>
-        <Text style={styles.textList}>•Modelo: {modelo}</Text>
-        <Text style={styles.textList}>•Marca: {marca}</Text>
         </View>
-        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-        <Text style={styles.textList}>•Color:{color}</Text>
-        <Text style={styles.textList}>•#Prov: {cod_proveedor}</Text>
-        </View>
-       </View>
 
-       <View style={{marginTop:30}}>
+        <View style={styles.contenedorCasilla}>
+
+          <View style={styles.miniContenedor}>
+            <Text style={[styles.textList, {color: '#808080'}]}>{descripcion}</Text>
+          </View>
+
+          
+        </View>
+
+        <View style={styles.miniContenedor}>
+          <View style={styles.Categoria}>
+            <Text style={styles.CategoriaTextoBold}>Categoria</Text>
+          </View>
+          <View style={styles.Categoria}>
+            <Text style={styles.CategoriaTextoBold}>Subcategoria</Text>
+          </View>
+        </View>
+
+        <View style={styles.line}/>
+        <View style={styles.textCategory}>
+          <Text style={styles.CategoriaTexto}>{categoria}</Text>
+          <Text style={styles.CategoriaTexto}>{sub_categorias}</Text>
+        </View>
+        <View style={styles.line}/>
+
+
+        <View style={[styles.card, styles.shadowProp]}>
+          <View>
+            <Text style={styles.titulo}>Caracteristicas</Text>
+          </View>
+          <View style={[styles.miniContenedor, {marginTop: 20}]}>
+            <Text style={styles.textList}><Text style={styles.green}>•</Text>Modelo: {modelo}</Text>
+            <Text style={styles.textList}><Text style={styles.green}>•</Text>Marca: {marca}</Text>
+          </View>
+          <View style={styles.miniContenedor}>
+            <Text style={styles.textList}><Text style={styles.green}>•</Text>Color:{color}</Text>
+            <Text style={styles.textList}><Text style={styles.green}>•</Text>#Prov: {cod_proveedor}</Text>
+          </View>
+        </View>
+
+        <View style={styles.statsContainer}>
+  
         
-        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-        <Text style={styles.textList}>•Cantidad Existente</Text>
-        <View style={styles.purplecircle}>
-        <Text style={styles.textList}>{cantidad_existencia}</Text>
-        </View>
-        </View>
+          <View style={styles.littleStatsBox}>
+          <Text style={[styles.textList, {fontWeight: 'bold'}]}>Cantidad Existente:</Text>
+          <View style={styles.greenCircle}>
+          <Text style={styles.smallTextList}>{cantidad_existencia}</Text>
+          </View>
+          </View>
 
-        <View style={{flexDirection:'row', justifyContent:'space-between',marginTop:15}}>
-        <Text style={styles.textList}>•Reorden</Text>
-        <View style={styles.purplecircle}>
-        <Text style={styles.textList}>{reordenar_cantidad}</Text>
-        </View>
-        </View>
+          <View style={styles.littleStatsBox}>
+          <Text style={styles.smallTextList}>Reorden</Text>
+          <View style={styles.greenCircle}>
+          <Text style={styles.smallTextList}>{reordenar_cantidad}</Text>
+          </View>
+          </View>
 
-        <View style={{flexDirection:'row', justifyContent:'space-between',marginTop:15}}>
-        <Text style={styles.textList}>•Cantidad (maxima)</Text>
-        <View style={styles.purplecircle}>
-        <Text style={styles.textList}>{maxima_cantidad}</Text>
-        </View>
-        </View>
+          <View style={styles.littleStatsBox}>
+          <Text style={[styles.textList, {fontWeight: 'bold'}]}>Cantidad: <Text style={styles.smallTextList}>    Minima</Text></Text>
+          <View style={styles.greenCircle}>
+          <Text style={styles.smallTextList}>{minima_cantidad}</Text>
+          </View>
+          </View>
+
+          <View style={styles.littleStatsBox}>
+          <Text style={styles.smallTextList}>Maxima</Text>
+          <View style={styles.greenCircle}>
+          <Text style={styles.smallTextList}>{maxima_cantidad}</Text>
+          </View>
+          </View>
+          
+          
+
+          <View style={styles.littleStatsBox}>
+          <Text style={[styles.textList, {fontWeight: 'bold'}]}>Costo:  <Text style={styles.smallTextList}>USD</Text></Text>
+          <View style={styles.greenCircle}>
+          <Text style={styles.smallTextList}>{costo_usd}$</Text>
+          </View>
+          </View>
+
+          <View style={styles.littleStatsBox}>
+          <Text style={[styles.textList, {fontWeight: 'bold'}]}>Valor venta:  <Text style={styles.smallTextList}>USD</Text></Text>
+          <View style={styles.greenCircle}>
+          <Text style={styles.smallTextList}>{precio_usd} $</Text>
+          </View>
+          </View>
+          
         
-        <View style={{flexDirection:'row', justifyContent:'space-between',marginTop:15}}>
-        <Text style={styles.textList}>•Cantidad (minima)</Text>
-        <View style={styles.purplecircle}>
-        <Text style={styles.textList}>{minima_cantidad}</Text>
+          <View style={styles.littleStatsBox}>
+          <Text style={[styles.textList, {fontWeight: 'bold', }]}>Tipo de Impuesto:       </Text>
+          <View style={styles.greenCircle}>
+          <Text style={styles.CategoriaTexto}>{tipo_impuesto}</Text>
+          </View>
+          </View>
         </View>
-        </View>
-
-        <View style={{flexDirection:'row', justifyContent:'space-between', marginTop:15}}>
-        <Text style={styles.textList}>•Costo promedio:</Text>
-        <View style={styles.purplecircle}>
-        <Text style={styles.textList}>{costo_promedio_efectivo}$</Text>
-        </View>
-        </View>
-
-        <View style={{flexDirection:'row', justifyContent:'space-between', marginTop:15}}>
-        <Text style={styles.textList}>•Valor venta:</Text>
-        <View style={styles.purplecircle}>
-        <Text style={styles.textList}>{precio_usd} $</Text>
-        </View>
-        </View>
-        
-
-       </View>
-       <View style={{flexDirection:'row', alignItems:'center', marginTop:25}}>
-       <Text style={styles.textList}>•Tipo de Impuesto  </Text>
-       <View style={styles.CategoriaImpuesto}>
-       <Text style={styles.CategoriaTexto}>{tipo_impuesto} 🏷️16%</Text>
-       </View>
-       </View>
-       <View style={{flexDirection:'row', alignItems:'center', marginTop:25}}>
-       <Text style={styles.textList}>•Descuento</Text>
-       <View style={styles.CategoriaImpuesto}>
-       <Text style={styles.CategoriaTexto}>{String(descuento_promocion)}</Text>
-       </View>
-       <View style={styles.CategoriaImpuesto}>
-       <Text style={styles.CategoriaTexto}>{valor_descuento_promocion}%</Text>
-       </View>
-       </View>
-       <View style={{flexDirection:'row', alignItems:'center', marginTop:25}}>
-       <Text style={styles.textList}>•Conversion  </Text>
-       <View style={styles.CategoriaImpuesto}>
-       <Text style={styles.CategoriaTexto}>{String(conversion_usd_efectivo)}</Text>
-       </View>
-       </View>
       </View>
       </ScrollView>
     </LinearGradient>
