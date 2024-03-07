@@ -136,6 +136,14 @@ const styles = StyleSheet.create({
           shadowOpacity: 0.2,
           shadowRadius: 3,
         },
+        circularButton: {
+          width: 40,
+          height: 40,
+          borderRadius: 20, // Esto hará que el contenedor sea circular
+          backgroundColor: '#eebefe', // Color de fondo del círculo
+          justifyContent: 'center',
+          alignItems: 'center',
+        }
       
   });
 
@@ -192,6 +200,7 @@ const ProductView = ({ route }) => {
       <View style={styles.backButton}>
       <TouchableOpacity
         onPress={() => navigation.goBack()}
+        style={styles.circularButton}
       >
         <Image
         source={require('../Assets/image (3).png')}

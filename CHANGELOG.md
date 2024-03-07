@@ -155,3 +155,9 @@ crear y modificar productos.
 - Se han agregado funcionalidades al modulo de ventas, entre ellas metodo de pago y nota de entrega.
 
 ## [1.10.0] - 2024-3-05
+
+### Added
+
+- Listo creacion de contacto y envio a la base de datos
+
+## [1.11.0] - 2024-3-05
