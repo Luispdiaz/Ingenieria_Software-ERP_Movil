@@ -179,3 +179,9 @@ crear y modificar productos.
 - Se mejoro el calculo de los precios totales 
 
 ## [1.11.3] - 2024-3-14
+
+### Version
+
+- Se ha subido la segunda version a producción.
+
+## [2.0.0] - 2024-2-22 
