@@ -4,35 +4,48 @@ import { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import theme from "../../Inventory/Themes/Theme";
-import Product from '../../Inventory/Components/Product';
 import * as ImagePicker from "expo-image-picker"
-import {useEffect } from 'react';
 import Constants from 'expo-constants';
 import UpdateHeader from './HeaderUpdateProduct';
+import { storage } from './firebaseconfig';
+import {ref,uploadBytesResumable,getDownloadURL} from "firebase/storage"
+import {addDoc,collection,onSnapshot, snapshotEqual} from "firebase/firestore"
 import { isEmpty } from '@firebase/util';
-
 
 const image = require("../Imagenes/Fondo.png");
 
 
 const UpdateProduct = ({Lista}) =>{
-    const { UpdateProduct } = useProducts() 
-    const [CodProveedor, setCodProveedor] = useState('');
-    const [Nombre, setNombre] = useState('');
-    const [Descripcion, setDescripcion] = useState('');
-    const [Marca, setMarca] = useState('');
-    const [Categoria, setCategoria] = useState('');
-    const [CantidadInicial, setCantidadInicial] = useState('');
-    const [CantidadMaxima, setCantidadMaxima] = useState('');
-    const [CantidadMinima, setCantidadMinima] = useState('');
-    const [CantidadRestock, setCantidadRestock] = useState('');
-    const [PrecioD, setPrecioD] = useState('');
-    const [PrecioE, setPrecioE] = useState('');
-    const [CostoD, setCostoD] = useState('');
-    const [CostoE, setCostoE] = useState('');
-    const [Porcentaje, setPorcentaje] = useState(0);
-    const [TipoImpuesto, setTipoImpuesto] = useState('');
-    const [Imagen, setImagen] = useState('');
+
+   
+    
+  const { UpdateProduct } = useProducts() 
+    
+
+  const [Nombre, setNombre] = useState(null);
+  const [Imagen, setImagen] = useState(null);
+  const [CodProveedor, setCodProveedor] = useState(null);
+  const [Categoria, setCategoria] = useState(null);
+  const [SubCategorias, setSubCategorias] = useState(null);
+  const [Descripcion, setDescripcion] = useState(null);
+  const [Color, setColor] = useState(null);
+  const [Marca, setMarca] = useState(null);
+  const [Modelo, setModelo] = useState(null);
+  const [CantidadExistencia, setCantidadExistencia] = useState(null);
+  const [MinimaCantidad, setMinimaCantidad] = useState(null);
+  const [MaximaCantidad, setMaximaCantidad] = useState(null);
+  const [ReordenarCantidad, setReordenarCantidad] = useState(null);
+  const [CostoUSD, setCostoUSD] = useState(null);
+  const [CostoEfectivo, setCostoEfectivo] = useState(null);
+  const [CostoPromedioUSD, setCostoPromedioUSD] = useState(null);
+  const [CostoPromedioEfectivo, setCostoPromedioEfectivo] = useState(null);
+  const [PrecioUSD, setPrecioUSD] = useState(null);
+  const [PrecioEfectivo, setPrecioEfectivo] = useState(null);
+  const [TipoImpuesto, setTipoImpuesto] = useState(null);
+  const [DescuentoPromocion, setDescuentoPromocion] = useState(null);
+  const [ValorDescuentoPromocion, setValorDescuentoPromocion] = useState(null);
+  const [ConversionUSDEfectivo, setConversionUSDEfectivo] = useState(null);
+
     const[Empty, setEmpty] = useState(false)
 
     const navigation = useNavigation()
@@ -41,46 +54,92 @@ const UpdateProduct = ({Lista}) =>{
     const handleToggle = () => {
         setIsEnabled(!isEnabled);
     };
-  const [isEnabledText, setIsEnabledText] = useState(false);
+    const [isEnabledText, setIsEnabledText] = useState(false);
 
   const handleToggleText = () => {
       setIsEnabledText(!isEnabledText);
   };
 
     const handleSubmit = () => {
-      if (Empty){
-        Alert.alert("AVISO!!","Debe llenar todos los campos para agregar el producto")
+      const todosCamposNulos = Object.values({
+        Nombre,
+        Imagen,
+        CodProveedor,
+        Categoria,
+        SubCategorias,
+        Descripcion,
+        Color,
+        Marca,
+        Modelo,
+        CantidadExistencia,
+        MinimaCantidad,
+        MaximaCantidad,
+        ReordenarCantidad,
+        CostoUSD,
+        CostoEfectivo,
+        CostoPromedioUSD,
+        CostoPromedioEfectivo,
+        PrecioUSD,
+        PrecioEfectivo,
+        TipoImpuesto,
+        DescuentoPromocion,
+        ValorDescuentoPromocion,
+        ConversionUSDEfectivo
+    }).every(value => value === null);
+
+    if (todosCamposNulos) {
+        Alert.alert("AVISO!!","Debe llenar algún campo para modificar")
+        console
       }
       else{
-        if (!isValidNumber(CantidadInicial) || !isValidNumber(PrecioD) || !isValidNumber(PrecioE) || !isValidNumber(CostoD) || !isValidNumber(CostoE)) {
+        if (
+          (CantidadExistencia !== null && !isValidNumber(CantidadExistencia)) ||
+          (MinimaCantidad !== null && !isValidNumber(MinimaCantidad)) ||
+          (MaximaCantidad !== null && !isValidNumber(MaximaCantidad)) ||
+          (ReordenarCantidad !== null && !isValidNumber(ReordenarCantidad)) ||
+          (CostoUSD !== null && !isValidNumber(CostoUSD)) ||
+          (CostoEfectivo !== null && !isValidNumber(CostoEfectivo)) ||
+          (CostoPromedioUSD !== null && !isValidNumber(CostoPromedioUSD)) ||
+          (CostoPromedioEfectivo !== null && !isValidNumber(CostoPromedioEfectivo)) ||
+          (PrecioUSD !== null && !isValidNumber(PrecioUSD)) ||
+          (PrecioEfectivo !== null && !isValidNumber(PrecioEfectivo)) ||
+          (ValorDescuentoPromocion !== null && !isValidNumber(ValorDescuentoPromocion))
+      ) {
             Alert.alert('Error', 'Por favor, ingresa valores válidos');
             navigation.navigate("VistaInventario");
           }
           else {
+
+        CamposNuevos = {nombre: Nombre,
+          nombre: Nombre,
+          imagen: Imagen,
+          cod_proveedor: CodProveedor,
+          categoria: Categoria,
+          sub_categorias: SubCategorias,
+          descripcion: Descripcion,
+          color: Color,
+          marca: Marca,
+          modelo: Modelo,
+          cantidad_existencia: CantidadExistencia,
+          minima_cantidad: MinimaCantidad,
+          maxima_cantidad: MaximaCantidad,
+          reordenar_cantidad: ReordenarCantidad,
+          costo_usd: CostoUSD,
+          costo_efectivo: CostoEfectivo,
+          costo_promedio_usd: CostoPromedioUSD,
+          costo_promedio_efectivo: CostoPromedioEfectivo,
+          precio_usd: PrecioUSD,
+          precio_efectivo: PrecioEfectivo,
+          tipo_impuesto: TipoImpuesto,
+          descuento_promocion: DescuentoPromocion,
+          valor_descuento_promocion: ValorDescuentoPromocion,
+          conversion_usd_efectivo: ConversionUSDEfectivo}
+
+          const CamposActualizados = Object.fromEntries(
+          Object.entries(CamposNuevos).filter(([key, value]) => value !== null))
+
         UpdateProduct(Lista.id_producto, 
-            {nombre: Nombre,
-                imagen: Imagen,
-                sub_categorias: null,
-                cod_proveedor: CodProveedor,
-                descripcion: Descripcion,
-                color: null,
-                categoria: Categoria,
-                marca: Marca,
-                modelo: null,
-                cantidad_existencia: CantidadInicial,
-                minima_cantidad:CantidadMinima,
-                maxima_cantidad:CantidadMaxima,
-                reordenar_cantidad:CantidadRestock,
-                costo_promedio_usd:null,
-                costo_promedio_efectivo:null,
-                costo_usd: CostoD,
-                costo_efectivo:CostoE,
-                precio_usd:PrecioD,
-                precio_efectivo:PrecioE,
-                tipo_impuesto:TipoImpuesto,
-                descuento_promocion:null,
-                conversion_usd_efectivo:null,
-                valor_descuento_promocion:Porcentaje})
+          CamposActualizados)
                 Alert.alert('El producto se modificó de manera exitosa');
                 navigation.navigate("VistaInventario")
     }
@@ -127,7 +186,6 @@ const UpdateProduct = ({Lista}) =>{
     }
 }
 
-
 async function pickImage() {
   let result = await ImagePicker.launchImageLibraryAsync({
     mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -152,6 +210,7 @@ async function pickImage() {
       (snapshot) => {
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         console.log("Upload is" + progress + "% done")
+        
       },
       (error) =>{
 
@@ -199,20 +258,19 @@ async function pickImage() {
       }}
       />
 
-      <TextInput
-      style={styles.textinput}
-      placeholder={`Codigo Proveedor: ${Lista.cod_proveedor}`}
-      placeholderTextColor="#FFFFFF"
-      onChangeText={(texto2) => setCodProveedor(texto2)}
-      onEndEditing = {() =>{
-        if(isEmpty(CodProveedor)){
-          setEmpty(true)
-          Alert.alert("Aviso", "El campo no debe estar vacio")
-          setEmpty(false)
-
+<TextInput
+    style={styles.textinput}
+    placeholder={`Código Proveedor: ${Lista.cod_proveedor || 'No asignado'}`}
+    placeholderTextColor="#FFFFFF"
+    onChangeText={(texto) => setCodProveedor(texto)}
+    onEndEditing={() => {
+        if (isEmpty(CodProveedor)) {
+            setEmpty(true);
+            Alert.alert("Aviso", "El campo no debe estar vacío");
+            setEmpty(false);
         }
-      }}
-      />
+    }}
+/>
       
     <TextInput
     style={styles.textinput}
@@ -228,6 +286,21 @@ async function pickImage() {
       }
     }}
     />
+
+<TextInput
+    style={styles.textinput}
+    placeholder={`Subcategoría del producto: ${Lista.sub_categorias || 'No asignada'}`}
+    placeholderTextColor="#FFFFFF"
+    onChangeText={(texto3) => setSubCategorias(texto3)}
+    onEndEditing={() => {
+        if (isEmpty(Categoria)) {
+            setEmpty(true);
+            Alert.alert("Aviso", "El campo no debe estar vacío");
+            setEmpty(false);
+        }
+    }}
+/>
+
     <TextInput
       style={styles.textinputDescription}
       placeholder={`Descripción del producto: ${Lista.descripcion}`}
@@ -244,11 +317,41 @@ async function pickImage() {
         }
       }}
     />
+
+<TextInput
+    style={styles.textinput}
+    placeholder={`Color: ${Lista.color || 'No asignado'}`}
+    placeholderTextColor="#FFFFFF"
+    onChangeText={(texto) => setColor(texto)}
+    onEndEditing={() => {
+        if (isEmpty(Color)) {
+            setEmpty(true);
+            Alert.alert("Aviso", "El campo no debe estar vacío");
+            setEmpty(false);
+        }
+    }}
+/>
+
     <TextInput
       style={styles.textinput}
-      placeholder={`Marca del producto: ${Lista.marca}`}
+      placeholder={`Marca del Producto: ${Lista.marca || 'No asignado'}`}
       placeholderTextColor="#FFFFFF"
       onChangeText={(texto5) => setMarca(texto5)}
+      onEndEditing = {() =>{
+        if(isEmpty(Marca)){
+          setEmpty(true)
+          Alert.alert("Aviso", "El campo no debe estar vacio")
+          setEmpty(false)
+
+        }
+      }}
+    />
+
+<TextInput
+      style={styles.textinput}
+      placeholder={`Modelo del Producto: ${Lista.modelo || 'No asignado'}`}
+      placeholderTextColor="#FFFFFF"
+      onChangeText={(texto5) => setModelo(texto5)}
       onEndEditing = {() =>{
         if(isEmpty(Marca)){
           setEmpty(true)
@@ -261,13 +364,13 @@ async function pickImage() {
     
     <TextInput
       style={styles.textinput}
-      placeholder={`Cantidad inicial en el inventario: ${Lista.cantidad_existencia}`}
+      placeholder={`Cantidad en el inventario: ${Lista.cantidad_existencia}`}
       placeholderTextColor="#FFFFFF"
       onChangeText={(texto6) => {
         const numeroEntero = parseInt(texto6, 10)
-        setCantidadInicial(numeroEntero);}}
+        setCantidadExistencia(numeroEntero);}}
         onEndEditing = {() =>{
-          if(isEmpty(toString(CantidadInicial))){
+          if(isEmpty(toString(CantidadExistencia))){
             setEmpty(true)
             Alert.alert("Aviso", "El campo no debe estar vacio")
             setEmpty(false)
@@ -277,13 +380,13 @@ async function pickImage() {
     />
     <TextInput
       style={styles.textinput}
-      placeholder={`Cantidad maxima en el Inventario: ${Lista.maxima_cantidad}`}
+      placeholder={`Cantidad máxima en el inventario: ${Lista.maxima_cantidad || 'No asignado'}`}
       placeholderTextColor='#FFFFFF'
       onChangeText={(texto6) => {
         const numeroEntero = parseInt(texto6, 10)
-        setCantidadMaxima(numeroEntero);}}
+        setMaximaCantidad(numeroEntero);}}
         onEndEditing = {() =>{
-          if(isEmpty(toString(CantidadMaxima))){
+          if(isEmpty(toString(MaximaCantidad))){
             setEmpty(true)
             Alert.alert("Aviso", "El campo no debe estar vacio")
             setEmpty(false)
@@ -293,13 +396,13 @@ async function pickImage() {
     />
     <TextInput
       style={styles.textinput}
-      placeholder={`Cantidad minima en el Inventario: ${Lista.minima_cantidad}`}
+      placeholder={`Cantidad mínima en el inventario: ${Lista.minima_cantidad || 'No asignado'}`}
       placeholderTextColor='#FFFFFF'
       onChangeText={(texto6) => {
         const numeroEntero = parseInt(texto6, 10)
-        setCantidadMinima(numeroEntero);}}
+        setMinimaCantidad(numeroEntero);}}
         onEndEditing = {() =>{
-          if(isEmpty(toString(CantidadMaxima))){
+          if(isEmpty(toString(MinimaCantidad))){
             setEmpty(true)
             Alert.alert("Aviso", "El campo no debe estar vacio")
             setEmpty(false)
@@ -309,13 +412,13 @@ async function pickImage() {
     />
     <TextInput
     style={styles.textinput}
-    placeholder={`Cantidad restock en el Inventario: ${Lista.reordenar_cantidad}`}
+    placeholder={`Cantidad restock en el inventario: ${Lista.reordenar_cantidad || 'No asignado'}`}
     placeholderTextColor='#FFFFFF'
     onChangeText={(texto6) => {
     const numeroEntero = parseInt(texto6, 10)
-    setCantidadRestock(numeroEntero);}}
+    setReordenarCantidad(numeroEntero);}}
     onEndEditing = {() =>{
-      if(isEmpty(toString(CantidadRestock))){
+      if(isEmpty(toString(CantidadExistencia))){
         setEmpty(true)
         Alert.alert("Aviso", "El campo no debe estar vacio")
         setEmpty(false)
@@ -331,9 +434,9 @@ async function pickImage() {
       
       const numeroEntero = parseInt(texto7, 10)
       
-      setCostoD(numeroEntero);}}
+      setCostoUSD(numeroEntero);}}
       onEndEditing = {() =>{
-        if(isEmpty(toString(CostoD))){
+        if(isEmpty(toString(CostoUSD))){
           setEmpty(true)
           Alert.alert("Aviso", "El campo no debe estar vacio")
           setEmpty(false)
@@ -349,15 +452,15 @@ async function pickImage() {
       
       const numeroEntero = parseInt(texto8, 10)
       
-      setCostoE(numeroEntero);}}
+      setCostoEfectivo(numeroEntero);}}
   />
     <TextInput
       style={styles.textinput}
       placeholder={`Precio por unidad ($): ${Lista.precio_usd}`}
       placeholderTextColor="#FFFFFF"
-      onChangeText={(texto) => setPrecioD(texto)}
+      onChangeText={(texto) => setPrecioUSD(texto)}
       onEndEditing = {() =>{
-        if(isEmpty(toString(PrecioD))){
+        if(isEmpty(toString(PrecioUSD))){
           setEmpty(true)
           Alert.alert("Aviso", "El campo no debe estar vacio")
           setEmpty(false)
@@ -369,9 +472,9 @@ async function pickImage() {
       style={styles.textinput}
       placeholder={`Precio por unidad (Efectivo): ${Lista.precio_efectivo}`}
       placeholderTextColor="#FFFFFF"
-      onChangeText={(texto) => setPrecioE(texto)}
+      onChangeText={(texto) => setPrecioEfectivo(texto)}
       onEndEditing = {() =>{
-        if(isEmpty(toString(PrecioE))){
+        if(isEmpty(toString(PrecioEfectivo))){
           setEmpty(true)
           Alert.alert("Aviso", "El campo no debe estar vacio")
           setEmpty(false)
@@ -408,7 +511,7 @@ async function pickImage() {
             style={styles.textinputDescuento}
             placeholder='Porcentaje'
             placeholderTextColor='#FFFFFF'
-            onChangeText={(texto) => setImagen(texto)}
+            onChangeText={(texto) => setValorDescuentoPromocion(texto)}
             />}
     </View>
     <View >

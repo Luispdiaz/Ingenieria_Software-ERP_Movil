@@ -167,3 +167,9 @@ crear y modificar productos.
 - Se mejoro la vista contact description
 
 ## [1.11.1] - 2024-3-07
+
+### Changed
+
+- Se mejoro actualizar producto
+
+## [1.11.2] - 2024-3-13
