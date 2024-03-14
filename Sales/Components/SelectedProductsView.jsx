@@ -8,6 +8,10 @@ import { useState } from "react";
 import { useContact } from "../../Context/ContactContext";
 import { useVenta } from "../../Context/VentaContext";
 import Product2 from "./Product2";
+import PercentageDiscountStrategy from "../Strategies/PercentageDiscountStrategy";
+import NoDiscountStrategy from "../Strategies/NoDiscountStrategy";
+import IVATaxStrategy from "../Strategies/IVATaxStrategy";
+import FreeTaxStrategy from "../Strategies/FreeTaxStrategy";
 
 const styles = StyleSheet.create({
     contenedorPrincipal: {
@@ -164,30 +168,50 @@ const SelectedProductsView = ({route}) => {
 
     const calcularTotalUsd = () => {
       return ProductosVenta.reduce((total, producto) => {
-        const precioConDescuento = producto.valor_descuento_promocion > 0
-          ? producto.precio_usd * (1 - producto.valor_descuento_promocion / 100)
-          : producto.precio_usd;
-        return total + (precioConDescuento * producto.cantidad);
-      }, 0).toFixed(2); 
-    };
-    
-    const calcularTotalBs = () => {
-      return ProductosVenta.reduce((total, producto) => {
-        const precioConDescuento = producto.valor_descuento_promocion > 0
-          ? producto.precio_efectivo * (1 - (producto.valor_descuento_promocion / 100))
-          : producto.precio_efectivo;
-        return total + (precioConDescuento * producto.cantidad);
+          let discountStrategy;
+          let precioConDescuento;
+  
+          if (producto.valor_descuento_promocion > 0) {
+              discountStrategy = new PercentageDiscountStrategy(producto.valor_descuento_promocion);
+          } else {
+              discountStrategy = new NoDiscountStrategy();
+          }
+          precioConDescuento = discountStrategy.calculateDiscountedPriceUSD(producto);
+          return total + (precioConDescuento * producto.cantidad);
       }, 0).toFixed(2);
-    };
+  };
     
-    const calcularImpuestos = () => {
-      const impuestoIVA = 0.16; 
-      return ProductosVenta.reduce((totalImpuestos, producto) => {
-        return producto.tipo_impuesto === 'IVA'
-          ? totalImpuestos + (producto.precio_efectivo * impuestoIVA * producto.cantidad)
-          : totalImpuestos;
-      }, 0).toFixed(2);
-    };
+  const calcularTotalBs = () => {
+    return ProductosVenta.reduce((total, producto) => {
+        let discountStrategy;
+        let precioConDescuento;
+
+        if (producto.valor_descuento_promocion > 0) {
+            discountStrategy = new PercentageDiscountStrategy(producto.valor_descuento_promocion);
+        } else {
+            discountStrategy = new NoDiscountStrategy();
+        }
+        precioConDescuento = discountStrategy.calculateDiscountedPriceBolivares(producto);
+
+        return total + (precioConDescuento * producto.cantidad);
+    }, 0).toFixed(2);
+};
+    
+const calcularImpuestos = () => { 
+  const totalImpuestos = ProductosVenta.reduce((total, producto) => {
+      let productoImpuesto;
+      let ImpuestoEstrategia;
+      if (producto.tipo_impuesto === 'IVA') {
+          ImpuestoEstrategia = new IVATaxStrategy();
+      } else {
+          ImpuestoEstrategia = new FreeTaxStrategy();
+      }
+      productoImpuesto = parseFloat(ImpuestoEstrategia.calculateTax(producto));
+      return total + productoImpuesto;
+  }, 0);
+  
+  return totalImpuestos.toFixed(2); 
+};
     
     const calcularTotalFinal = () => {
       const totalBs = parseFloat(calcularTotalBs());
