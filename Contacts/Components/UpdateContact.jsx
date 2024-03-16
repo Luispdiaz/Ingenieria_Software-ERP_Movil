@@ -344,6 +344,7 @@ const UpdateContact = ({Lista}) =>{
           <Image style = {{width: 60, height:60, marginTop: 20, marginLeft: 15}} source={require('../Assets/contactIcon.png')} />
           <TextInput
           style={styles.textinput}
+          placeholder="Nombre y apellido"
           placeholderTextColor='black'
           onChangeText={(texto0) => setNombre(texto0)}
           />
@@ -397,7 +398,6 @@ const UpdateContact = ({Lista}) =>{
           placeholderTextColor='black'
 
           onChangeText={(texto2) => {
-
             const numeroEntero = parseInt(texto2, 10)
             setContIdFiscal(numeroEntero)}}
           />
