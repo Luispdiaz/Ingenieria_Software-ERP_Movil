@@ -22,7 +22,6 @@ import SelectedProductsView from "../Sales/Components/SelectedProductsView";
 import DeliveryNote from "../Sales/Components/DeliveryNote";
 import EnterpriseView from "../Contacts/Components/EnterpriseView";
 
-
 const Stack = createNativeStackNavigator();
 
 const Styles = StyleSheet.create({
