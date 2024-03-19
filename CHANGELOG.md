@@ -179,3 +179,4 @@ crear y modificar productos.
 - Se mejoro el calculo de los precios totales 
 
 ## [1.11.3] - 2024-3-14
+
