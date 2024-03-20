@@ -109,10 +109,11 @@ const styles = StyleSheet.create({
 const ConfirmContact = ({ route }) => {
     const navigation = useNavigation()
     const { CrearCliente } = useVenta()
+    const tipoRegistro = route.params.tipoRegistro
 
     const handleConfirmar = () => {
-        CrearCliente(route.params)
-        navigation.navigate("VistaCarritoCompras");
+        CrearCliente(route.params.Contacto)
+        navigation.navigate("VistaCarritoCompras",{tipoRegistro});
       }
   
 
@@ -146,14 +147,17 @@ const ConfirmContact = ({ route }) => {
       <Text style={styles.informacionDetalle}>Teléfono: {route.params.Contacto.telefono}</Text>
       <Text style={styles.informacionDetalle}>Dirección: {route.params.Contacto.direccion}</Text>
       <Text style={styles.informacionDetalle}>Fecha de Nacimiento: {route.params.Contacto.fecha_nacimiento}</Text>
-      <Text style={styles.informacionDetalle}>Contribuyente: {route.params.Contacto.contribuyente ? 'Sí' : 'No'}</Text>
       <Text style={styles.informacionDetalle}>Tipo de Documento: {route.params.Contacto.cont_tipo_documento}</Text>
       <Text style={styles.informacionDetalle}>Fecha de Ingreso: {route.params.Contacto.fecha_ingreso}</Text>
+      <Text style={styles.informacionDetalle}>
+      {route.params.Contacto.contribuyente ? 'Contribuyente: Sí' : null}
+      </Text>
       <Text style={styles.tipoCliente}>
         {route.params.Contacto.cliente ? 'Cliente' : ''}
         {route.params.Contacto.empleado ? 'Empleado' : ''}
         {route.params.Contacto.proveedor ? 'Proveedor' : ''}
       </Text>
+      
       <TouchableOpacity
         style={styles.botonConfirmar}
         onPress={handleConfirmar}

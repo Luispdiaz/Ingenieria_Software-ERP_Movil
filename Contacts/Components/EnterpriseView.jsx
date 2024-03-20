@@ -1,253 +1,219 @@
-import React, {useState} from "react";
-import { View, Text, StyleSheet, Dimensions, Image, ScrollView, TouchableOpacity, Switch, Linking, TouchableHighlight } from "react-native";
+import React from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { useCompanyContext } from '../../Context/CompanyContext'; // Ajusta la ruta según tu estructura de archivos
 import { LinearGradient } from 'expo-linear-gradient';
-import { useNavigation } from '@react-navigation/native'
-import theme from "../Themes/Theme";
-import  Constants from "expo-constants";
+import { useNavigation } from "@react-navigation/native";
+import Constants from 'expo-constants';
+import theme from  '../Themes/Theme';
 
-const windowHeight = Dimensions.get('window').height;
-const windowWidth = Dimensions.get('window').height;
-
-const Pasador = ({estado}) => {
-  const [isSwitchOn, setIsSwitchOn] = useState(estado === true);
-  return(
-    <Switch
-      trackColor={{ false: "#52D126", true: "#52D126" }}
-      thumbColor={isSwitchOn ? "#52D126" : "#52D126"}
-      ios_backgroundColor="#52D126"
-      borderColor= "#52D126"
-      onValueChange={() => setIsSwitchOn(previousState => !previousState)}
-      value={isSwitchOn}
-      disabled={true} // Siempre deshabilitado
-    />
-  )
-};
+const EnterpriseView = () => {
+  const { empresa } = useCompanyContext(); // Obtén el registro de la empresa del contexto
+  const navigation = useNavigation();
 
 
 const styles = StyleSheet.create({
-  contenedorPrincipal: {
+  principalContainer: {
     flex: 1,
-    justifyContent:"flex-start"
   },
-  EstiloImagen: {
+  photo: {
     width: '100%',
-    height: windowHeight * 0.4, // Puedes ajustar este valor según tus necesidades
-    borderBottomLeftRadius: 50,
-    borderBottomRightRadius: 50,
-    marginTop: Constants.statusBarHeight
-    },
-  backButtonText: {
-    fontSize: 50,
-    fontWeight: theme.title.fontWeight,
-    color: theme.colors.textPrimary,
+    height: '40%',
+    resizeMode: 'cover',
+    marginTop: 30
   },
-  TextoModificar: {
-    width:  30, 
-    height: 27
-    
-  },
-  BotonModificar: {
-    position: 'absolute',
-    top: Constants.statusBarHeight,
-    right: Constants.statusBarHeight * 0.1,
-    padding: 10,
-    alignSelf: 'flex-end'
-  },
-  TextoModificar2: {
-    width:  30, 
-    height: 30
-    
-  },
-  titulo: {
-    fontSize: theme.title.fontSize,
-    fontWeight: theme.title.fontWeight,
-    color: theme.colors.textPrimary,
-    alignSelf:'center',
-    marginTop:10
+  dataContainer: {
+    flex: 1,
+    width: '100%',
+    height: '60%',
+    backgroundColor: '#080915', // Color de fondo de la vista debajo
+    borderTopLeftRadius: 50, // Radio de borde superior izquierdo
+    borderTopRightRadius: 50, // Radio de borde superior derecho
+    flexDirection: 'column',
+    alignItems: 'center',
+    paddingTop: 10,
+    padding: 10
   },
   backButton: {
     position: 'absolute',
-    top: Constants.statusBarHeight,
     left: Constants.statusBarHeight * 0.01,
     padding: 10,
     zIndex: 1,
     alignSelf:'flex-start',
-    justifyContent:'flex-start'
+    justifyContent:'flex-start',
+    marginTop:Constants.statusBarHeight
   },
-  contenedorInfo: {
-    margin: 20,
-    marginBottom: 5,
+  
+  mainTitle: {
+    color: theme.colors.textPrimary,
+    fontSize: theme.title.fontSize,
+    fontWeight: theme.title.fontWeight
+  },
+  littleIcon: {
+    width: 40,
+    height: 40,  
+  },
+  disgustingGreenBox: {
+    flexDirection: 'row',
+    backgroundColor: '#52D126',
     padding: 10,
-    backgroundColor: 'rgba(0,0,0,0.4)',
     borderRadius: 30,
-    flex:1
-  },
-  contenedorVertical: {
-    flexDirection: 'row',
-    width: '90%',
-    margin: 10,
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'center',
+    width: '65%',
+    marginTop: 10,
+    marginBottom: 30
   },
-  miniContenedor: {
-    flexDirection: 'row',
-    margin: 5,
-    alignItems: 'center'
+  darkBox: {
+    backgroundColor: '#000012',
+    width: '100%',
+    flexDirection: 'column',
+    borderRadius: 30,
+    padding: 10,
+    margin: 10,
+  
   },
-  miniContenedor2: {
-    flexDirection: 'row',
-    width: '75%',
-    margin: 5,
-    alignItems: 'center'
-  },
-  subtitulos: {
+  strongLittleText: {
     color: theme.colors.textPrimary,
-    fontWeight: 'bold',
-    fontSize: 13,
-    margin: 10
+    fontWeight: theme.title.fontWeight,
+    fontSize: theme.text.fontSize,
   },
-  textoPeq: {
+  littleText: {
     color: theme.colors.textPrimary,
-    fontWeight: 'normal',
-    fontSize: 13,
-    margin: 10
+    fontWeight: theme.text.fontWeight,
+    fontSize: theme.text.fontSize,
   },
-  vistaTitulo: {
+  transparentBox: {
+    alignItems: 'center',
     width: '100%'
   },
-  linkText: {
-    color: '#007BFF', // Color azul típico de los enlaces
-    textDecorationLine: 'underline',
-    fontWeight: 'bold', // Puedes ajustar la fuente según tus preferencias
-    margin: 10
+  TextoModificar: {
+    width: 24, 
+    height: 20, 
+    marginRight: 10, 
   },
-  circularButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20, // Esto hará que el contenedor sea circular
-    backgroundColor: '#eebefe', // Color de fondo del círculo
-    justifyContent: 'center',
+  littleDataBox: {
+    width:'50%',
+    height: 'auto',
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'flex-start',
+    
+  },
+  split: {
+    flexDirection: 'row'
   }
   
-    
-  });
-
-  const LinkText = ({ url, children }) => {
-    const handlePress = () => {
-      Linking.openURL(url);
-    };
-  
-    return (
-      <TouchableHighlight onPress={handlePress} underlayColor="transparent">
-        <Text style={styles.linkText}>{children}</Text>
-      </TouchableHighlight>
-    );
-  };
-
-const EnterpriseView = () => {
-
-
-    const navigation = useNavigation();
-
-    const [isEnabled, setIsEnabled] = useState(false);
-
-    const toggleSwitch = () => {
-      setIsEnabled(previousState => !previousState);
-    };
-    const farmacia = 'https://pbs.twimg.com/profile_images/1393558893750587395/M-FeS8kS_400x400.jpg'
+});
 
   return (
-    <LinearGradient
-        colors={[
-          "#7227a6",
-          "#431b6a",
-          "#000000"
-        ]}
-        style={styles.contenedorPrincipal}
-      >
-      <Image style={styles.EstiloImagen} source={ {uri: farmacia}} />
+    
+      <LinearGradient
+        colors={['#961AFF', '#380E6B']}
+        start={{ x: 0, y: 0 }} // Comienza desde la esquina superior izquierda
+        end={{ x: 1, y: 0 }} // Termina en la esquina superior derecha
+        style={styles.principalContainer}>
+       
       <View style={styles.backButton}>
-      <TouchableOpacity
-        onPress={() => navigation.goBack()}
-        style={styles.circularButton}
-      >
-        <Image
-        source={require('../Assets/image (3).png')}
-        style={styles.TextoModificar}
-      />
-      </TouchableOpacity>
+        <TouchableOpacity
+        onPress={() => navigation.goBack()}>
+          <Image
+          source={require('../Assets/image (3).png')}
+          style={styles.TextoModificar}/>
+        </TouchableOpacity>
       </View>
-
-   
-
-
+      <Image source={{uri: empresa._j.imagen_logo}} style={styles.photo} />
       <ScrollView>
-      <View style={styles.contenedorInfo}>
-        <View style={styles.vistaTitulo}>
-        <Text style={styles.subtitulos}>Información de la Empresa</Text>
+      <View style={styles.dataContainer}>
+        <View style={styles.transparentBox}>
+          <Text style={styles.mainTitle}>{empresa._j.nombre}</Text>
+          <View style={styles.disgustingGreenBox}>
+            <Image style={styles.littleIcon} source={require('../Assets/assetC_4.png')} />
+            <Text style={styles.strongLittleText}> Gestion empleados</Text>
+          </View>
         </View>
-        <View style={styles.miniContenedor}>
-          <Image source={require('../Assets/contactIcon.png')} style={styles.TextoModificar}/>
-          <Text style={styles.textoPeq}>ventasahinoa2010@gmail.com</Text>
+        <View style={styles.darkBox}>
+          <Text style={[styles.strongLittleText, {width: '100%'}]}>Información empresa</Text>
+          <View style={styles.split}>
+            <View style={styles.littleDataBox}>
+              <Image style={styles.littleIcon} source={require('../Assets/storeIcon.png')} />
+              <Text style={styles.littleText}>{empresa._j.nombre}</Text>
+            </View>
+            <View style={styles.littleDataBox}>
+              <Image style={styles.littleIcon} source={require('../Assets/locationIcon.png')} />
+              <Text style={styles.littleText}>{empresa._j.direccion}</Text>
+            </View>
+          </View>
+          <View style={styles.split}>
+            <View style={styles.littleDataBox}>
+              <Image style={styles.littleIcon} source={require('../Assets/idIcon.png')} />
+              <Text style={[styles.littleText, {color: '#E909FF'}]}>RIF: {empresa._j.nro_rif}</Text>
+            </View>
+            <View style={styles.littleDataBox}>
+              <Image style={styles.littleIcon} source={require('../Assets/phoneIcon.png')} />
+              <Text style={styles.littleText}>+{empresa._j.cod_telefono} {empresa._j.telefono}</Text>
+            </View>
+          </View>
+          <View style={styles.split}>
+            <View style={[styles.littleDataBox, {width: '100%'}]}>
+              <Image style={styles.littleIcon} source={require('../Assets/mailIcon.png')} />
+              <Text style={styles.littleText}>{empresa._j.correo}</Text>
+            </View>
+          </View>
         </View>
-        <View style={styles.miniContenedor}>
-          <Image source={require('../Assets/locationIcon.png')} style={styles.TextoModificar}/>
-          <Text style={styles.textoPeq}>Carretera Petare Santa Lucía, Urb. Valle Fresco, Local N°7, frente a la Hdad. Gallega.</Text>
-        </View>
-        
-        <View style={styles.miniContenedor}>
-          <Image source={require('../Assets/phoneIcon.png')} style={styles.TextoModificar}/>
-          <Text style={styles.textoPeq}>0412-4810277</Text>
+        <View style={styles.darkBox}>
+          <Text style={[styles.strongLittleText, {width: '100%'}]}>Actividad empresa</Text>
+            <View style={styles.littleDataBox}>
+              <Text style={[styles.littleText, {color: '#E909FF'}]}>{empresa._j.actividad_empresa}</Text>
+            </View>
         </View>
 
-        <View style={styles.miniContenedor}>
-          <Image source={require('../Assets/idIcon.png')} style={styles.TextoModificar}/>
-          
-          <LinkText url="https://twitter.com/FarmaciaAhinoa">
-          Twitter
-          </LinkText>
-          <LinkText url="https://www.instagram.com/farmaciaahinoa/?hl=es">
-          Instagram
-          </LinkText>
-          <LinkText url="https://m.facebook.com/profile.php?id=100058137617329&locale=is_IS">
-          Facebook
-          </LinkText>
+        <View style={styles.darkBox}>
+          <Text style={[styles.strongLittleText, {width: '100%'}]}>Código postal</Text>
+            <View style={styles.littleDataBox}>
+              <Image style={styles.littleIcon} source={require('../Assets/postalcodeIcon.png')} />
+              <Text style={styles.littleText}>{empresa._j.codigo_postal}</Text>
+            </View>
         </View>
-       
-      </View>
-      <View style={styles.contenedorInfo}>
-      <View style={styles.vistaTitulo}>
-        <Text style={styles.subtitulos}>Actividad Empresarial</Text>
-        <Text style={[styles.textoPeq, {color:"purple"}]}>Comercial</Text>
+
+        <View style={styles.darkBox}>
+          <Text style={[styles.strongLittleText, {width: '100%'}]}>Empresa origen</Text>
+            <View style={styles.littleDataBox}>
+              <Image style={styles.littleIcon} source={require('../Assets/companyIcon.png')} />
+              <Text style={styles.littleText}>{empresa._j.empresa_origen}</Text>
+            </View>
+        </View>
+
+        <View style={styles.darkBox}>
+          <Text style={[styles.strongLittleText, {width: '100%'}]}>Propietario</Text>
+            <View style={styles.littleDataBox}>
+              <Image style={styles.littleIcon} source={require('../Assets/contactIcon.png')} />
+              <Text style={styles.littleText}>{empresa._j.propietario}</Text>
+            </View>
+            <View style={styles.littleDataBox}>
+              <Image style={styles.littleIcon} source={require('../Assets/idIcon.png')} />
+              <Text style={[styles.littleText, {color: '#E909FF'}]}>{empresa._j.rif_propietario}</Text>
+            </View>
+        </View>
+
+        <View style={styles.darkBox}>
+          <Text style={[styles.strongLittleText, {width: '100%'}]}>Enlace web</Text>
+            <View style={styles.littleDataBox}>
+              <Text style={[styles.littleText, {color: '#E909FF'}]}>{empresa._j.web}</Text>
+            </View>
+        </View>
+
+        <View style={styles.darkBox}>
+          <Text style={[styles.strongLittleText, {width: '100%'}]}>Clave Administrador</Text>
+            <View style={styles.littleDataBox}>
+              <Text style={[styles.littleText, {color: '#E909FF'}]}>{empresa._j.clave_administrador}</Text>
+            </View>
         </View>
         
       </View>
-      <View style={styles.contenedorInfo}>
-        
-      </View>
-      <View style={styles.contenedorInfo}>
-        
-      </View>
-      <View style={styles.contenedorInfo}>
-        
-      </View>
-      <View style={styles.contenedorInfo}>
-        
-      </View>
-      <View style={styles.contenedorInfo}>
-        
-      </View>
-      <View style={styles.contenedorInfo}>
-       
-        <View style={styles.contenedorVertical}>
-        </View>
-      </View>
-      </ScrollView>
-    </LinearGradient>
+      </ScrollView> 
+      </LinearGradient>
+    
   );
 };
-
-
 
 export default EnterpriseView;

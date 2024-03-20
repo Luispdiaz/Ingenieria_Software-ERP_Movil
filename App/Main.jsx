@@ -11,6 +11,7 @@ import { ProductContextProvider } from "../Context/ProductContext";
 import ContactsView from "../Contacts/Components/ContactsView";
 import { ContactContextProvider } from "../Context/ContactContext";
 import { VentaContextProvider } from "../Context/VentaContext";
+import { CompanyProvider } from "../Context/CompanyContext";
 import ContactView from "../Contacts/Components/ContactView";
 import NewContact from "../Contacts/Components/CreateContactView";
 import UpdateContact from "../Contacts/Components/UpdateContact";
@@ -21,7 +22,8 @@ import NewClient from "../Sales/Components/NewClient";
 import SelectedProductsView from "../Sales/Components/SelectedProductsView";
 import DeliveryNote from "../Sales/Components/DeliveryNote";
 import EnterpriseView from "../Contacts/Components/EnterpriseView";
-
+import OptionsView from "../Sales/Components/OptionsView";
+import Toast from 'react-native-toast-message';
 
 const Stack = createNativeStackNavigator();
 
@@ -34,6 +36,7 @@ const Styles = StyleSheet.create({
 const Main = () => {
     return (
       <View style={Styles.contenedorPrincipal}>
+      <CompanyProvider>
       <VentaContextProvider>
       <ContactContextProvider>
       <ProductContextProvider>
@@ -55,10 +58,13 @@ const Main = () => {
       <Stack.Screen name="VistaProductosVenta" component={SelectedProductsView} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name="VistaNotadeEntrega" component={DeliveryNote} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name="VistaEmpresa" component={EnterpriseView} options={{ headerShown: false }}></Stack.Screen>
+      <Stack.Screen name="VistaOpciones" component={OptionsView} options={{ headerShown: false }}></Stack.Screen>
       </Stack.Navigator>
       </ProductContextProvider>
       </ContactContextProvider>
       </VentaContextProvider>
+      <Toast />
+      </CompanyProvider>
       </View>
     );
   };
