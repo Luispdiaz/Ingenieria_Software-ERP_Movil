@@ -232,7 +232,7 @@ const MainMenu = () => {
                     <Tarjeta
                         imagen={require('..//Assets/PointOfSaleIcon.png')}
                         texto='Punto de Venta'
-                        pagina='VistaIdentificacion'  
+                        pagina='VistaOpciones'  
                     />
                     
                 </View>
