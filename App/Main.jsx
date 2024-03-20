@@ -11,6 +11,7 @@ import { ProductContextProvider } from "../Context/ProductContext";
 import ContactsView from "../Contacts/Components/ContactsView";
 import { ContactContextProvider } from "../Context/ContactContext";
 import { VentaContextProvider } from "../Context/VentaContext";
+import { CompanyProvider } from "../Context/CompanyContext";
 import ContactView from "../Contacts/Components/ContactView";
 import NewContact from "../Contacts/Components/CreateContactView";
 import UpdateContact from "../Contacts/Components/UpdateContact";
@@ -24,7 +25,6 @@ import EnterpriseView from "../Contacts/Components/EnterpriseView";
 import OptionsView from "../Sales/Components/OptionsView";
 import Toast from 'react-native-toast-message';
 
-
 const Stack = createNativeStackNavigator();
 
 const Styles = StyleSheet.create({
@@ -36,6 +36,7 @@ const Styles = StyleSheet.create({
 const Main = () => {
     return (
       <View style={Styles.contenedorPrincipal}>
+      <CompanyProvider>
       <VentaContextProvider>
       <ContactContextProvider>
       <ProductContextProvider>
@@ -63,6 +64,7 @@ const Main = () => {
       </ContactContextProvider>
       </VentaContextProvider>
       <Toast />
+      </CompanyProvider>
       </View>
     );
   };

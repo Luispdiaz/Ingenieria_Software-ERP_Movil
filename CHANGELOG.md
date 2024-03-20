@@ -185,3 +185,9 @@ crear y modificar productos.
 - Se ha subido la segunda version a producción.
 
 ## [2.0.0] - 2024-2-22 
+
+### Added
+
+- Se han agregado las conexiones a base de datos de empresa y se mejoro la vista.
+
+## [2.1.0] - 2024-3-19
