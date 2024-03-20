@@ -191,3 +191,9 @@ crear y modificar productos.
 - Se han agregado las conexiones a base de datos de empresa y se mejoro la vista.
 
 ## [2.1.0] - 2024-3-19
+
+### Added
+
+- Se han características nuevas al punto de venta.
+
+## [2.2.0] - 2024-3-19
