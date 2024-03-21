@@ -197,3 +197,11 @@ crear y modificar productos.
 - Se han características nuevas al punto de venta.
 
 ## [2.2.0] - 2024-3-19
+
+### Added
+- Se mejoro la vista de empresa y se creo la vista gestion empleados.
+
+## [2.3.0] - 2024-3-21
+
+### Added
+- Se ha agregado funcionalidad de reportes.

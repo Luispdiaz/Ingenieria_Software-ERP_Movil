@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, Text, StyleSheet, Dimensions, Image, ScrollView, TouchableOpacity, TextInput, FlatList, Modal } from "react-native";
+import { View, Text, StyleSheet, Dimensions, Image, ScrollView, TouchableOpacity, TextInput, FlatList, Modal, Alert} from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from "@react-navigation/native";
 import Constants from 'expo-constants';
@@ -453,7 +453,7 @@ const calcularImpuestosIGTF = () => {
     // Verificar si se han ingresado los montos de pago
     if (selectedPaymentMethods.length === 0 || Object.values(paymentAmounts).some(amount => amount === 0)) {
       // Mostrar un mensaje de error si no se han ingresado los montos
-      alert('No se ha ingresado la cantidad para todos los métodos de pago.');
+      Alert.alert('','No se ha ingresado la cantidad para todos los métodos de pago.');
       return;
     }
     
@@ -476,7 +476,7 @@ const calcularImpuestosIGTF = () => {
     setModalVisible(false);
     } else {
       // Mostrar un mensaje de error si todavía falta pagar
-      alert('El monto ingresado es menor al monto total por pagar.');
+      Alert.alert('','El monto ingresado es menor al monto total por pagar.');
     }
   };
 
@@ -592,7 +592,7 @@ const calcularImpuestosIGTF = () => {
             navigation.navigate("VistaNotadeEntrega", { TipoRegistro });
           } else {
             // Mostrar un alert indicando que debe elegir al menos un método de pago
-            alert("Por favor, elija al menos un método de pago.");
+            Alert.alert('', "Por favor, elija al menos un método de pago.");
           }
         }}
       >

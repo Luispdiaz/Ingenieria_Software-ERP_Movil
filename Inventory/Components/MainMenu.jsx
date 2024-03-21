@@ -243,9 +243,12 @@ const MainMenu = () => {
                     <Tarjeta
                         imagen={require('..//Assets/ReportsIcon.png')}
                         texto='Reportes'
-                        pagina='VistaInventario'  
+                        pagina='VistaReporte'  
                     />
                     
+                </View>
+
+                <View style={Styles.contenedorTarjetas}>
                 </View>
             </View>
            

@@ -187,10 +187,64 @@ export const VentaContextProvider = ({children}) =>{
     } catch (error) {
       console.error('Error general:', error.message);
     }
-  }
+  };
+
+  const obtenerTotalEfectivoVentas = async () => {
+    try {
+      // Realizar la consulta a la base de datos para obtener los encabezados de venta
+      const { data, error } = await Supa
+        .from('Encabezado')
+        .select('total_efectivo')
+        .eq('enc_tipo_encabezado', 'Venta');
+  
+      if (error) {
+        console.error('Error al obtener los encabezados de venta:', error.message);
+        return null;
+      }
+  
+      // Sumar los valores de total_efectivo de las ventas
+      const totalEfectivoVentas = data.reduce((total, venta) => {
+        // Asegurarse de que total_efectivo sea un número antes de sumarlo
+        const totalEfectivo = parseFloat(venta.total_efectivo) || 0;
+        return total + totalEfectivo;
+      }, 0);
+  
+      return totalEfectivoVentas;
+    } catch (error) {
+      console.error('Error al obtener los encabezados de venta:', error.message);
+      return null;
+    }
+  };
+
+  const obtenerTotalEfectivoCompras = async () => {
+    try {
+      // Realizar la consulta a la base de datos para obtener los encabezados de compra
+      const { data, error } = await Supa
+        .from('Encabezado')
+        .select('total_efectivo')
+        .eq('enc_tipo_encabezado', 'Compra');
+  
+      if (error) {
+        console.error('Error al obtener los encabezados de compra:', error.message);
+        return null;
+      }
+  
+      // Sumar los valores de total_efectivo de las compras
+      const totalEfectivoCompras = data.reduce((total, compra) => {
+        // Asegurarse de que total_efectivo sea un número antes de sumarlo
+        const totalEfectivo = parseFloat(compra.total_efectivo) || 0;
+        return total + totalEfectivo;
+      }, 0);
+  
+      return totalEfectivoCompras;
+    } catch (error) {
+      console.error('Error al obtener los encabezados de compra:', error.message);
+      return null;
+    }
+  };
 
     return(
-        <VentaContext.Provider value={{ProductosVenta, Cliente,DatosFactura, Movimientos,Encabezado, AgregarProductoVenta, EliminarProductoVenta, ModificarCantidadProducto, VerificarProductoExistente, CrearCliente, ReiniciarVariables, IngresarDatosFactura, createMovimiento_Inventario, createEncabezado, getEncabezado, buscarMovimientoporTipo}}>
+        <VentaContext.Provider value={{ProductosVenta, Cliente,DatosFactura, Movimientos,Encabezado, AgregarProductoVenta, EliminarProductoVenta, ModificarCantidadProducto, VerificarProductoExistente, CrearCliente, ReiniciarVariables, IngresarDatosFactura, createMovimiento_Inventario, createEncabezado, getEncabezado, buscarMovimientoporTipo, obtenerTotalEfectivoCompras, obtenerTotalEfectivoVentas}}>
         {children}
         </VentaContext.Provider>
     )
