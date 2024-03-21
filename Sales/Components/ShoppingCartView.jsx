@@ -11,6 +11,9 @@ import { useProducts } from "../../Context/ProductContext";
 import { useEffect } from "react";
 import Product1 from "./Product1";
 import { useVenta } from "../../Context/VentaContext";
+import { BarCodeScanner } from 'expo-barcode-scanner';
+import { Camera } from 'expo-camera';
+
 
 
 const windowHeight = Dimensions.get('window').height;
@@ -29,6 +32,17 @@ const styles = StyleSheet.create({
         paddingStart: 30, 
         borderRadius: 25,
         marginHorizontal:20
+      },
+      textinputcode: {
+        padding: 10,
+        borderWidth: 2,
+        borderColor: 'white',
+        backgroundColor: "white",
+        justifyContent: "center",
+        alignItems: "center",
+        paddingStart: 10, 
+        borderRadius: 50, // Se ajusta el valor para hacerlo redondo
+        marginRight: 10
       },
       contenedorTitulo: {
         marginTop: Constants.statusBarHeight + 10,
@@ -66,7 +80,6 @@ const styles = StyleSheet.create({
       width: 24, 
       height: 20,  
       marginLeft: 20
-      
     },
     tituloInventario: {
       fontSize: theme.title.fontSize,
@@ -76,9 +89,6 @@ const styles = StyleSheet.create({
   contenedorProductos: {
       flex: 1,
       justifyContent: 'flex-start',
-      
-      
-      
   },
   tarjetaProducto:{
     backgroundColor: theme.colors.secundario,
@@ -154,6 +164,7 @@ const ShoppingCartView = ({route}) => {
     const inputRef = useRef(null);
     const { ReiniciarVariables } = useVenta()
     const tipoRegistro = route.params.tipoRegistro
+    
 
     useEffect(()=>{
       getProducts()
@@ -167,6 +178,14 @@ const ShoppingCartView = ({route}) => {
       buscarProductos('');
     }
 
+  const onPress = () => {
+    navigation.navigate("BarCodeScanner")
+  }
+
+  const handleBarCodeScanned = ({ type, data }) => {
+    setScanned(true);
+    setText(data)
+  };
   return (
     <LinearGradient
         colors={[
@@ -204,7 +223,8 @@ const ShoppingCartView = ({route}) => {
     <Text style={styles.titulo}>Selecciona los productos</Text>
     <View style={styles.containerBuscador}>
     {((Busqueda !== '') && (
-  <TouchableOpacity onPress={handleLimpiarBusqueda}>
+  <TouchableOpacity onPress={handleLimpiarBusqueda}
+  >
     <Image
       source={require('../Assets/image (3).png')}
       style={styles.RetrocederBuscador}
@@ -212,8 +232,8 @@ const ShoppingCartView = ({route}) => {
   </TouchableOpacity>
 ))}
 
-
-    <TextInput
+  
+  <TextInput
   ref={inputRef}
   style={styles.textinput}
   placeholder="Buscar en el inventario..."
@@ -221,7 +241,17 @@ const ShoppingCartView = ({route}) => {
   onChangeText={(texto1) => setBusqueda(texto1)}
   onSubmitEditing={() =>buscarProductos(Busqueda)}
   />
+  
+  <TouchableOpacity style={styles.textinputcode}
+  onPress = {onPress}
+  >
+  <Image
+      source={require('../Assets/SearchBarCode.png')}
+      style = {{width: 30, height: 30}}
+    />
+  </TouchableOpacity>
   </View>
+
   
   {Busqueda !== '' && Productos.length === 0 && (
   <Text style={styles.mensajeNoCoincidencias}>

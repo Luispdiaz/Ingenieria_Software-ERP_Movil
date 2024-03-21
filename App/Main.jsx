@@ -25,6 +25,7 @@ import EnterpriseView from "../Contacts/Components/EnterpriseView";
 import OptionsView from "../Sales/Components/OptionsView";
 import Toast from 'react-native-toast-message';
 import MovementsView from "../Movements/Components/MovementsView";
+import BarcodeScan from "../Sales/Components/BarCode";
 
 const Stack = createNativeStackNavigator();
 
@@ -61,6 +62,7 @@ const Main = () => {
       <Stack.Screen name="VistaEmpresa" component={EnterpriseView} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name="VistaOpciones" component={OptionsView} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name="VistaMovimientos" component={MovementsView} options={{ headerShown: false }}></Stack.Screen>
+      <Stack.Screen name="BarCodeScanner" component={BarcodeScan} options={{ headerShown: false }}></Stack.Screen>
       </Stack.Navigator>
       </ProductContextProvider>
       </ContactContextProvider>

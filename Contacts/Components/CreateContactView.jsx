@@ -287,14 +287,6 @@ const NewContact = () => {
 
       else if (!isValidString(cont_tipo_documento) || !isValidNumber(cont_id_fiscal) || !isValidString(nombre) ||  !isValidNumber(cod_telefono) || !isValidNumber(telefono) || !isValidString(direccion)) {
         Alert.alert('Error', 'Por favor, ingresa valores válidos');
-        console.log("Aqui para abajo")
-        console.log(cont_tipo_documento,cont_id_fiscal,nombre,cod_telefono,telefono,direccion)
-        console.log(typeof cont_tipo_documento)
-        console.log(typeof cont_id_fiscal)
-        console.log(typeof nombre)
-        console.log(typeof cod_telefono)
-        console.log(typeof telefono)
-        console.log(typeof direccion)
         return;
       }
 

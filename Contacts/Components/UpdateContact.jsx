@@ -16,7 +16,9 @@ import Contact from "./Contact";;
 
 const image = require("../Assets/Fondo.png");
 
-const UpdateContact = ({Lista}) =>{
+const UpdateContact = ({route}) =>{
+  
+  const Lista = route.params.props
     const { UpdateContact, getContacts,Contactos} = useContact() 
     const [cont_tipo_documento, setContTipoDocumento] = useState('');
     const [cont_id_fiscal, setContIdFiscal] = useState('');
@@ -43,13 +45,44 @@ const UpdateContact = ({Lista}) =>{
       getContacts()
     }, [])
     const handleSubmit = () => {
-        if (!isValidNumber(CantidadInicial) || !isValidNumber(PrecioD) || !isValidNumber(PrecioE) || !isValidNumber(CostoD) || !isValidNumber(CostoE)) {
-            Alert.alert('Error', 'Por favor, ingresa valores válidos');
-            navigation.navigate("VistaContactos");
-          }
+      const todosCamposNulos = Object.values({
+        cont_tipo_documento,
+        cont_id_fiscal,
+        nombre,
+        fecha_nacimiento,
+        cod_telefono,
+        telefono,
+        correo,
+        direccion,
+        contribuyente,
+        condicion_venta,
+        credito_total,
+        credito_vence,
+        vendedor,
+        fecha_ingreso,
+        cliente,
+        empleado,
+        proveedor,
+        imagen,
+    }).every(value => value === null);
+    if (todosCamposNulos) {
+      Alert.alert("AVISO!!","Debe llenar algún campo para modificar")
+    }
+    else{
+      console.log("Hasta aqui")
+      if (
+        (cont_id_fiscal !== null && !isValidNumber(cont_id_fiscal)) ||
+        (telefono !== null && !isValidNumber(telefono)) ||
+        (credito_total !== null && !isValidNumber(credito_total))
+        //Se esta quedando aqui 
+        
+    ) {
+          Alert.alert('Error', 'Por favor, ingresa valores válidos');
+          navigation.navigate("VistaContacto");
+        }
           else {
-        UpdateContact(Lista.cont_tipo_documento, 
-            {cont_tipo_documento:cont_tipo_documento,
+            CamposNuevos = {
+              cont_tipo_documento:cont_tipo_documento,
                 cont_id_fiscal:cont_id_fiscal,
                 nombre:nombre,
                 fecha_nacimiento:fecha_nacimiento,
@@ -67,11 +100,18 @@ const UpdateContact = ({Lista}) =>{
                 empleado:empleado,
                 proveedor:proveedor,
                 imagen:imagen,
-                Contacto_pkey:Contacto_pkey})
-                Alert.alert('El contacto se modificó de manera exitosa');
-                navigation.navigate("VistaContactos")
+                Contacto_pkey:Contacto_pkey
+                //Hay que buscar la manera de inicializar todo en null, de manera que se pueda filtrar, ahorita ninguno vale null por como se estan inicializando. Hay que ver como inicializar la fecha de manera que se filtre. porque ahorita ninguno vale null y se estan quedando en la condicion de arriba.
+            }
+            const CamposActualizados = Object.fromEntries(
+            Object.entries(CamposNuevos).filter(([key, value]) => value !== null))
+            console.log(CamposActualizados)
+        UpdateContact(Lista.cont_id_fiscal, CamposActualizados)
+          Alert.alert('El contacto se modificó de manera exitosa');
+          navigation.navigate("VistaContactos")
     }
-    
+
+  }
     }
 
     const [mode, setMode] = useState('date');
@@ -344,6 +384,7 @@ const UpdateContact = ({Lista}) =>{
           <Image style = {{width: 60, height:60, marginTop: 20, marginLeft: 15}} source={require('../Assets/contactIcon.png')} />
           <TextInput
           style={styles.textinput}
+          placeholder= "Nombre y Apellido"
           placeholderTextColor='black'
           onChangeText={(texto0) => setNombre(texto0)}
           />
@@ -397,7 +438,6 @@ const UpdateContact = ({Lista}) =>{
           placeholderTextColor='black'
 
           onChangeText={(texto2) => {
-
             const numeroEntero = parseInt(texto2, 10)
             setContIdFiscal(numeroEntero)}}
           />
@@ -684,7 +724,6 @@ button: {
   textinput:{
       padding: 10,
       borderWidth: 2,
-      borderColor: "",
       backgroundColor: "rgba(82,209,38,18)",
       textAlign: "center",
       paddingStart: 30, /*Aqui cambio la posicion del texto dentro del input*/
@@ -837,5 +876,6 @@ button: {
       fontSize: 16,
     },
 });
+
 
 export default UpdateContact

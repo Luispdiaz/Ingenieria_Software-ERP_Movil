@@ -90,7 +90,6 @@ const Product1 = (props) => {
 
     // Ahora puedes usar route como desees
     // Por ejemplo:
-    console.log(route);
 
     const onPressHandler = () => {
       setPresionado(!presionado);

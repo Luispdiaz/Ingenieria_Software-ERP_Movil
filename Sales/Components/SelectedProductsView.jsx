@@ -586,7 +586,6 @@ const calcularImpuestosIGTF = () => {
               Nota: note,
               ...paymentAmounts,
             };
-            console.log(paymentAmounts)
             // Ingresar los datos de la factura
             IngresarDatosFactura(datosFactura);
             const TipoRegistro = route.params.tipoRegistro

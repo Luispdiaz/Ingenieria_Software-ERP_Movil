@@ -185,10 +185,6 @@ const styles = StyleSheet.create({
     const {modificarCantidadExistencia} = useProducts()
     const { empresa } = useCompanyContext()
     const TipoResgistro = route.params.TipoRegistro
-    console.log(empresa)
-    console.log(TipoResgistro)
-    console.log(DatosFactura)
-    console.log(DatosFactura["4"])
 
     useEffect(() => {
       const currentDate = new Date();

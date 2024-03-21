@@ -77,7 +77,7 @@ export const ProductContextProvider = ({children}) =>{
           const { data, error } = await Supa
             .from("Productos")
             .select('*')
-            .or(`nombre.ilike."*${searchText}*",descripcion.ilike."*${searchText}*",categoria.ilike."*${searchText}*",sub_categorias.ilike."*${searchText}*",color.ilike."*${searchText}*",marca.ilike."*${searchText}*",modelo.ilike."*${searchText}*"`);
+            .or(`nombre.ilike."*${searchText}*",descripcion.ilike."*${searchText}*",categoria.ilike."*${searchText}*",sub_categorias.ilike."*${searchText}*",color.ilike."*${searchText}*",marca.ilike."*${searchText}*",modelo.ilike."*${searchText}*",cod_proveedor.ilike."*${searchText}*"`);
           
           if (error) {
             return;
