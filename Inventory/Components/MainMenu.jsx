@@ -219,8 +219,13 @@ const MainMenu = () => {
                     />
                     <Tarjeta
                         imagen={require('..//Assets/CompaniesIcon.png')}
-                        texto='Empresas'
+                        texto='Empresa'
                         pagina='VistaEmpresa'  
+                    />
+                    <Tarjeta
+                        imagen={require('..//Assets/MovementsIcon.png')}
+                        texto='Movimientos'
+                        pagina='VistaMovimientos'  
                     />
                 </View>
                 <View style={Styles.contenedorTarjetas}>
@@ -233,6 +238,12 @@ const MainMenu = () => {
                         imagen={require('..//Assets/PointOfSaleIcon.png')}
                         texto='Punto de Venta'
                         pagina='VistaOpciones'  
+                    />
+                    
+                    <Tarjeta
+                        imagen={require('..//Assets/ReportsIcon.png')}
+                        texto='Reportes'
+                        pagina='VistaInventario'  
                     />
                     
                 </View>

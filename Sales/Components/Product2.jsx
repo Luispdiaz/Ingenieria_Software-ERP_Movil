@@ -108,6 +108,7 @@ eliminarButton: {
 });
 
 const Product2 = (props) => {
+  const { route } = props;
   const [cantidadProducto, setCantidadProducto] = useState('');
   const [cantidad, setCantidad] = useState(props.cantidad || 0);
   const { EliminarProductoVenta, ModificarCantidadProducto } = useVenta();
@@ -212,12 +213,21 @@ const Product2 = (props) => {
                   <Text style={styles.informacionAdicionalCantidad}>{cantidad}</Text>
                   <TouchableOpacity
                     onPress={() => {
+                      if(route==="Compra"){
+                        if (cantidad < props.maxima_cantidad) {
+                          const nuevaCantidadSuma = parseInt(cantidad, 10) + 1;
+                          const nuevoIdProducto = props.id_producto;
+                          ModificarCantidadProducto(nuevoIdProducto, nuevaCantidadSuma);
+                          setCantidad(nuevaCantidadSuma);
+                      }}
+                      else{
                       if (cantidad < props.cantidad_existencia) {
                       const nuevaCantidadSuma = parseInt(cantidad, 10) + 1;
                       const nuevoIdProducto = props.id_producto;
                       ModificarCantidadProducto(nuevoIdProducto, nuevaCantidadSuma);
                       setCantidad(nuevaCantidadSuma);
                       }
+                    }
                     }}
                     style={styles.button}
                   >

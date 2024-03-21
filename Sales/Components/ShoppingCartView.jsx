@@ -153,7 +153,6 @@ const ShoppingCartView = ({route}) => {
     const navigation = useNavigation()
     const inputRef = useRef(null);
     const { ReiniciarVariables } = useVenta()
-    console.log(route)
     const tipoRegistro = route.params.tipoRegistro
 
     useEffect(()=>{
@@ -233,15 +232,14 @@ const ShoppingCartView = ({route}) => {
 
 
   <View style={styles.contenedorProductos}>
-    <FlatList
-    style={{marginTop:20, marginHorizontal:10}}
+      <FlatList
+        style={{ marginTop: 20, marginHorizontal: 10 }}
         data={Productos}
         renderItem={({ item }) => (
-            <Product1 {...item}
-            />
-          )}
-          numColumns={1} 
-    /> 
+            <Product1 {...item} route={tipoRegistro} />
+        )}
+        numColumns={1} 
+    />
    </View>
     
     </LinearGradient>

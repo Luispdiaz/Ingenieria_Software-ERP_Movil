@@ -86,6 +86,12 @@ const Product1 = (props) => {
     const [cantidadProducto, setCantidadProducto] = useState('');
     const { ProductosVenta, AgregarProductoVenta, VerificarProductoExistente} = useVenta()
 
+    const { route } = props;
+
+    // Ahora puedes usar route como desees
+    // Por ejemplo:
+    console.log(route);
+
     const onPressHandler = () => {
       setPresionado(!presionado);
       setModalVisible(true)
@@ -170,6 +176,27 @@ return(
         <TouchableOpacity
           onPress={() => {
             const nuevaCantidad = parseInt(cantidadProducto, 10);
+            if(route == 'Compra'){
+              if (nuevaCantidad <= props.maxima_cantidad) {
+                // Aquí puedes realizar la acción correspondiente al confirmar la cantidad
+                // En este ejemplo, solo logramos la cantidad
+  
+                closeModal();
+              } else {
+                // Muestra un mensaje de error o realiza alguna acción si la cantidad es mayor a la disponible
+                setCantidadProducto('');
+                Toast.show({
+                  type: 'error',
+                  text1: 'Error',
+                  text2: 'La cantidad ingresada excede la cantidad máxima posible',
+                  position: 'top',
+                  visibilityTime: 3000})
+                  setModalVisible(false)
+              }
+
+            }
+
+            else{
 
             // Verificar si la nueva cantidad no excede la cantidad disponible
             if (nuevaCantidad <= props.cantidad_existencia) {
@@ -179,6 +206,7 @@ return(
               closeModal();
             } else {
               // Muestra un mensaje de error o realiza alguna acción si la cantidad es mayor a la disponible
+              
               setCantidadProducto('');
               Toast.show({
                 type: 'error',
@@ -189,6 +217,7 @@ return(
                 setModalVisible(false)
             }
           }}
+        }
         >
           
           <Text style={styles.closeButton}>Confirmar</Text>

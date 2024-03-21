@@ -18,8 +18,12 @@
     "crypto-browserify": "^3.12.0",
     "expo": "^50.0.13",
     "expo-constants": "^15.4.5",
+    "expo-file-system": "~16.0.8",
     "expo-image-picker": "~14.7.1",
     "expo-linear-gradient": "^12.7.2",
+    "expo-media-library": "~15.9.1",
+    "expo-permissions": "^14.4.0",
+    "expo-print": "~12.8.1",
     "expo-splash-screen": "^0.26.4",
     "expo-status-bar": "~1.11.1",
     "firebase": "^10.8.1",
@@ -30,12 +34,14 @@
     "react-native-element-dropdown": "^2.10.1",
     "react-native-elements": "^3.4.3",
     "react-native-fonts": "^0.0.0",
+    "react-native-html-to-pdf": "^0.12.0",
     "react-native-shadow-generator": "^1.1.2",
     "react-native-svg": "^14.1.0",
     "react-native-toast-message": "^2.2.0",
     "react-native-web": "~0.19.6",
     "unorm": "^1.6.0",
-    "yarn": "^1.22.21"
+    "yarn": "^1.22.21",
+    "expo-sharing": "~11.10.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

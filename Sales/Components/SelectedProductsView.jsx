@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
     const navigation = useNavigation()
     const [CodCliente, setCodCliente] = useState('');
     const { buscarContactosporCedula } = useContact()
-    const { ProductosVenta  } = useVenta()
+    const { ProductosVenta, IngresarDatosFactura  } = useVenta()
     const tipoRegistro = route.params.tipoRegistro
     const [modalVisible1, setModalVisible1] = useState(false);
     const [modalVisible2, setModalVisible2] = useState(false);
@@ -432,15 +432,20 @@ const calcularImpuestosIGTF = () => {
     if (selectedPaymentMethods.length === 1) {
       
       // Si solo hay un método de pago, establecer el monto completo para ese método
-      console.log(selectedPaymentMethods[0])
       if (selectedPaymentMethods[0] === 4){
+        
       const MetodoUnico = calculateRemainingAmount()
       const convertedAmount = MetodoUnico * 0.03 ;
       const total = parseFloat(MontoTotal) + parseFloat(convertedAmount);
       const totalAmount = parseFloat(total.toFixed(2)); // Redondear a 2 decimales
       const igtfAmount = parseFloat(convertedAmount.toFixed(2)); // Redondear a 2 decimales
       setMontoTotal(totalAmount);
-      setMontoIGTF(igtfAmount);}
+      setMontoIGTF(igtfAmount);
+      const methodId = selectedPaymentMethods[0];// Redondear a 2 decimales
+      // Establecer el monto completo para el método de pago seleccionado
+      setPaymentAmounts({ [methodId]: totalAmount });
+    }
+
       setModalVisible(false);
       return
     }
@@ -461,7 +466,6 @@ const calcularImpuestosIGTF = () => {
     // Por ejemplo, enviar los datos de la venta al backend
     // Luego, navegar a la siguiente pantalla
 
-    console.log(paymentAmounts)
     const convertedAmount = parseFloat(paymentAmounts["4"]) * 0.03 * 36.26;
     const total = parseFloat(MontoTotal) + parseFloat(convertedAmount);
     const totalAmount = parseFloat(total.toFixed(2)); // Redondear a 2 decimales
@@ -471,7 +475,6 @@ const calcularImpuestosIGTF = () => {
     setMontoIGTF(igtfAmount);
     setModalVisible(false);
     } else {
-      console.log(totalPaymentAmount)
       // Mostrar un mensaje de error si todavía falta pagar
       alert('El monto ingresado es menor al monto total por pagar.');
     }
@@ -539,7 +542,7 @@ const calcularImpuestosIGTF = () => {
       style={{marginTop:20, marginHorizontal:10}}
           data={ProductosVenta}
           renderItem={({ item }) => (
-              <Product2 {...item}
+              <Product2 {...item} route={tipoRegistro}
               />
             )}
             numColumns={1} 
@@ -574,8 +577,20 @@ const calcularImpuestosIGTF = () => {
         onPress={() => {
           // Verificar si se ha seleccionado al menos un método de pago
           if (selectedPaymentMethods.length > 0) {
-            // Navegar a la siguiente vista
-            navigation.navigate("VistaNotadeEntrega", {route});
+            const datosFactura = {
+              MontoTotal,
+              MontoIGTF,
+              Documento: selectedDocumentType,
+              FormaPago:selectedPaymentMethod,
+              MetodoPago: selectedPaymentMethods,
+              Nota: note,
+              ...paymentAmounts,
+            };
+            console.log(paymentAmounts)
+            // Ingresar los datos de la factura
+            IngresarDatosFactura(datosFactura);
+            const TipoRegistro = route.params.tipoRegistro
+            navigation.navigate("VistaNotadeEntrega", { TipoRegistro });
           } else {
             // Mostrar un alert indicando que debe elegir al menos un método de pago
             alert("Por favor, elija al menos un método de pago.");

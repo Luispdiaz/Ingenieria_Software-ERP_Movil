@@ -24,6 +24,7 @@ import DeliveryNote from "../Sales/Components/DeliveryNote";
 import EnterpriseView from "../Contacts/Components/EnterpriseView";
 import OptionsView from "../Sales/Components/OptionsView";
 import Toast from 'react-native-toast-message';
+import MovementsView from "../Movements/Components/MovementsView";
 
 const Stack = createNativeStackNavigator();
 
@@ -59,6 +60,7 @@ const Main = () => {
       <Stack.Screen name="VistaNotadeEntrega" component={DeliveryNote} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name="VistaEmpresa" component={EnterpriseView} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name="VistaOpciones" component={OptionsView} options={{ headerShown: false }}></Stack.Screen>
+      <Stack.Screen name="VistaMovimientos" component={MovementsView} options={{ headerShown: false }}></Stack.Screen>
       </Stack.Navigator>
       </ProductContextProvider>
       </ContactContextProvider>
