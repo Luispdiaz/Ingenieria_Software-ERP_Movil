@@ -22,6 +22,8 @@ import NewClient from "../Sales/Components/NewClient";
 import SelectedProductsView from "../Sales/Components/SelectedProductsView";
 import DeliveryNote from "../Sales/Components/DeliveryNote";
 import EnterpriseView from "../Contacts/Components/EnterpriseView";
+import EnterpriseEmployees from "../Contacts/Components/EnterpriseEmployees";
+import Employee from "../Contacts/Components/Employee";
 import OptionsView from "../Sales/Components/OptionsView";
 import ReportView from "../Contacts/Components/ReportView";
 import Toast from 'react-native-toast-message';
@@ -61,6 +63,8 @@ const Main = () => {
       <Stack.Screen name="VistaEmpresa" component={EnterpriseView} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name="VistaOpciones" component={OptionsView} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name="VistaReporte" component={ReportView} options={{ headerShown: false }}></Stack.Screen>
+      <Stack.Screen name="VistaEmpresaEmpleados" component={EnterpriseEmployees} options={{ headerShown: false }}></Stack.Screen>
+      <Stack.Screen name="Empleado" component={Employee} options={{ headerShown: false }}></Stack.Scre
       </Stack.Navigator>
       </ProductContextProvider>
       </ContactContextProvider>
