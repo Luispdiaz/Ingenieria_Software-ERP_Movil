@@ -11,6 +11,9 @@ import { useProducts } from "../../Context/ProductContext";
 import { useEffect } from "react";
 import Product1 from "./Product1";
 import { useVenta } from "../../Context/VentaContext";
+import { BarCodeScanner } from 'expo-barcode-scanner';
+import { Camera } from 'expo-camera';
+
 
 
 const windowHeight = Dimensions.get('window').height;
@@ -27,6 +30,17 @@ const styles = StyleSheet.create({
         color: "#FFFFFF",
         textAlign: "left",
         paddingStart: 30, 
+        borderRadius: 25,
+        marginHorizontal:20
+      },
+    textinputcode: {
+        padding: 10,
+        borderWidth: 2,
+        borderColor: 'white',
+        backgroundColor: "white",
+        justifyContent: "center",
+        alignItems: "center",
+        paddingStart: 10, 
         borderRadius: 25,
         marginHorizontal:20
       },
@@ -153,8 +167,8 @@ const ShoppingCartView = ({route}) => {
     const navigation = useNavigation()
     const inputRef = useRef(null);
     const { ReiniciarVariables } = useVenta()
-    console.log(route)
     const tipoRegistro = route.params.tipoRegistro
+    
 
     useEffect(()=>{
       getProducts()
@@ -168,6 +182,15 @@ const ShoppingCartView = ({route}) => {
       buscarProductos('');
     }
 
+  //const onPress = () => {
+    //navigation.navigate("BarCodeScanner")
+  //}//
+
+  const handleBarCodeScanned = ({ type, data }) => {
+    setScanned(true);
+    setText(data)
+    console.log('Type: ' + type + '\nData: ' + data)
+  };
   return (
     <LinearGradient
         colors={[
@@ -205,7 +228,8 @@ const ShoppingCartView = ({route}) => {
     <Text style={styles.titulo}>Selecciona los productos</Text>
     <View style={styles.containerBuscador}>
     {((Busqueda !== '') && (
-  <TouchableOpacity onPress={handleLimpiarBusqueda}>
+  <TouchableOpacity onPress={handleLimpiarBusqueda}
+  >
     <Image
       source={require('../Assets/image (3).png')}
       style={styles.RetrocederBuscador}
@@ -213,8 +237,8 @@ const ShoppingCartView = ({route}) => {
   </TouchableOpacity>
 ))}
 
-
-    <TextInput
+  
+  <TextInput
   ref={inputRef}
   style={styles.textinput}
   placeholder="Buscar en el inventario..."
@@ -222,7 +246,16 @@ const ShoppingCartView = ({route}) => {
   onChangeText={(texto1) => setBusqueda(texto1)}
   onSubmitEditing={() =>buscarProductos(Busqueda)}
   />
+  
+  <TouchableOpacity style={styles.textinputcode}
+  >
+  <Image
+      source={require('../Assets/SearchBarCode.png')}
+      style = {{width: 30, height: 30}}
+    />
+  </TouchableOpacity>
   </View>
+
   
   {Busqueda !== '' && Productos.length === 0 && (
   <Text style={styles.mensajeNoCoincidencias}>

@@ -104,7 +104,6 @@ const UpdateProduct = ({Lista}) =>{
             navigation.navigate("VistaInventario");
           }
           else {
-
           CamposNuevos = {
           nombre: Nombre,
           imagen: Imagen,
