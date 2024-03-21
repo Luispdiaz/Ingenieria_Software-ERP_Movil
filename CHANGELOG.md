@@ -197,3 +197,7 @@ crear y modificar productos.
 - Se han características nuevas al punto de venta.
 
 ## [2.2.0] - 2024-3-19
+
+### Added
+
+- Se ha agregado funcionalidad de reportes.
