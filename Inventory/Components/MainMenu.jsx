@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, ScrollView, Image, Alert } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Constants from 'expo-constants';
 import theme from "../Themes/Theme";
 import { useNavigation } from '@react-navigation/native';
 import { useProducts } from "../../Context/ProductContext";
+// import UserContext from '../../Context/UserContext';
 
 //funciones para hacer tarjetas automaticas:
 function generarDiametro() {
@@ -167,6 +168,7 @@ const MainMenu = () => {
     const greeting = getGreeting();
     const { Productos, getProducts } = useProducts()
     const [verificacionRealizada, setVerificacionRealizada] = useState(false);
+    // const userId = useContext();
     useEffect(() => {
         const cargarProductosYVerificarReorden = async () => {
           await getProducts();

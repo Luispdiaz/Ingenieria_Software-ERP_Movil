@@ -21,7 +21,9 @@ import NewClient from "../Sales/Components/NewClient";
 import SelectedProductsView from "../Sales/Components/SelectedProductsView";
 import DeliveryNote from "../Sales/Components/DeliveryNote";
 import EnterpriseView from "../Contacts/Components/EnterpriseView";
-
+import { DatabaseContextProvider } from "../Context/DatabaseContext";
+import { UserContextProvider } from "../Context/UserContext";
+import Log_in from "../SessionInit/Components/Log_in";
 
 const Stack = createNativeStackNavigator();
 
@@ -34,6 +36,8 @@ const Styles = StyleSheet.create({
 const Main = () => {
     return (
       <View style={Styles.contenedorPrincipal}>
+      <DatabaseContextProvider>
+      <UserContextProvider>
       <VentaContextProvider>
       <ContactContextProvider>
       <ProductContextProvider>
@@ -55,10 +59,14 @@ const Main = () => {
       <Stack.Screen name="VistaProductosVenta" component={SelectedProductsView} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name="VistaNotadeEntrega" component={DeliveryNote} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name="VistaEmpresa" component={EnterpriseView} options={{ headerShown: false }}></Stack.Screen>
+      <Stack.Screen name="Log_in" component={Log_in} options={{ headerShown: false }}></Stack.Screen>
+      {/* () => <Log_in session={session} /> */}
       </Stack.Navigator>
       </ProductContextProvider>
       </ContactContextProvider>
       </VentaContextProvider>
+      </UserContextProvider>
+      </DatabaseContextProvider>
       </View>
     );
   };

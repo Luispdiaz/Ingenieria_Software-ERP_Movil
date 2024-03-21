@@ -1,6 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { Supa } from "../Supabase/supabase";
-
+import { SupaClient } from "../Supabase/supabase";
 export const ContactContext = createContext()
 
 export const useContact = () =>{
@@ -10,7 +9,7 @@ export const useContact = () =>{
 
 
 export const ContactContextProvider = ({children}) =>{
-
+    const Supa = SupaClient();
     const [Contactos, setContactos] = useState([])
 
     const getContacts = async () => {

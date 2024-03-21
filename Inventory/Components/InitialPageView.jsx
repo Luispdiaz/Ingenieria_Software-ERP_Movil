@@ -27,7 +27,7 @@ const InitialPageView = () =>{
     useEffect(() => {
         const timer = setTimeout(() => {
             setShowSplash(false);
-            navigation.navigate("MenuPrincipal");
+            navigation.navigate("Log_in");
         }, 3000); 
 
         return () => clearTimeout(timer);

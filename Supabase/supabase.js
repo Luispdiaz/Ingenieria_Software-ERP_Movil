@@ -1,9 +1,34 @@
 import { createClient } from "@supabase/supabase-js"
+import { useDatabase } from  '../Context/DatabaseContext';
+import { AppState } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
+export const SupaClient = () => {
+    const {Empresa_url, Empresa_token} = useDatabase();
+    
+    const SupaBaseURL = Empresa_url
+    const SupaBaseAnonKey = Empresa_token
+
+    console.log("llego bien",SupaBaseURL)
+
+    const Supa = createClient(SupaBaseURL,SupaBaseAnonKey,{
+        auth: {
+            storage: AsyncStorage,
+            autoRefreshToken: true,
+            persistSession: true,
+            detectSessionInUrl: false,
+          },
+        });
+    
+        AppState.addEventListener('change', (state) => {
+            if (state === 'active') {
+                Supa.auth.startAutoRefresh()
+            } else {
+                Supa.auth.stopAutoRefresh()
+            }
+          })
+
+    return Supa;
+}
 
 
-const SupaBaseURL = 'https://ktwhvzmmaqaumjvobuqn.supabase.co'
-const SupaBaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt0d2h2em1tYXFhdW1qdm9idXFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDY3OTE4NzksImV4cCI6MjAyMjM2Nzg3OX0.S8wSTR3T7nKW5sfBE6m4zUsjo0nVyaAp9OC8zDeDhOc'
-
-export const Supa = 
-createClient(SupaBaseURL,SupaBaseAnonKey
-);

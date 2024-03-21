@@ -1,5 +1,6 @@
-import { createContext, useContext, useState } from "react";
-import { Supa } from "../Supabase/supabase";
+import { createContext, useContext, useState, useEffect  } from "react";
+// import { Supa } from "../Supabase/supabase";
+import { SupaClient } from "../Supabase/supabase";
 
 export const ProductContext = createContext()
 
@@ -10,7 +11,7 @@ export const useProducts = () =>{
 
 
 export const ProductContextProvider = ({children}) =>{
-
+    const Supa = SupaClient();
     const [Productos, setProductos] = useState([])
     const [Categorias, setCategorias] = useState([])
 
@@ -23,7 +24,7 @@ export const ProductContextProvider = ({children}) =>{
     }
 
     const createProduct = async (Nombre,Imagen,CodProveedor,Categoria,Descripcion,Marca,CantidadInicial,CantidadMaxima,CantidadMinima,CantidadRestock,CostoD,CostoE,PrecioD,PrecioE,Porcentaje,TipoImpuesto) => {
-        try {
+      try {
             const {error, data} = await Supa.from('Productos').insert([
                 {nombre: Nombre,
                 imagen: Imagen,
@@ -58,7 +59,7 @@ export const ProductContextProvider = ({children}) =>{
           console.error(error);
         }
 
-    }
+      }
 
     const UpdateProduct = async (id, CamposActualizados) => {
         const {error , data } = await Supa.from("Productos").update(CamposActualizados).eq("id_producto",id).select()
