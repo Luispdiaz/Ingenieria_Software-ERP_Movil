@@ -64,7 +64,7 @@ const Main = () => {
       <Stack.Screen name="VistaOpciones" component={OptionsView} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name="VistaReporte" component={ReportView} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name="VistaEmpresaEmpleados" component={EnterpriseEmployees} options={{ headerShown: false }}></Stack.Screen>
-      <Stack.Screen name="Empleado" component={Employee} options={{ headerShown: false }}></Stack.Scre
+      <Stack.Screen name="Empleado" component={Employee} options={{ headerShown: false }}></Stack.Screen>
       </Stack.Navigator>
       </ProductContextProvider>
       </ContactContextProvider>
