@@ -39,7 +39,7 @@ export const ContactContextProvider = ({children}) =>{
           console.error('Error general:', error.message);
         }
       }
-
+      
       const buscarContactosporTipo = async (Tipo) => {
         try {
           const { data, error } = await Supa

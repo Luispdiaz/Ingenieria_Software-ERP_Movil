@@ -22,6 +22,8 @@ import NewClient from "../Sales/Components/NewClient";
 import SelectedProductsView from "../Sales/Components/SelectedProductsView";
 import DeliveryNote from "../Sales/Components/DeliveryNote";
 import EnterpriseView from "../Contacts/Components/EnterpriseView";
+import EnterpriseEmployees from "../Contacts/Components/EnterpriseEmployees";
+import Employee from "../Contacts/Components/Employee";
 
 const Stack = createNativeStackNavigator();
 
@@ -56,6 +58,8 @@ const Main = () => {
       <Stack.Screen name="VistaProductosVenta" component={SelectedProductsView} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name="VistaNotadeEntrega" component={DeliveryNote} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name="VistaEmpresa" component={EnterpriseView} options={{ headerShown: false }}></Stack.Screen>
+      <Stack.Screen name="VistaEmpresaEmpleados" component={EnterpriseEmployees} options={{ headerShown: false }}></Stack.Screen>
+      <Stack.Screen name="Empleado" component={Employee} options={{ headerShown: false }}></Stack.Screen>
       </Stack.Navigator>
       </ProductContextProvider>
       </ContactContextProvider>
