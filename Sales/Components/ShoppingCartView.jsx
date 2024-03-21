@@ -182,9 +182,9 @@ const ShoppingCartView = ({route}) => {
       buscarProductos('');
     }
 
-  //const onPress = () => {
-    //navigation.navigate("BarCodeScanner")
-  //}//
+  const onPress = () => {
+    navigation.navigate("BarCodeScanner")
+  }
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
@@ -248,6 +248,7 @@ const ShoppingCartView = ({route}) => {
   />
   
   <TouchableOpacity style={styles.textinputcode}
+  onPress = {onPress}
   >
   <Image
       source={require('../Assets/SearchBarCode.png')}
