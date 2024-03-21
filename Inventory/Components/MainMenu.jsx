@@ -236,6 +236,15 @@ const MainMenu = () => {
                     />
                     
                 </View>
+
+                <View style={Styles.contenedorTarjetas}>
+                   
+                <Tarjeta
+                    imagen={require('..//Assets/ReportsIcon.png')}
+                    texto='Report'
+                    pagina='VistaReporte'  
+                />
+                </View>
             </View>
            
             </ScrollView>  
