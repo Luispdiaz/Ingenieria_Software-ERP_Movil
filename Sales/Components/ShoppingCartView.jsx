@@ -153,6 +153,8 @@ const ShoppingCartView = ({route}) => {
     const navigation = useNavigation()
     const inputRef = useRef(null);
     const { ReiniciarVariables } = useVenta()
+    console.log(route)
+    const tipoRegistro = route.params.tipoRegistro
 
     useEffect(()=>{
       getProducts()
@@ -191,7 +193,7 @@ const ShoppingCartView = ({route}) => {
         <Text style={styles.tituloInventario}>Punto de Venta</Text>
         <View style={styles.CarritoButton}>
         <TouchableOpacity
-          onPress={() => navigation.navigate("VistaProductosVenta", {route})}
+          onPress={() => navigation.navigate("VistaProductosVenta", {tipoRegistro})}
         >
           <Image
           source={require('../Assets/assetV_1.png')}

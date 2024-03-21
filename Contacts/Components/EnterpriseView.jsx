@@ -36,10 +36,11 @@ const styles = StyleSheet.create({
   backButton: {
     position: 'absolute',
     left: Constants.statusBarHeight * 0.01,
-    margin: 30,
+    padding: 10,
     zIndex: 1,
     alignSelf:'flex-start',
     justifyContent:'flex-start',
+    marginTop:Constants.statusBarHeight
   },
   
   mainTitle: {
@@ -95,8 +96,9 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   TextoModificar: {
-    width:  30, 
-    height: 27
+    width: 24, 
+    height: 20, 
+    marginRight: 10, 
   },
   littleDataBox: {
     width:'50%',
@@ -176,10 +178,6 @@ const styles = StyleSheet.create({
             </View>
           </View>
         </View>
-      
-
-
-
         <View style={styles.darkBox}>
           <Text style={[styles.strongLittleText, {width: '100%'}]}>Actividad empresa</Text>
             <View style={styles.littleDataBox}>

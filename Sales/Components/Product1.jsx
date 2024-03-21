@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native'
 import { useState } from "react";
 import { useVenta } from "../../Context/VentaContext";
 import { useEffect } from "react";
+import Toast from 'react-native-toast-message';
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -93,24 +94,30 @@ const Product1 = (props) => {
     const closeModal = () => {
       setModalVisible(false);
       setPresionado(!presionado);
-      Alert.alert(
-        'Producto Agregado',
-        'El producto se ha añadido a la compra correctamente.',
-        [
-          {
-            text: 'OK'}]
-      )
       const productoConCantidad = {
-        ...props,
-        cantidad: cantidadProducto,
+          ...props,
+          cantidad: cantidadProducto,
       };
       if (VerificarProductoExistente(props.id_producto)) {
-        Alert.alert('Producto Existente', 'El producto ya se ha agregado anteriormente.');
+          Toast.show({
+            type: 'info',
+            text1: 'Producto Existente',
+            text2: 'El producto ya se ha agregado anteriormente.',
+            position: 'top',
+            visibilityTime: 3000, // Tiempo en milisegundos que se mostrará el mensaje
+          });
       } else {
-        AgregarProductoVenta(productoConCantidad);
+          AgregarProductoVenta(productoConCantidad);
+          Toast.show({
+            type: 'success',
+            text1: 'Producto Agregado',
+            text2: 'El producto se ha añadido a la compra correctamente.',
+            position: 'top',
+            visibilityTime: 3000,
+        });
       }
-      setCantidadProducto('')
-    };
+      setCantidadProducto('');
+  };
     
     
 
@@ -122,9 +129,11 @@ const Product1 = (props) => {
       setModalVisible(false);
       setPresionado(!presionado);
     }
+    
 
 return(
   <TouchableOpacity activeOpacity={1} onPress={onPressHandler}>
+    
   <View style={[styles.tarjetaContainer, presionado && styles.tarjetaPresionada]}>
   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
       <View style={{ marginRight: 10 }}>
@@ -170,15 +179,18 @@ return(
               closeModal();
             } else {
               // Muestra un mensaje de error o realiza alguna acción si la cantidad es mayor a la disponible
-              setCantidadProducto('')
-              Alert.alert(
-                'Error',
-                'La cantidad ingresada excede la cantidad disponible.',
-                [{ text: 'OK', onPress: () => console.log('OK Pressed') }]
-              )
+              setCantidadProducto('');
+              Toast.show({
+                type: 'error',
+                text1: 'Error',
+                text2: 'La cantidad ingresada excede la cantidad disponible.',
+                position: 'top',
+                visibilityTime: 3000})
+                setModalVisible(false)
             }
           }}
         >
+          
           <Text style={styles.closeButton}>Confirmar</Text>
         </TouchableOpacity>
       </View>
