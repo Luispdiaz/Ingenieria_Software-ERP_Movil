@@ -29,9 +29,6 @@ const Styles = StyleSheet.create({
     contenedorProductos: {
         flex: 1,
         justifyContent: 'flex-start',
-        
-        
-        
     },
     tarjetaProducto:{
       backgroundColor: theme.colors.secundario,

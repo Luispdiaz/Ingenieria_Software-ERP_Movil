@@ -62,17 +62,19 @@ const styles = StyleSheet.create({
       
   });
 
-const IdentificationView = () => {
+const IdentificationView = ({route}) => {
     const navigation = useNavigation()
     const [CodCliente, setCodCliente] = useState('');
     const { buscarContactosporCedula } = useContact()
+    const tipoRegistro = route.params.tipoRegistro;
+
 
     const handleSearch = async (CodCliente) => {
-      const Contacto = await buscarContactosporCedula(CodCliente);
+      const Contacto = await buscarContactosporCedula(CodCliente, route.params.tipoRegistro === 'Compra' ? 'proveedor' : 'cliente');
         if (Contacto) {
-          navigation.navigate('VistaConfirmarInfoPV', { Contacto });;
+          navigation.navigate('VistaConfirmarInfoPV', { Contacto, tipoRegistro });;
       } else {
-        navigation.navigate('VistaRegistroPV');
+        navigation.navigate('VistaRegistroPV', { tipoRegistro });
       }
   }
 
@@ -101,8 +103,8 @@ const IdentificationView = () => {
 
     <View style={styles.ContenedorSinTitulo}>
     <Text style={styles.textoSolicitud}>
-        Proporcione el documento de identificación del cliente
-    </Text>
+    {route.params.tipoRegistro === 'Compra' ? 'Proporcione el documento de identificación del proveedor' : 'Proporcione el documento de identificación del cliente'}
+</Text>
     <View style={{flexDirection:'row'}}>
       <TextInput
         style={styles.textinput}

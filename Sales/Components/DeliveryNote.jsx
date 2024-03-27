@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
 
 
 
-  const DeliveryNote = () => {
+  const DeliveryNote = ({route}) => {
     const navigation = useNavigation();
     const [CodCliente, setCodCliente] = useState('');
     const { buscarContactosporCedula } = useContact();
@@ -106,14 +106,7 @@ const styles = StyleSheet.create({
     console.log(Cliente);
     const {modificarCantidadExistencia} = useProducts()
   
-    const handleSearch = async (CodCliente) => {
-      const Contacto = await buscarContactosporCedula(CodCliente);
-      if (Contacto) {
-        navigation.navigate('VistaConfirmarInfoPV', { Contacto });
-      } else {
-        navigation.navigate('VistaRegistroPV');
-      }
-    };
+   
   
     const calcularSubtotal = () => {
       return ProductosVenta.reduce((total, producto) => {
@@ -191,12 +184,12 @@ const styles = StyleSheet.create({
             <Text style={styles.titulo}>Nota de Entrega</Text>
             {/* Datos del Cliente */}
             <Text style={styles.subtitulo}>Datos del Cliente:</Text>
-            <Text style={styles.text}>{`Nombre: ${Cliente.Contacto.nombre}`}</Text>
-            <Text style={styles.text}>{`Cédula: ${Cliente.Contacto.cont_id_fiscal}`}</Text>
-            <Text style={styles.text}>{`Teléfono: ${Cliente.Contacto.telefono}`}</Text>
-            <Text style={styles.text}>{`Correo Electrónico: ${Cliente.Contacto.correo}`}</Text>
-            <Text style={styles.text}>{`Dirección: ${Cliente.Contacto.direccion}`}</Text>
-            <Text style={styles.text}>{`Condición de Venta: ${Cliente.Contacto.condicion_venta}`}</Text>
+            <Text style={styles.text}>{`Nombre: ${Cliente.nombre}`}</Text>
+            <Text style={styles.text}>{`Cédula: ${Cliente.cont_id_fiscal}`}</Text>
+            <Text style={styles.text}>{`Teléfono: ${Cliente.telefono}`}</Text>
+            <Text style={styles.text}>{`Correo Electrónico: ${Cliente.correo}`}</Text>
+            <Text style={styles.text}>{`Dirección: ${Cliente.direccion}`}</Text>
+            <Text style={styles.text}>{`Condición de Venta: ${Cliente.condicion_venta}`}</Text>
   
             {/* Productos Entregados */}
             <Text style={styles.subtitulo}>Productos Entregados:</Text>
