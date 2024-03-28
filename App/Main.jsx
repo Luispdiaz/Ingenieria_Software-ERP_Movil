@@ -22,8 +22,12 @@ import NewClient from "../Sales/Components/NewClient";
 import SelectedProductsView from "../Sales/Components/SelectedProductsView";
 import DeliveryNote from "../Sales/Components/DeliveryNote";
 import EnterpriseView from "../Contacts/Components/EnterpriseView";
+import EnterpriseEmployees from "../Contacts/Components/EnterpriseEmployees";
+import Employee from "../Contacts/Components/Employee";
 import OptionsView from "../Sales/Components/OptionsView";
+import ReportView from "../Contacts/Components/ReportView";
 import Toast from 'react-native-toast-message';
+import MovementsView from "../Movements/Components/MovementsView";
 import BarcodeScan from "../Sales/Components/BarCode";
 
 const Stack = createNativeStackNavigator();
@@ -60,7 +64,11 @@ const Main = () => {
       <Stack.Screen name="VistaNotadeEntrega" component={DeliveryNote} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name="VistaEmpresa" component={EnterpriseView} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name="VistaOpciones" component={OptionsView} options={{ headerShown: false }}></Stack.Screen>
+      <Stack.Screen name="VistaMovimientos" component={MovementsView} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name="BarCodeScanner" component={BarcodeScan} options={{ headerShown: false }}></Stack.Screen>
+      <Stack.Screen name="VistaReporte" component={ReportView} options={{ headerShown: false }}></Stack.Screen>
+      <Stack.Screen name="VistaEmpresaEmpleados" component={EnterpriseEmployees} options={{ headerShown: false }}></Stack.Screen>
+      <Stack.Screen name="Empleado" component={Employee} options={{ headerShown: false }}></Stack.Screen>
       </Stack.Navigator>
       </ProductContextProvider>
       </ContactContextProvider>

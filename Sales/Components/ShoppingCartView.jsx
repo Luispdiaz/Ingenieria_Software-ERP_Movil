@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         marginHorizontal:20
       },
-    textinputcode: {
+      textinputcode: {
         padding: 10,
         borderWidth: 2,
         borderColor: 'white',
@@ -41,8 +41,8 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         paddingStart: 10, 
-        borderRadius: 25,
-        marginHorizontal:20
+        borderRadius: 50, // Se ajusta el valor para hacerlo redondo
+        marginRight: 10
       },
       contenedorTitulo: {
         marginTop: Constants.statusBarHeight + 10,
@@ -80,7 +80,6 @@ const styles = StyleSheet.create({
       width: 24, 
       height: 20,  
       marginLeft: 20
-      
     },
     tituloInventario: {
       fontSize: theme.title.fontSize,
@@ -90,9 +89,6 @@ const styles = StyleSheet.create({
   contenedorProductos: {
       flex: 1,
       justifyContent: 'flex-start',
-      
-      
-      
   },
   tarjetaProducto:{
     backgroundColor: theme.colors.secundario,
@@ -185,6 +181,11 @@ const ShoppingCartView = ({route}) => {
   const onPress = () => {
     navigation.navigate("BarCodeScanner")
   }
+
+  const handleBarCodeScanned = ({ type, data }) => {
+    setScanned(true);
+    setText(data)
+  };
   return (
     <LinearGradient
         colors={[
@@ -261,15 +262,14 @@ const ShoppingCartView = ({route}) => {
 
 
   <View style={styles.contenedorProductos}>
-    <FlatList
-    style={{marginTop:20, marginHorizontal:10}}
+      <FlatList
+        style={{ marginTop: 20, marginHorizontal: 10 }}
         data={Productos}
         renderItem={({ item }) => (
-            <Product1 {...item}
-            />
-          )}
-          numColumns={1} 
-    /> 
+            <Product1 {...item} route={tipoRegistro} />
+        )}
+        numColumns={1} 
+    />
    </View>
     
     </LinearGradient>

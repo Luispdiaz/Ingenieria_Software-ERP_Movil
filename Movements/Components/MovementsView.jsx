@@ -2,11 +2,12 @@ import React, { useEffect } from "react";
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, TextInput, Image, Dimensions } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import Constants from 'expo-constants';
-import TypeContact from "./TypeContact";
 import { useState, useRef } from "react";
-import Contact from "./Contact";
 import { useContact } from "../../Context/ContactContext";
 import { useNavigation } from "@react-navigation/native";
+import TypeMovement from "./TypeMovement";
+import Movement from "./Movement";
+import { useVenta } from "../../Context/VentaContext";
 
 
 
@@ -40,7 +41,7 @@ const Styles = StyleSheet.create({
     textinput: {
         padding: 10,
         borderWidth: 1,
-        borderColor: 'white', 
+        borderColor: 'white',
         color: 'white',
         textAlign: "left",
         paddingStart: 30, 
@@ -68,12 +69,19 @@ const Styles = StyleSheet.create({
         zIndex: 1,
         alignSelf:'flex-start',
         justifyContent:'flex-start'
-      }
+      },
+      mensajeNoCoincidencias: {
+        fontSize: 16,
+        color: "#FFFFFF", 
+        textAlign: 'center',
+        marginTop: 20,
+      },
 })
 
 
-const ContactsView = () => {
-    const { Contactos, getContacts, buscarContactos, buscarContactosporTipo } = useContact()
+const MovementsView = () => {
+    const { Contactos, getContacts, buscarContactos } = useContact()
+    const { Encabezado, getEncabezado, buscarEncabezado, buscarMovimientoporTipo } = useVenta()
     const [BusquedaC, setBusquedaC] = useState('');
     const inputRef = useRef(null);
     const navigation = useNavigation();
@@ -87,16 +95,16 @@ const ContactsView = () => {
       }
 
     useEffect(()=>{
-        getContacts()
+        getEncabezado()
       }, [])
     const [selectedType, setSelectedType] = useState("Todos");
   
     const handleTypePress = (type) => {
       setSelectedType(type);
       if (type === "Todos") {
-        getContacts()
+        getEncabezado()
       } else {
-         buscarContactosporTipo(type)
+        buscarMovimientoporTipo(type)
     }
 }
   
@@ -120,81 +128,70 @@ const ContactsView = () => {
         />
         </TouchableOpacity>
         </View>
-          <Text style={Styles.tituloInventario}>Contactos</Text>
+          <Text style={Styles.tituloInventario}>Movimientos</Text>
         </View>
-  
+
         <View style={{ flexDirection: 'row' }}>
-          <TypeContact
+            <TypeMovement
             nombre="Todos"
-            icono={require("../Assets/assetC_1.png")}
-            color="#b168ea"
+            icono={require("../Assets/image (20).png")}
+            color="#7d09ff"
             onPress={handleTypePress}
             isSelected={selectedType === "Todos"}
-          ></TypeContact>
-          <TypeContact
-            nombre="empleado"
-            icono={require("../Assets/assetC_2.png")}
-            color="#b168ea"
+          ></TypeMovement>
+          <TypeMovement
+            nombre="Pedido"
+            icono={require("../Assets/ICONO 3 (0).png")}
+            color="#7d09ff"
             onPress={handleTypePress}
-            isSelected={selectedType === "empleado"}
-          ></TypeContact>
-          <TypeContact
-            nombre="proveedor"
-            icono={require("../Assets/assetC_3.png")}
-            color="#b168ea"
+            isSelected={selectedType === "Pedido"}
+          ></TypeMovement>
+          <TypeMovement
+            nombre="Venta"
+            icono={require("../Assets/ICONO 3 (1).png")}
+            color="#7d09ff"
             onPress={handleTypePress}
-            isSelected={selectedType === "proveedor"}
-          ></TypeContact>
-          <TypeContact
-            nombre="cliente"
-            icono={require("../Assets/assetC_4.png")}
-            color="#b168ea"
+            isSelected={selectedType === "Venta"}
+          ></TypeMovement>
+          <TypeMovement
+            nombre="Factura"
+            icono={require("../Assets/ICONO 3 (2).png")}
+            color="#7d09ff"
             onPress={handleTypePress}
-            isSelected={selectedType === "cliente"}
-          ></TypeContact>
+            isSelected={selectedType === "Factura"}
+          ></TypeMovement>
+          <TypeMovement
+            nombre="N/E"
+            icono={require("../Assets/ICONO 3 (3).png")}
+            color="#7d09ff"
+            onPress={handleTypePress}
+            isSelected={selectedType === "N/E"}
+          ></TypeMovement>
         </View>
+        
         <View style={Styles.contenedorContactos}>
-        <View style={Styles.containerBuscador}>
-        {((BusquedaC !== '' || selectedType !== 'Todos') && (
-            <TouchableOpacity onPress={() => {
-                handleLimpiarBusqueda();
-                setSelectedType('Todos');
-            }}>
-                <Image
-                source={require('../Assets/image (3).png')}
-                style={Styles.TextoModificar}
-                />
-            </TouchableOpacity>
-            ))}
-        <TextInput
-            ref={inputRef}
-            style={Styles.textinput}
-            placeholder="¿A quién deseas buscar?"
-            placeholderTextColor='#FFFFFF'
-            onChangeText={(texto1) => setBusquedaC(texto1)}
-            onSubmitEditing={() => buscarContactos(BusquedaC)}
-            />
-        <TouchableOpacity activeOpacity={1} onPress={() => navigation.navigate("CrearContacto")}>
-        <Image
-        source={require('../Assets/assetsC_8 (1).png')} 
-       style={Styles.contenedorMas} 
-      />
-        </TouchableOpacity>
-        </View>
+
+        {Encabezado.length === 0 && (
+        <Text style={Styles.mensajeNoCoincidencias}>
+            No hay coincidencias con la búsqueda
+        </Text>
+        )}
+        
         <FlatList
-            style={{marginTop:20, flex:1}}
-                data={Contactos}
+            style={{ flex:1}}
+                data={Encabezado}
                 renderItem={({ item }) => (
-                    <Contact {...item}
+                    <Movement {...item}
                     />
                 )}
                 numColumns={1} 
     /> 
         </View>
+        
 
       </LinearGradient>
     );
   };
 
 
-export default ContactsView;
+export default MovementsView;
