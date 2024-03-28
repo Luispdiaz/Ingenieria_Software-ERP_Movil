@@ -205,3 +205,9 @@ crear y modificar productos.
 
 ### Added
 - Se ha agregado funcionalidad de reportes.
+
+### Version
+
+- Se ha subido la segunda version a producción.
+
+## [3.0.0] - 2024-3-28 
