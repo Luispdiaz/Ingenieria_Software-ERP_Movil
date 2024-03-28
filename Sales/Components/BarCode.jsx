@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Camera } from 'expo-camera';
+import {Alert} from "react-native"
 
 
 function BarcodeScan({ navigation }) {
@@ -16,7 +17,7 @@ function BarcodeScan({ navigation }) {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    Alert.alert("Codigo de Barra Escaneado",`El producto con codigo de barra: ${data}`);
   };
 
   const renderCamera = () => {

@@ -185,12 +185,6 @@ const ShoppingCartView = ({route}) => {
   const onPress = () => {
     navigation.navigate("BarCodeScanner")
   }
-
-  const handleBarCodeScanned = ({ type, data }) => {
-    setScanned(true);
-    setText(data)
-    console.log('Type: ' + type + '\nData: ' + data)
-  };
   return (
     <LinearGradient
         colors={[
