@@ -353,17 +353,22 @@ const UpdateContact = ({route}) =>{
       ]}
       style={styles.contenedorPrincipal}
     >
+      <View style={styles.contenedorTitulo}>
+          <View style={styles.backButton}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+        >
+          <Image
+          source={require('../Assets/image (3).png')}
+          style={styles.TextoModificar1}
+        />
+        </TouchableOpacity>
+        </View>
+          <Text style={styles.tituloInventario}>Contactos</Text>
+        </View>
       
       <ScrollView>
-      <View style={styles.backButton}>
-      <TouchableOpacity
-        onPress={() => navigation.goBack()}
-      >
-        <Image
-        source={require('../Assets/image (3).png')}
-      />
-      </TouchableOpacity>
-      </View>
+      
       <View style = {{marginTop: Constants.statusBarHeight}}>
         <TouchableOpacity style={styles.buttonImage} onPress={handlePress} >
         <Image style = {styles.img} source = {{uri: imgUrl}}/>
@@ -662,15 +667,31 @@ view_correo:{
   marginTop: 20,
   height: 150
 },
-backButton: {
-  position: 'absolute',
-  top: Constants.statusBarHeight * 0.5,
-  left: Constants.statusBarHeight * 0.01,
-  padding: 10,
-  zIndex: 1,
-  alignSelf:'flex-start',
-  justifyContent:'flex-start'
+contenedorTitulo: {
+  marginTop: Constants.statusBarHeight + 10,
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexDirection:'row',
+  marginBottom: 20
 },
+tituloInventario: {
+fontSize: 24,
+fontWeight: 'bold',
+color: "#FFFFFF"
+},
+TextoModificar1: {
+    width: 24, 
+    height: 20, 
+    marginRight: 10, 
+  },
+  backButton: {
+    position: 'absolute',
+    left: Constants.statusBarHeight * 0.01,
+    padding: 10,
+    zIndex: 1,
+    alignSelf:'flex-start',
+    justifyContent:'flex-start'
+  },
 view_fecha:{
   backgroundColor: "rgba(0,0,0,0.4)", 
   borderRadius: 18, 

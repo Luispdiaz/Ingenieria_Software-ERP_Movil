@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, Text, StyleSheet, Dimensions, Image, ScrollView, TouchableOpacity, TextInput, FlatList, Modal, Alert} from "react-native";
+import { View, Text, StyleSheet, Dimensions, Image, ScrollView, TouchableOpacity, TextInput, FlatList, Modal} from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from "@react-navigation/native";
 import Constants from 'expo-constants';
@@ -12,6 +12,7 @@ import PercentageDiscountStrategy from "../Strategies/PercentageDiscountStrategy
 import NoDiscountStrategy from "../Strategies/NoDiscountStrategy";
 import IVATaxStrategy from "../Strategies/IVATaxStrategy";
 import FreeTaxStrategy from "../Strategies/FreeTaxStrategy";
+import Toast from 'react-native-toast-message';
 
 const styles = StyleSheet.create({
     contenedorPrincipal: {
@@ -62,15 +63,13 @@ const styles = StyleSheet.create({
     },
     ContenedorSinTitulo:{
       flex: 1,
-      justifyContent: 'center',
-      marginBottom:50
+      justifyContent: 'center'
     }, 
     resumenContainer: {
       backgroundColor: '#1b1f4c',
       padding: 20,
       borderTopLeftRadius: 20,
       borderTopRightRadius: 20,
-      position: 'absolute',
       bottom: 0,
       left: 0,
       right: 0,
@@ -189,7 +188,7 @@ const styles = StyleSheet.create({
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      backgroundColor: 'rgba(0, 0, 0, 0.2)',
     },
     modalTitle: {
       fontSize: 18,
@@ -453,7 +452,13 @@ const calcularImpuestosIGTF = () => {
     // Verificar si se han ingresado los montos de pago
     if (selectedPaymentMethods.length === 0 || Object.values(paymentAmounts).some(amount => amount === 0)) {
       // Mostrar un mensaje de error si no se han ingresado los montos
-      Alert.alert('','No se ha ingresado la cantidad para todos los métodos de pago.');
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'No se han ingresado todas las cantidades.',
+        position: 'top',
+        visibilityTime: 3000
+    })
       return;
     }
     
@@ -476,7 +481,13 @@ const calcularImpuestosIGTF = () => {
     setModalVisible(false);
     } else {
       // Mostrar un mensaje de error si todavía falta pagar
-      Alert.alert('','El monto ingresado es menor al monto total por pagar.');
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'El monto ingresado es menor al monto total por pagar.',
+        position: 'top',
+        visibilityTime: 3000,
+    })
     }
   };
 
@@ -548,6 +559,8 @@ const calcularImpuestosIGTF = () => {
             numColumns={1} 
       /> 
     </View>
+
+
       <View style={styles.resumenContainer}>
       <Text style={styles.resumenTitulo}>
         {tipoRegistro === 'Compra' ? 'Resumen de la Compra' : 'Resumen de la Venta'}
@@ -592,7 +605,14 @@ const calcularImpuestosIGTF = () => {
             navigation.navigate("VistaNotadeEntrega", { TipoRegistro });
           } else {
             // Mostrar un alert indicando que debe elegir al menos un método de pago
-            Alert.alert('', "Por favor, elija al menos un método de pago.");
+            setModalVisible(true);
+            Toast.show({
+              type: 'info',
+              text1: 'Error',
+              text2: 'Colocar al menos un método de pago.',
+              position: 'top',
+              visibilityTime: 3000
+          })
           }
         }}
       >

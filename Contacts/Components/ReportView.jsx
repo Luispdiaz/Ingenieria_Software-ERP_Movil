@@ -200,15 +200,15 @@ import { useVenta } from '../../Context/VentaContext';
     }
   
     const data = {
-      labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
+      labels: ['Feb', 'Mar', 'Abr'],
       datasets: [
         {
-          data: [500, 700, 600, 800, 900, 1000], // Valores de ingresos mensuales
-          color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`, // Color de la línea
+          data: [ 500, 700, 600], // Valores de ingresos mensuales
+          color: (opacity = 1) => `rgba(0, 255, 0, ${opacity})`, // Color de la línea
           strokeWidth: 2, // Grosor de la línea
         },
         {
-          data: [300, 400, 500, 600, 700, 800], // Valores de gastos mensuales
+          data: [300, 400, 500], // Valores de gastos mensuales
           color: (opacity = 1) => `rgba(255, 0, 0, ${opacity})`, // Color de la línea
           strokeWidth: 2, // Grosor de la línea
         },
@@ -220,9 +220,6 @@ import { useVenta } from '../../Context/VentaContext';
       backgroundGradientTo: '#380E6B',
       decimalPlaces: 0,
       color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-      style: {
-        borderRadius: 16,
-      },
     };
   
     return (
@@ -247,24 +244,29 @@ import { useVenta } from '../../Context/VentaContext';
         </View>
           <Text style={styles.tituloInventario}>Reportes</Text>
         </View>
-  
         <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+        
+        
           <View style={styles.container}>
+          <Text style={styles.cardTitle}>Balance de Gastos e Ingresos</Text>
+          {/* Aquí se integra la gráfica */}
+          <View style={styles.chartContainer}>
+              <LineChart data={data} width={350} height={220} chartConfig={chartConfig} />
+            </View>
+            
+           <View style={{justifyContent:'start'}}>
             <View style={styles.card}>
-              <Text style={styles.cardTitle}>Gasto Mensual</Text>
-              <Text style={styles.cardValue}>Bs.{gastosMensuales}</Text>
+              <Text style={styles.cardTitle3}>Gasto Mensual</Text>
+              <Text style={styles.cardValue}>Bs.{gastosMensuales.toFixed(2)}</Text>
             </View>
             <View style={styles.card}>
-              <Text style={styles.cardTitle}>Ingreso Mensual</Text>
-              <Text style={styles.cardValue}>Bs.{ingresosMensuales}</Text>
+              <Text style={styles.cardTitle2}>Ingreso Mensual</Text>
+              <Text style={styles.cardValue}>Bs.{ingresosMensuales.toFixed(2)}</Text>
             </View>
             <View style={styles.card}>
-              <Text style={styles.cardTitle}>Ganancia Mensual</Text>
+              <Text style={styles.cardTitle1}>Ganancia Mensual:</Text>
               <Text style={styles.cardValue}>Bs.{gananciaMensual.toFixed(2)}</Text>
             </View>
-            {/* Aquí se integra la gráfica */}
-            <View style={styles.chartContainer}>
-              <LineChart data={data} width={350} height={220} chartConfig={chartConfig} />
             </View>
           </View>
         </ScrollView>
@@ -294,27 +296,45 @@ const styles = {
   },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'start',
+    alignItems: 'start',
   },
   card: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: "rgba(128, 41, 181, 0.15)",
+    shadowColor: 'rgba(0, 0, 0, 0.7)',
     borderRadius: 20,
     padding: 20,
     marginBottom: 20,
     width: '100%',
-    alignItems: 'center',
-    elevation: 3,
+    alignItems: 'start'
   },
   cardTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
-    color: '#380E6B',
+    color: '#FFFFFF',
+  },
+  cardTitle1: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: 'yellow',
+  },
+  cardTitle2: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: 'green',
+  },
+  cardTitle3: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: 'red',
   },
   cardValue: {
     fontSize: 18,
-    color: '#380E6B',
+    color: '#FFFFFF',
   },
   backButton: {
     position: 'absolute',
@@ -385,6 +405,12 @@ containerBuscador: {
     textAlign: 'center',
     marginTop: 20,
   },
+  chartContainer:{
+    borderRadius: 16, 
+    overflow: 'hidden',
+    marginBottom: 20,
+
+  }
 };
 
 export default ReportView;

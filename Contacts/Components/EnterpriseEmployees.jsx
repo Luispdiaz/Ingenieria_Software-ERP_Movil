@@ -9,19 +9,24 @@ import Employee from "./Employee";
 const styles = StyleSheet.create({
     MainContainer: {
         flex: 1,
-        backgroundColor: '#080915'
+        backgroundColor: '#080915',
     },
     backButton: {
-        left: Constants.statusBarHeight * 0.50,
-        marginTop: 30,
+        position: 'absolute',
+        marginTop:Constants.statusBarHeight,
+        left: Constants.statusBarHeight * 0.01,
+        padding: 10,
         zIndex: 1,
         alignSelf:'flex-start',
-        justifyContent:'flex-start',
-    },
-    TextoModificar: {
-        width:  30, 
-        height: 27
-    },
+        justifyContent:'flex-start'
+      },
+      TextoModificar: {
+        width: 24, 
+        height: 20, 
+        marginRight: 10, 
+      },
+    
+   
 });
 
 const EnterpriseEmployees = () => {
@@ -64,7 +69,7 @@ const EnterpriseEmployees = () => {
                 </TouchableOpacity>
             </View>
             <FlatList
-                style={{marginTop: 20, marginHorizontal: 10, flex: 1}}
+                style={{marginTop: 60, marginHorizontal: 10, flex: 1}}
                 data={contactosFiltrados}
                 renderItem={({ item }) => (
                     <Employee {...item} />

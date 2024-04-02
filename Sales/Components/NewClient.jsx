@@ -145,7 +145,7 @@ const NewClient = ({ route }) => {
     const [direccion, setDireccion] = useState('');
     const { CrearCliente } = useVenta()
 
-    const TipoRegistro = route.params.tipoRegistro;
+    const tipoRegistro = route.params.tipoRegistro;
     let contribuyente = true;
     let condicion_venta = 'Contado';
     let credito_total = null;
@@ -157,7 +157,7 @@ const NewClient = ({ route }) => {
     let proveedor = false;
     let imagen = '';
 
-    if (TipoRegistro === 'Venta') {
+    if (tipoRegistro === 'Venta') {
         cliente = true;
         imagen = 'https://ktwhvzmmaqaumjvobuqn.supabase.co/storage/v1/object/public/imagenes/perfil_01%20(1).png?t=2024-03-01T15%3A47%3A27.894Z';
     } else {
@@ -216,9 +216,9 @@ const NewClient = ({ route }) => {
         imagen
       }
       
-      CrearCliente({Contacto:Contacto})
+      CrearCliente(Contacto)
       Alert.alert('El contacto se agregó de manera exitosa');
-      navigation.navigate('VistaCarritoCompras', {TipoRegistro});
+      navigation.navigate('VistaCarritoCompras', {tipoRegistro});
   ;
 }}
       

@@ -92,146 +92,57 @@ const Product1 = (props) => {
     // Por ejemplo:
 
     const onPressHandler = () => {
-      setPresionado(!presionado);
-      setModalVisible(true)
-    }
-
-    const closeModal = () => {
-      setModalVisible(false);
-      setPresionado(!presionado);
       const productoConCantidad = {
-          ...props,
-          cantidad: cantidadProducto,
-      };
-      if (VerificarProductoExistente(props.id_producto)) {
-          Toast.show({
-            type: 'info',
-            text1: 'Producto Existente',
-            text2: 'El producto ya se ha agregado anteriormente.',
-            position: 'top',
-            visibilityTime: 3000, // Tiempo en milisegundos que se mostrará el mensaje
-          });
-      } else {
-          AgregarProductoVenta(productoConCantidad);
-          Toast.show({
-            type: 'success',
-            text1: 'Producto Agregado',
-            text2: 'El producto se ha añadido a la compra correctamente.',
-            position: 'top',
-            visibilityTime: 3000,
+        ...props,
+        cantidad: 1,
+    };
+    if (VerificarProductoExistente(props.id_producto)) {
+        Toast.show({
+          type: 'info',
+          text1: 'Producto Existente',
+          text2: 'El producto ya se ha agregado anteriormente.',
+          position: 'top',
+          visibilityTime: 1500, // Tiempo en milisegundos que se mostrará el mensaje
         });
-      }
-      setCantidadProducto('');
-  };
-    
-    
-
-    useEffect(() => {
-    }, [ProductosVenta])
-
-    const cancelModal = () => {
-      setCantidadProducto('')
-      setModalVisible(false);
-      setPresionado(!presionado);
+        
+    } else {
+        AgregarProductoVenta(productoConCantidad);
+        Toast.show({
+          type: 'success',
+          text1: 'Producto Agregado',
+          text2: 'El producto se ha añadido a la compra correctamente.',
+          position: 'top',
+          visibilityTime: 1500,
+      });
+      
     }
+      
+    }
+
+    
     
 
-return(
-  <TouchableOpacity activeOpacity={1} onPress={onPressHandler}>
-    
-  <View style={[styles.tarjetaContainer, presionado && styles.tarjetaPresionada]}>
-  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-      <View style={{ marginRight: 10 }}>
-          <Image style={styles.imagenProducto} source={{ uri: props.imagen  }} />
-      </View>
-      <View>
-          <Text style={styles.nombreProducto}>{props.nombre}</Text>
-          <Text style={styles.informacionAdicional}>Cantidad Disponible: {props.cantidad_existencia} </Text>
-          <Text style={styles.informacionAdicional}>Precio en Dolares: {props.precio_usd} $</Text>
-          <Text style={styles.informacionAdicional}>Precio en Bolívares: {props.precio_efectivo} Bs.</Text>
-      </View>
-
-      <Modal
-  transparent={true}
-  animationType="slide"
-  visible={modalVisible}
-  onRequestClose={closeModal}
->
-  <View style={styles.modalContainer}>
-    <View style={styles.modalContent}>
-      <Text style={styles.modalText}>Ingresa la cantidad:</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Cantidad"
-        keyboardType="numeric"
-        value={cantidadProducto}
-        onChangeText={(text) => setCantidadProducto(text)}
-      />
-      <View style={{ flexDirection: 'row' }}>
-        <TouchableOpacity onPress={cancelModal}>
-          <Text style={styles.closeButton}>Cancelar</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => {
-            const nuevaCantidad = parseInt(cantidadProducto, 10);
-            if(route == 'Compra'){
-              if (nuevaCantidad <= props.maxima_cantidad) {
-                // Aquí puedes realizar la acción correspondiente al confirmar la cantidad
-                // En este ejemplo, solo logramos la cantidad
-  
-                closeModal();
-              } else {
-                // Muestra un mensaje de error o realiza alguna acción si la cantidad es mayor a la disponible
-                setCantidadProducto('');
-                Toast.show({
-                  type: 'error',
-                  text1: 'Error',
-                  text2: 'La cantidad ingresada excede la cantidad máxima posible',
-                  position: 'top',
-                  visibilityTime: 3000})
-                  setModalVisible(false)
-              }
-
-            }
-
-            else{
-
-            // Verificar si la nueva cantidad no excede la cantidad disponible
-            if (nuevaCantidad <= props.cantidad_existencia) {
-              // Aquí puedes realizar la acción correspondiente al confirmar la cantidad
-              // En este ejemplo, solo logramos la cantidad
-
-              closeModal();
-            } else {
-              // Muestra un mensaje de error o realiza alguna acción si la cantidad es mayor a la disponible
-              
-              setCantidadProducto('');
-              Toast.show({
-                type: 'error',
-                text1: 'Error',
-                text2: 'La cantidad ingresada excede la cantidad disponible.',
-                position: 'top',
-                visibilityTime: 3000})
-                setModalVisible(false)
-            }
-          }}
-        }
-        >
-          
-          <Text style={styles.closeButton}>Confirmar</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  </View>
-</Modal>
-
-
-  </View>
-</View>
-</TouchableOpacity>
-    
-)
-}
+    return (
+      <TouchableOpacity 
+        activeOpacity={1} 
+        onPress={() => { 
+          onPressHandler(); 
+        }}
+      >
+        <View style={[styles.tarjetaContainer, presionado && styles.tarjetaPresionada]}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ marginRight: 10 }}>
+              <Image style={styles.imagenProducto} source={{ uri: props.imagen }} />
+            </View>
+            <View>
+              <Text style={styles.nombreProducto}>{props.nombre}</Text>
+              <Text style={styles.informacionAdicional}>Cantidad Disponible: {props.cantidad_existencia}</Text>
+              <Text style={styles.informacionAdicional}>Precio en Dolares: {props.precio_usd} $</Text>
+              <Text style={styles.informacionAdicional}>Precio en Bolívares: {props.precio_efectivo} Bs.</Text>
+            </View>
+          </View>
+        </View>
+      </TouchableOpacity>
+    )}
 
 export default Product1

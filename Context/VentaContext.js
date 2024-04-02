@@ -45,6 +45,9 @@ export const VentaContextProvider = ({children}) =>{
   const VerificarProductoExistente = (productoId) => {
     return ProductosVenta.some((producto) => producto.id_producto === productoId);
   }
+  const VerificarProductoExistentecod_proveedor = (cod_proveedor) => {
+    return ProductosVenta.some((producto) => producto.cod_proveedor === cod_proveedor);
+  }
 
   const CrearCliente = (contacto) => {
     setCliente(contacto);
@@ -244,7 +247,7 @@ export const VentaContextProvider = ({children}) =>{
   };
 
     return(
-        <VentaContext.Provider value={{ProductosVenta, Cliente,DatosFactura, Movimientos,Encabezado, AgregarProductoVenta, EliminarProductoVenta, ModificarCantidadProducto, VerificarProductoExistente, CrearCliente, ReiniciarVariables, IngresarDatosFactura, createMovimiento_Inventario, createEncabezado, getEncabezado, buscarMovimientoporTipo, obtenerTotalEfectivoCompras, obtenerTotalEfectivoVentas}}>
+        <VentaContext.Provider value={{ProductosVenta, Cliente,DatosFactura, Movimientos,Encabezado, AgregarProductoVenta, EliminarProductoVenta, ModificarCantidadProducto, VerificarProductoExistente, CrearCliente, ReiniciarVariables, IngresarDatosFactura, createMovimiento_Inventario, createEncabezado, getEncabezado, buscarMovimientoporTipo, obtenerTotalEfectivoCompras, obtenerTotalEfectivoVentas,VerificarProductoExistentecod_proveedor}}>
         {children}
         </VentaContext.Provider>
     )

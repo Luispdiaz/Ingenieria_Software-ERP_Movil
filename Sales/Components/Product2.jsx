@@ -5,6 +5,7 @@ import { Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native'
 import { useState } from "react";
 import { useVenta } from "../../Context/VentaContext";
+import Toast from 'react-native-toast-message';
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -38,8 +39,14 @@ informacionAdicional: {
 },
 informacionAdicionalCantidad: {
   fontSize: 17,
-  color: 'rgba(255, 255, 255, 0.7)',
-  marginHorizontal: 20
+  color: 'white',
+  marginHorizontal: 20,
+  borderWidth: 1,
+  borderColor: 'white',
+  borderRadius: 5,
+  paddingHorizontal: 2,
+  paddingVertical: 2,
+  textAlign: 'center', // Alinear el texto al centro
 },
 tarjetaPresionada: {
   borderColor: 'white', // Cambia el color del borde al presionar
@@ -113,6 +120,64 @@ const Product2 = (props) => {
   const [cantidad, setCantidad] = useState(props.cantidad || 0);
   const { EliminarProductoVenta, ModificarCantidadProducto } = useVenta();
 
+  const EnviarCantidad = () => {
+    if(route==="Compra"){
+      const CantidadMaxima = props.maxima_cantidad - props.cantidad_existencia;
+      if (cantidad > CantidadMaxima) {
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: 'La cantidad ingresada supera la cantidad máxima permitida',
+          position: 'top',
+          visibilityTime: 3000,
+      })
+        setCantidad(CantidadMaxima);
+        ModificarCantidadProducto(props.id_producto, CantidadMaxima)
+      }
+      else if (cantidad < 1) {
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: 'La cantidad ingresada es menor a 1',
+          position: 'top',
+          visibilityTime: 3000,
+      })
+        setCantidad(1);
+        ModificarCantidadProducto(props.id_producto, 1)
+      }
+      else{
+        ModificarCantidadProducto(props.id_producto, cantidad)
+      }
+    }
+    else{
+      if (cantidad > props.cantidad_existencia) {
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: 'La cantidad ingresada supera la cantidad disponible',
+          position: 'top',
+          visibilityTime: 3000,
+      })
+        setCantidad(props.cantidad_existencia);
+        ModificarCantidadProducto(props.id_producto, props.cantidad_existencia)
+      }
+      else if (cantidad < 1) {
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: 'La cantidad ingresada es menor a 1',
+          position: 'top',
+          visibilityTime: 3000,
+      })
+        setCantidad(1);
+        ModificarCantidadProducto(props.id_producto, 1)
+      }
+      else{
+        ModificarCantidadProducto(props.id_producto, cantidad)
+      }
+    }
+  }
+
   const precioEfectivoConDescuento = props.valor_descuento_promocion > 0
     ? props.precio_efectivo * (1 - props.valor_descuento_promocion / 100)
     : props.precio_efectivo;
@@ -136,13 +201,13 @@ const Product2 = (props) => {
               <Text style={styles.nombreProducto}>{props.nombre}</Text>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <View>
-                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <View style={{ flexDirection: 'column', alignItems: 'start' }}>
                     <Text style={[styles.informacionAdicional, { textDecorationLine: 'line-through', color: 'red' }]}>Bs. {props.precio_efectivo} </Text>
-                    <Text style={[styles.informacionAdicional, { textDecorationLine: 'line-through', color: 'red' }]}>   {props.precio_usd} $</Text>
+                    <Text style={[styles.informacionAdicional, { textDecorationLine: 'line-through', color: 'red' }]}>$ {props.precio_usd} </Text>
                   </View>
-                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <View style={{ flexDirection: 'column', alignItems: 'start' }}>
                     <Text style={styles.informacionAdicional}>Bs. {precioEfectivoConDescuento} </Text>
-                    <Text style={styles.informacionAdicional}>   {precioUSDConDescuento} $</Text>
+                    <Text style={styles.informacionAdicional}>$ {precioUSDConDescuento} </Text>
                   </View>
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1, justifyContent: 'flex-end' }}>
@@ -159,20 +224,33 @@ const Product2 = (props) => {
                   >
                     <Text style={styles.buttonText}>-</Text>
                   </TouchableOpacity>
-                  <Text style={styles.informacionAdicionalCantidad}>{cantidad}</Text>
+                  <TextInput
+                      style={styles.informacionAdicionalCantidad}
+                      value={cantidad.toString()}
+                      keyboardType="numeric"
+                      onChangeText={setCantidad}
+                      onSubmitEditing={() => EnviarCantidad()}
+                    />
                   <TouchableOpacity
                     onPress={() => {
+                      if(route==="Compra"){
+                        const CantidadMaxima = props.maxima_cantidad - props.cantidad_existencia;
+                        if (cantidad < CantidadMaxima) {
+                          const nuevaCantidadSuma = parseInt(cantidad, 10) + 1;
+                          const nuevoIdProducto = props.id_producto;
+                          ModificarCantidadProducto(nuevoIdProducto, nuevaCantidadSuma);
+                          setCantidad(nuevaCantidadSuma);
+                      }}
+                      else{
+                      if (cantidad < props.cantidad_existencia) {
                       const nuevaCantidadSuma = parseInt(cantidad, 10) + 1;
                       const nuevoIdProducto = props.id_producto;
-
-                      // Verificar si la nueva cantidad no excede la cantidad disponible
-                      if (nuevaCantidadSuma <= props.cantidad_existencia) {
-                        ModificarCantidadProducto(nuevoIdProducto, nuevaCantidadSuma);
-                        setCantidad(nuevaCantidadSuma);
+                      ModificarCantidadProducto(nuevoIdProducto, nuevaCantidadSuma);
+                      setCantidad(nuevaCantidadSuma);
                       }
+                    }
                     }}
-                    style={[styles.button, cantidad >= props.cantidad_existencia && { backgroundColor: 'gray' }]}
-                    disabled={cantidad >= props.cantidad_existencia}
+                    style={styles.button}
                   >
                     <Text style={styles.buttonText}>+</Text>
                   </TouchableOpacity>
@@ -191,9 +269,9 @@ const Product2 = (props) => {
               <Text style={styles.nombreProducto}>{props.nombre}</Text>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <View>
-                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <View style={{ flexDirection: 'column', alignItems: 'start' }}>
                     <Text style={styles.informacionAdicional}>Bs. {props.precio_efectivo} </Text>
-                    <Text style={styles.informacionAdicional}>   {props.precio_usd} $</Text>
+                    <Text style={styles.informacionAdicional}>$ {props.precio_usd}</Text>
                   </View>
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1, justifyContent: 'flex-end' }}>
@@ -210,11 +288,18 @@ const Product2 = (props) => {
                   >
                     <Text style={styles.buttonText}>-</Text>
                   </TouchableOpacity>
-                  <Text style={styles.informacionAdicionalCantidad}>{cantidad}</Text>
+                  <TextInput
+                      style={styles.informacionAdicionalCantidad}
+                      value={cantidad.toString()}
+                      keyboardType="numeric"
+                      onChangeText={setCantidad}
+                      onSubmitEditing={() => EnviarCantidad()}
+                    />
                   <TouchableOpacity
                     onPress={() => {
                       if(route==="Compra"){
-                        if (cantidad < props.maxima_cantidad) {
+                        const CantidadMaxima = props.maxima_cantidad - props.cantidad_existencia;
+                        if (cantidad < CantidadMaxima) {
                           const nuevaCantidadSuma = parseInt(cantidad, 10) + 1;
                           const nuevoIdProducto = props.id_producto;
                           ModificarCantidadProducto(nuevoIdProducto, nuevaCantidadSuma);
