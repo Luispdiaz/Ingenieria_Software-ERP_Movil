@@ -211,3 +211,9 @@ crear y modificar productos.
 - Se ha subido la segunda version a producción.
 
 ## [3.0.0] - 2024-3-28 
+
+### Version
+
+- Se ha subido la cuarta version a producción.
+
+## [4.0.0] - 2024-3-28 
