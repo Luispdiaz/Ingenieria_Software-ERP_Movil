@@ -173,3 +173,41 @@ crear y modificar productos.
 - Se mejoro actualizar producto
 
 ## [1.11.2] - 2024-3-13
+
+### Changed
+
+- Se mejoro el calculo de los precios totales 
+
+## [1.11.3] - 2024-3-14
+
+### Version
+
+- Se ha subido la segunda version a producción.
+
+## [2.0.0] - 2024-2-22 
+
+### Added
+
+- Se han agregado las conexiones a base de datos de empresa y se mejoro la vista.
+
+## [2.1.0] - 2024-3-19
+
+### Added
+
+- Se han características nuevas al punto de venta.
+
+## [2.2.0] - 2024-3-19
+
+### Added
+- Se mejoro la vista de empresa y se creo la vista gestion empleados.
+
+## [2.3.0] - 2024-3-21
+
+### Added
+- Se ha agregado funcionalidad de reportes.
+
+### Version
+
+- Se ha subido la segunda version a producción.
+
+## [3.0.0] - 2024-3-28 

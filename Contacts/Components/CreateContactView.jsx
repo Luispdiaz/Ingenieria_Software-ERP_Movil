@@ -1,4 +1,4 @@
-import { StyleSheet, View, TextInput, Image, TouchableOpacity, Text, ImageBackground, ScrollView, Alert, Button, Switch} from 'react-native';
+import { StyleSheet, View, TextInput, Image, TouchableOpacity, Text, ImageBackground, ScrollView, Alert, Button, Switch, Dimensions} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useState, useEffect } from 'react';
 import theme from "../../Inventory/Themes/Theme";
@@ -287,14 +287,6 @@ const NewContact = () => {
 
       else if (!isValidString(cont_tipo_documento) || !isValidNumber(cont_id_fiscal) || !isValidString(nombre) ||  !isValidNumber(cod_telefono) || !isValidNumber(telefono) || !isValidString(direccion)) {
         Alert.alert('Error', 'Por favor, ingresa valores válidos');
-        console.log("Aqui para abajo")
-        console.log(cont_tipo_documento,cont_id_fiscal,nombre,cod_telefono,telefono,direccion)
-        console.log(typeof cont_tipo_documento)
-        console.log(typeof cont_id_fiscal)
-        console.log(typeof nombre)
-        console.log(typeof cod_telefono)
-        console.log(typeof telefono)
-        console.log(typeof direccion)
         return;
       }
 
@@ -335,17 +327,22 @@ const NewContact = () => {
         ]}
         style={styles.contenedorPrincipal}
       >
-        
-        <ScrollView>
-        <View style={styles.backButton}>
+        <View style={styles.contenedorTitulo}>
+          <View style={styles.backButton}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
         >
           <Image
           source={require('../Assets/image (3).png')}
+          style={styles.TextoModificar1}
         />
         </TouchableOpacity>
         </View>
+          <Text style={styles.tituloInventario}>Contactos</Text>
+        </View>
+        
+        <ScrollView>
+        
         <View style = {{marginTop: Constants.statusBarHeight}}>
           <TouchableOpacity style={styles.buttonImage} onPress={handlePress} >
           <Image style = {styles.img} source = {{uri: imgUrl}}/>
@@ -645,9 +642,45 @@ const styles = StyleSheet.create({
     marginTop: 20,
     height: 150
   },
+  contenedorTitulo: {
+    marginTop: Constants.statusBarHeight + 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection:'row',
+    marginBottom: 20
+},
+tituloInventario: {
+  fontSize: 24,
+  fontWeight: 'bold',
+  color: "#FFFFFF"
+},
+contenedorContactos:{
+flex: 1,
+justifyContent: "flex-start",
+backgroundColor: "rgba(0, 0, 0, 0.07))",
+paddingHorizontal: 20, // Relleno horizontal
+paddingVertical: 30,   // Relleno vertical
+borderTopLeftRadius: 46,  // Radio de borde superior izquierdo
+borderTopRightRadius: 46,
+marginTop: 20
+},
+textinput: {
+    padding: 10,
+    borderWidth: 1,
+    borderColor: 'white', 
+    color: 'white',
+    textAlign: "left",
+    paddingStart: 30, 
+    borderRadius: 100,
+    flex:1
+  },
+  TextoModificar1: {
+    width: 24, 
+    height: 20, 
+    marginRight: 10, 
+  },
   backButton: {
     position: 'absolute',
-    top: Constants.statusBarHeight * 0.5,
     left: Constants.statusBarHeight * 0.01,
     padding: 10,
     zIndex: 1,

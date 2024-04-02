@@ -205,8 +205,7 @@ const MainMenu = () => {
             <View style={Styles.contenedorInicio}>
                 <Text>.</Text>
                 <Text style={Styles.tituloInicio}>Inicio</Text>
-                <Image source={require('../Assets/computer-icons-user-profile-avatar-profile-145f8a4162de6d6749f402e758214dfd.png')} style={Styles.profileImg}/>
-            </View>
+                </View>
             
             <View style={Styles.contenedorSaludo}>
                 <Text style={Styles.Maintitle}>¡Hola!</Text>
@@ -221,8 +220,13 @@ const MainMenu = () => {
                     />
                     <Tarjeta
                         imagen={require('..//Assets/CompaniesIcon.png')}
-                        texto='Empresas'
+                        texto='Empresa'
                         pagina='VistaEmpresa'  
+                    />
+                    <Tarjeta
+                        imagen={require('..//Assets/MovementsIcon.png')}
+                        texto='Movimientos'
+                        pagina='VistaMovimientos'  
                     />
                 </View>
                 <View style={Styles.contenedorTarjetas}>
@@ -234,9 +238,18 @@ const MainMenu = () => {
                     <Tarjeta
                         imagen={require('..//Assets/PointOfSaleIcon.png')}
                         texto='Punto de Venta'
-                        pagina='VistaIdentificacion'  
+                        pagina='VistaOpciones'  
                     />
                     
+                    <Tarjeta
+                        imagen={require('..//Assets/ReportsIcon.png')}
+                        texto='Reportes'
+                        pagina='VistaReporte'  
+                    />
+                    
+                </View>
+
+                <View style={Styles.contenedorTarjetas}>
                 </View>
             </View>
            

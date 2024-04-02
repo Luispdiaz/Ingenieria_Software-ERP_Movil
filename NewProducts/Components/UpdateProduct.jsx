@@ -16,12 +16,7 @@ const image = require("../Imagenes/Fondo.png");
 
 
 const UpdateProduct = ({Lista}) =>{
-
-   
-    
   const { UpdateProduct } = useProducts() 
-    
-
   const [Nombre, setNombre] = useState(null);
   const [Imagen, setImagen] = useState(null);
   const [CodProveedor, setCodProveedor] = useState(null);
@@ -46,15 +41,15 @@ const UpdateProduct = ({Lista}) =>{
   const [ValorDescuentoPromocion, setValorDescuentoPromocion] = useState(null);
   const [ConversionUSDEfectivo, setConversionUSDEfectivo] = useState(null);
 
-    const[Empty, setEmpty] = useState(false)
+  const[Empty, setEmpty] = useState(false)
 
-    const navigation = useNavigation()
+  const navigation = useNavigation()
 
-    const [isEnabled, setIsEnabled] = useState(false);
-    const handleToggle = () => {
-        setIsEnabled(!isEnabled);
-    };
-    const [isEnabledText, setIsEnabledText] = useState(false);
+  const [isEnabled, setIsEnabled] = useState(false);
+  const handleToggle = () => {
+      setIsEnabled(!isEnabled);
+  };
+  const [isEnabledText, setIsEnabledText] = useState(false);
 
   const handleToggleText = () => {
       setIsEnabledText(!isEnabledText);
@@ -109,8 +104,7 @@ const UpdateProduct = ({Lista}) =>{
             navigation.navigate("VistaInventario");
           }
           else {
-
-        CamposNuevos = {nombre: Nombre,
+          CamposNuevos = {
           nombre: Nombre,
           imagen: Imagen,
           cod_proveedor: CodProveedor,
@@ -142,9 +136,7 @@ const UpdateProduct = ({Lista}) =>{
           CamposActualizados)
                 Alert.alert('El producto se modificó de manera exitosa');
                 navigation.navigate("VistaInventario")
-    }
-    }
-    }
+    }}}
 
   const isValidNumber = (value) => {
       const numberValue = parseFloat(value);
@@ -253,7 +245,6 @@ async function pickImage() {
           setEmpty(true)
           Alert.alert("Aviso", "El campo no debe estar vacio")
           setEmpty(false)
-
         }
       }}
       />

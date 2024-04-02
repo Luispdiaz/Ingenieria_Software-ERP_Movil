@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect  } from "react";
 // import { Supa } from "../Supabase/supabase";
 import { SupaClient } from "../Supabase/supabase";
+import { useVenta } from "./VentaContext";
 
 export const ProductContext = createContext()
 
@@ -14,6 +15,7 @@ export const ProductContextProvider = ({children}) =>{
     const Supa = SupaClient();
     const [Productos, setProductos] = useState([])
     const [Categorias, setCategorias] = useState([])
+    const { AgregarProductoVenta } = useVenta()
 
     const getProducts = async () => {
         const {error, data} = await Supa.from("Productos").select();
@@ -78,7 +80,7 @@ export const ProductContextProvider = ({children}) =>{
           const { data, error } = await Supa
             .from("Productos")
             .select('*')
-            .or(`nombre.ilike."*${searchText}*",descripcion.ilike."*${searchText}*",categoria.ilike."*${searchText}*",sub_categorias.ilike."*${searchText}*",color.ilike."*${searchText}*",marca.ilike."*${searchText}*",modelo.ilike."*${searchText}*"`);
+            .or(`nombre.ilike."*${searchText}*",descripcion.ilike."*${searchText}*",categoria.ilike."*${searchText}*",sub_categorias.ilike."*${searchText}*",color.ilike."*${searchText}*",marca.ilike."*${searchText}*",modelo.ilike."*${searchText}*",cod_proveedor.ilike."*${searchText}*"`);
           
           if (error) {
             return;
@@ -150,9 +152,25 @@ export const ProductContextProvider = ({children}) =>{
         }
       }
 
+      const AgregarProductoCodProveedor = (cod_proveedor) => {
+
+        const producto = Productos.find(producto => producto.cod_proveedor === cod_proveedor)
+        if(producto){
+          const productoConCantidad = {
+            ...producto,
+            cantidad: 1,
+        }
+          AgregarProductoVenta(productoConCantidad)
+          return true
+        }
+        else{
+          return false
+        }
+      }
+
 
     return(
-        <ProductContext.Provider value={{Productos, getProducts, createProduct, UpdateProduct, buscarProductos, obtenerCategoriasUnicas, Categorias, buscarProductosPorCategoria, modificarCantidadExistencia}}>
+        <ProductContext.Provider value={{Productos, getProducts, createProduct, UpdateProduct, buscarProductos, obtenerCategoriasUnicas, Categorias, buscarProductosPorCategoria, modificarCantidadExistencia, AgregarProductoCodProveedor}}>
         {children}
         </ProductContext.Provider>
     )

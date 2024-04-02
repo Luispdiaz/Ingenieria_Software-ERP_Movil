@@ -38,7 +38,7 @@ export const ContactContextProvider = ({children}) =>{
           console.error('Error general:', error.message);
         }
       }
-
+      
       const buscarContactosporTipo = async (Tipo) => {
         try {
           const { data, error } = await Supa
@@ -119,31 +119,30 @@ export const ContactContextProvider = ({children}) =>{
       setContactos(contactosOrdenados);
   } 
 
-  const buscarContactosporCedula = async (valorContIdFiscal) => {
+  const buscarContactosporCedula = async (valorContIdFiscal, TipoContact) => {
     try {
-      const { data, error } = await Supa
-      .from("Contacto")
-      .select('*')
-      .eq('cont_id_fiscal', valorContIdFiscal)
-  
-      if (error) {
-        console.error('Error al buscar el contacto:', error.message);
-        return null; 
-    }
+        const { data, error } = await Supa
+            .from("Contacto")
+            .select('*')
+            .eq('cont_id_fiscal', valorContIdFiscal)
+            .eq(TipoContact === "cliente" ? 'cliente' : 'proveedor', true);
 
-    if (data.length > 0) {
-        const contactoEncontrado = data[0];
-        return contactoEncontrado;
-    } else {
-        console.log('No se encontró ningún contacto con ese cont_id_fiscal');
-        return null;
-    }
-      
-      
+        if (error) {
+            console.error('Error al buscar el contacto:', error.message);
+            return null; 
+        }
+
+        if (data.length > 0) {
+            const contactoEncontrado = data[0];
+            return contactoEncontrado;
+        } else {
+            console.log('No se encontró ningún contacto con ese cont_id_fiscal');
+            return null;
+        }
     } catch (error) {
-      console.error('Error general:', error.message);
+        console.error('Error general:', error.message);
     }
-  }
+}
 
 
     return(

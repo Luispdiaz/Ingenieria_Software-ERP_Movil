@@ -11,6 +11,7 @@ import { ProductContextProvider } from "../Context/ProductContext";
 import ContactsView from "../Contacts/Components/ContactsView";
 import { ContactContextProvider } from "../Context/ContactContext";
 import { VentaContextProvider } from "../Context/VentaContext";
+import { CompanyProvider } from "../Context/CompanyContext";
 import ContactView from "../Contacts/Components/ContactView";
 import NewContact from "../Contacts/Components/CreateContactView";
 import UpdateContact from "../Contacts/Components/UpdateContact";
@@ -24,6 +25,13 @@ import EnterpriseView from "../Contacts/Components/EnterpriseView";
 import { DatabaseContextProvider } from "../Context/DatabaseContext";
 import { UserContextProvider } from "../Context/UserContext";
 import Log_in from "../SessionInit/Components/Log_in";
+import EnterpriseEmployees from "../Contacts/Components/EnterpriseEmployees";
+import Employee from "../Contacts/Components/Employee";
+import OptionsView from "../Sales/Components/OptionsView";
+import ReportView from "../Contacts/Components/ReportView";
+import Toast from 'react-native-toast-message';
+import MovementsView from "../Movements/Components/MovementsView";
+import BarcodeScan from "../Sales/Components/BarCode";
 
 const Stack = createNativeStackNavigator();
 
@@ -37,10 +45,12 @@ const Main = () => {
     return (
       <View style={Styles.contenedorPrincipal}>
       <DatabaseContextProvider>
+      
       <UserContextProvider>
       <VentaContextProvider>
       <ContactContextProvider>
       <ProductContextProvider>
+      <CompanyProvider>
       <Stack.Navigator>
       <Stack.Screen name="PaginaInicial" component={InitialPageView} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name="MenuPrincipal" component={MainMenu} options={{ headerShown: false }}></Stack.Screen>
@@ -60,12 +70,20 @@ const Main = () => {
       <Stack.Screen name="VistaNotadeEntrega" component={DeliveryNote} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name="VistaEmpresa" component={EnterpriseView} options={{ headerShown: false }}></Stack.Screen>
       <Stack.Screen name="Log_in" component={Log_in} options={{ headerShown: false }}></Stack.Screen>
-      {/* () => <Log_in session={session} /> */}
+      <Stack.Screen name="VistaOpciones" component={OptionsView} options={{ headerShown: false }}></Stack.Screen>
+      <Stack.Screen name="VistaMovimientos" component={MovementsView} options={{ headerShown: false }}></Stack.Screen>
+      <Stack.Screen name="BarCodeScanner" component={BarcodeScan} options={{ headerShown: false }}></Stack.Screen>
+      <Stack.Screen name="VistaReporte" component={ReportView} options={{ headerShown: false }}></Stack.Screen>
+      <Stack.Screen name="VistaEmpresaEmpleados" component={EnterpriseEmployees} options={{ headerShown: false }}></Stack.Screen>
+      <Stack.Screen name="Empleado" component={Employee} options={{ headerShown: false }}></Stack.Screen>
       </Stack.Navigator>
+      </CompanyProvider>
       </ProductContextProvider>
       </ContactContextProvider>
       </VentaContextProvider>
       </UserContextProvider>
+      <Toast />
+      
       </DatabaseContextProvider>
       </View>
     );

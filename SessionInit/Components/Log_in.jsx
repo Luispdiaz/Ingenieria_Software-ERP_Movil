@@ -5,6 +5,7 @@ import Constants from 'expo-constants';
 import { SupaClient } from '../../Supabase/supabase'
 import { useDatabase } from  '../../Context/DatabaseContext';
 import { useUser } from '../../Context/UserContext';
+import Toast from 'react-native-toast-message';
 
 const Log_in = () =>{
     const supa = SupaClient();
@@ -24,7 +25,14 @@ const Log_in = () =>{
           password: password,
         })
     
-        if (error){ Alert.alert(error.message)
+        if (error){ 
+            Toast.show({
+                type: 'error',
+                text1: 'Error de inicio de sesión',
+                text2: 'Combinación de usuario y contraseña incorrecta.',
+                position: 'top',
+                visibilityTime: 3000,
+          })
         setIsError(true);
         } else {
             setIsError(false);
@@ -33,7 +41,13 @@ const Log_in = () =>{
 
     const ComprobarEmpresa = () => {
         if  (Database === null){
-            alert("No hay base de datos");
+            Toast.show({
+                type: 'error',
+                text1: 'Producto no encontrado',
+                text2: 'El producto no se encuentra en la base de datos.',
+                position: 'top',
+                visibilityTime: 3000,
+          })
         }else if (Database !== prevDatabase){
             setPrevDatabase(Database);
         }

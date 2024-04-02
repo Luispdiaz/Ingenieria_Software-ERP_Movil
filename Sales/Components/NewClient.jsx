@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
       
   });
 
-const NewClient = () => {
+const NewClient = ({ route }) => {
     const navigation = useNavigation()
     const { createContact } = useContact()
     const [cont_tipo_documento, setContTipoDocumento] = useState('');
@@ -145,18 +145,28 @@ const NewClient = () => {
     const [direccion, setDireccion] = useState('');
     const { CrearCliente } = useVenta()
 
+    const tipoRegistro = route.params.tipoRegistro;
+    let contribuyente = true;
+    let condicion_venta = 'Contado';
+    let credito_total = null;
+    let credito_vence = null;
+    let vendedor = false;
+    let fecha_ingreso = new Date();
+    let cliente = false;
+    let empleado = false;
+    let proveedor = false;
+    let imagen = '';
+
+    if (tipoRegistro === 'Venta') {
+        cliente = true;
+        imagen = 'https://ktwhvzmmaqaumjvobuqn.supabase.co/storage/v1/object/public/imagenes/perfil_01%20(1).png?t=2024-03-01T15%3A47%3A27.894Z';
+    } else {
+        proveedor = true;
+        contribuyente = false;
+        imagen = 'https://www.tuexperto.com/wp-content/uploads/2015/07/perfil_01.jpg';
+    }
+
     const handleSubmit = () => {
-    
-      const contribuyente = true;
-      const condicion_venta = 'Contado';
-      const credito_total = null;
-      const credito_vence = null;
-      const vendedor = false;
-      const fecha_ingreso = new Date();
-      const cliente = true;
-      const empleado = false;
-      const proveedor = false;
-      const imagen = 'https://ktwhvzmmaqaumjvobuqn.supabase.co/storage/v1/object/public/imagenes/perfil_01%20(1).png?t=2024-03-01T15%3A47%3A27.894Z'
 
       if (!isValidString(cont_tipo_documento) || !isValidNumber(cont_id_fiscal) || !isValidString(nombre) || !isValidDate(fecha_nacimiento) || !isValidNumber(cod_telefono) || !isValidNumber(telefono) || !isValidString(direccion)) {
         Alert.alert('Error', 'Por favor, ingresa valores válidos');
@@ -206,9 +216,9 @@ const NewClient = () => {
         imagen
       }
       
-      CrearCliente({Contacto:Contacto})
+      CrearCliente(Contacto)
       Alert.alert('El contacto se agregó de manera exitosa');
-      navigation.navigate('VistaCarritoCompras');
+      navigation.navigate('VistaCarritoCompras', {tipoRegistro});
   ;
 }}
       
@@ -274,7 +284,7 @@ const NewClient = () => {
         <Text style={styles.tituloInventario}>Punto de Venta</Text>
     </View>
     <ScrollView>
-    <Text style={styles.titulo}>Registro Nuevo Cliente</Text>
+    <Text style={styles.titulo}>{route.params.tipoRegistro === 'Compra' ? 'Registro Nuevo Proveedor' : 'Registro Nuevo Cliente'}</Text>
     <Text style = {styles.subtitulo}>Rellena los siguientes campos</Text>
     <TextInput
               style={styles.textinput}

@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Constants from 'expo-constants';
 import TypeContact from "./TypeContact";
 import { useState, useRef } from "react";
-import Contact from "./Contact";;
+import Contact from "./Contact";
 import { useContact } from "../../Context/ContactContext";
 import { useNavigation } from "@react-navigation/native";
 
@@ -40,7 +40,7 @@ const Styles = StyleSheet.create({
     textinput: {
         padding: 10,
         borderWidth: 1,
-        borderColor: 'white',
+        borderColor: 'white', 
         color: 'white',
         textAlign: "left",
         paddingStart: 30, 
@@ -182,7 +182,7 @@ const ContactsView = () => {
         </TouchableOpacity>
         </View>
         <FlatList
-            style={{marginTop:20, marginHorizontal:10, flex:1}}
+            style={{marginTop:20, flex:1}}
                 data={Contactos}
                 renderItem={({ item }) => (
                     <Contact {...item}
