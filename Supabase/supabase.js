@@ -9,8 +9,6 @@ export const SupaClient = () => {
     const SupaBaseURL = Empresa_url
     const SupaBaseAnonKey = Empresa_token
 
-    console.log("llego bien",SupaBaseURL)
-
     const Supa = createClient(SupaBaseURL,SupaBaseAnonKey,{
         auth: {
             storage: AsyncStorage,

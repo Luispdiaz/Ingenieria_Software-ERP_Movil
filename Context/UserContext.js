@@ -14,7 +14,7 @@ export const UserContextProvider = ({children}) =>{
     const [User, setUser] = useState([])
 
     const buscarUser = async (user_email) => {
-        console.log("ID", user_email)
+      
         try {
             const { data: { user } } = await Supa.auth.getUser()
           
@@ -23,7 +23,6 @@ export const UserContextProvider = ({children}) =>{
         //     return;
         //   }
           setUser(user)
-          console.log("que vainas llego aqui", User)
         } catch (error) {
           console.error('Error general:', error.message);
         }

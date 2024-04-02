@@ -26,7 +26,6 @@ const Log_in = () =>{
     
         if (error){ Alert.alert(error.message)
         setIsError(true);
-        console.log(error.message)
         } else {
             setIsError(false);
         }
@@ -36,7 +35,6 @@ const Log_in = () =>{
         if  (Database === null){
             alert("No hay base de datos");
         }else if (Database !== prevDatabase){
-            console.log("Base de datos",Database)
             setPrevDatabase(Database);
         }
     };
@@ -98,7 +96,6 @@ export default Log_in;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: Constants.statusBarHeight,
         backgroundColor: '#090A16',
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
